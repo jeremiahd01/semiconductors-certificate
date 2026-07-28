@@ -1160,7 +1160,7 @@ const state = {
   filterMode: 'any',
   search: '',
   selectedOnly: false,
-  collapsed: {},         // areaIndex -> true
+  collapsed: {},         // areaIndex -> bool; absent means "use the default for the current filter state"
   expanded: {}           // courseIndex -> true (skill chips expanded)
 };
 let expSeq = 1;
@@ -1213,6 +1213,15 @@ function conflictsFor(course) {
 /* ══════════════════════════════════════════════════════════════
    FILTERING
 ══════════════════════════════════════════════════════════════ */
+function filtersActive() {
+  return !!(state.search || state.filterSkills.length || state.selectedOnly);
+}
+
+/* Area groups sit closed by default, but open themselves while a filter is
+   running so matches aren't buried. Changing a filter drops any manual
+   open/close the student made under the previous filter. */
+function resetAreaCollapse() { state.collapsed = {}; }
+
 function matchesFilters(c) {
   if (state.selectedOnly && !isSelected(c.i)) return false;
 
@@ -1328,7 +1337,9 @@ function renderAreas() {
     const total = COURSES.filter(c => c.a === ai).length;
     const selCount = COURSES.filter(c => c.a === ai && isSelected(c.i)).length;
     const selCr = COURSES.reduce((s, c) => (c.a === ai && isSelected(c.i)) ? s + courseCredits(c) : s, 0);
-    const collapsed = state.collapsed[ai] || list.length === 0;
+    const collapsed = list.length === 0 ? true
+      : state.collapsed[ai] !== undefined ? state.collapsed[ai]
+      : !filtersActive();
 
     return `
       <div class="area-group${collapsed ? ' collapsed' : ''}${selCount ? ' has-selected' : ''}" data-area="${ai}">
@@ -1567,7 +1578,8 @@ $('area-groups').addEventListener('click', e => {
   const head = e.target.closest('[data-toggle-area]');
   if (head) {
     const ai = Number(head.dataset.toggleArea);
-    state.collapsed[ai] = !state.collapsed[ai];
+    const isOpen = head.getAttribute('aria-expanded') === 'true';
+    state.collapsed[ai] = isOpen;   /* invert whatever is on screen right now */
     renderAreas();
     return;
   }
@@ -1581,6 +1593,7 @@ $('area-groups').addEventListener('click', e => {
 
 $('search-input').addEventListener('input', function () {
   state.search = this.value.trim();
+  resetAreaCollapse();
   update({ rerenderAreas: true, rerenderSkills: true });
 });
 
@@ -1594,6 +1607,7 @@ $('skill-cloud').addEventListener('click', e => {
   const i = Number(b.dataset.skill);
   const at = state.filterSkills.indexOf(i);
   if (at >= 0) state.filterSkills.splice(at, 1); else state.filterSkills.push(i);
+  resetAreaCollapse();
   update({ rerenderAreas: true, rerenderSkills: true });
 });
 
@@ -1603,12 +1617,14 @@ function setMode(m) {
   state.filterMode = m;
   $('mode-any').classList.toggle('on', m === 'any');
   $('mode-all').classList.toggle('on', m === 'all');
+  resetAreaCollapse();
   update({ rerenderAreas: true });
 }
 
 $('btn-selected-only').addEventListener('click', function () {
   state.selectedOnly = !state.selectedOnly;
   this.classList.toggle('active', state.selectedOnly);
+  resetAreaCollapse();
   update({ rerenderAreas: true, rerenderSkills: true });
 });
 
@@ -1618,6 +1634,7 @@ $('btn-clear-filters').addEventListener('click', () => {
   state.selectedOnly = false;
   $('search-input').value = '';
   $('btn-selected-only').classList.remove('active');
+  resetAreaCollapse();
   update({ rerenderAreas: true, rerenderSkills: true });
 });
 
