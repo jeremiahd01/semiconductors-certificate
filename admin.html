@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Course Data Converter — Semiconductors Certificate</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"
+          integrity="sha384-EnyY0/GSHQGSxSgMwaIPzSESbqoOLSexfnSMN2AP+39Ckmn92stwABZynq1JyzdT"
+          crossorigin="anonymous"></script>
+
+  <style>
+    :root {
+      --pu-gold:#CFB991; --pu-aged:#8E6F3E; --pu-aged-deep:#7B5E30; --pu-rush:#DAAA00;
+      --pu-dust:#EBD99F; --pu-steel:#555960; --pu-railway-gray:#9D9795; --pu-steam:#C4BFC0;
+      --pu-font-sans:'Acumin Pro','Franklin Gothic Medium',Arial,sans-serif;
+      --pu-font-sans-cd:'Acumin Pro Condensed','Franklin Gothic Medium',Arial,sans-serif;
+      --pu-font-mono:ui-monospace,SFMono-Regular,'SF Mono',Menlo,monospace;
+      --bg-tint:#F4F1EC; --bg-warm:#FAF8F4; --border-rule:#E5E0D8; --border-soft:rgba(142,111,62,.18);
+      --text-primary:#1A1A1A; --text-muted:#65686F;
+      --ok:#1E7E34; --ok-bg:#F0F9F2; --warn:#8A6D00; --warn-bg:#FFF9E3; --err:#C0392B; --err-bg:#FDF2F1;
+    }
+    *,*::before,*::after { box-sizing:border-box; }
+    body {
+      margin:0; background:#fff; color:var(--text-primary);
+      font-family:var(--pu-font-sans); line-height:1.5;
+    }
+    .wrap { max-width:920px; margin:0 auto; padding:0 32px 80px; }
+
+    header { padding:48px 0 28px; border-bottom:3px solid var(--pu-gold); margin-bottom:32px; }
+    .overline {
+      font-size:.7rem; letter-spacing:.25em; text-transform:uppercase;
+      color:var(--pu-aged-deep); margin-bottom:12px; display:flex; align-items:center; gap:10px;
+    }
+    .overline::before { content:''; width:28px; height:2px; background:var(--pu-rush); }
+    h1 {
+      font-family:var(--pu-font-sans-cd); font-size:2.4rem; font-weight:700;
+      line-height:1.05; margin:0 0 12px;
+    }
+    h1 span { color:var(--pu-aged-deep); }
+    .lede { color:var(--text-muted); max-width:600px; margin:0; }
+
+    /* ── Steps ── */
+    .step { margin-bottom:34px; }
+    .step-head { display:flex; align-items:baseline; gap:12px; margin-bottom:12px; }
+    .step-num {
+      font-family:var(--pu-font-sans-cd); font-size:.72rem; font-weight:700;
+      letter-spacing:.1em; color:var(--pu-aged-deep);
+    }
+    .step-title {
+      font-family:var(--pu-font-sans-cd); font-size:1.1rem; font-weight:600;
+      letter-spacing:.04em; text-transform:uppercase; margin:0;
+    }
+    .step.locked { opacity:.4; pointer-events:none; }
+
+    /* ── Drop zone ── */
+    #drop {
+      border:2px dashed var(--pu-steam); border-radius:3px; background:var(--bg-warm);
+      padding:44px 24px; text-align:center; cursor:pointer; transition:all .15s ease;
+    }
+    #drop:hover, #drop.over { border-color:var(--pu-aged); background:var(--pu-dust); }
+    #drop i { font-size:2.2rem; color:var(--pu-aged); display:block; margin-bottom:10px; }
+    #drop .big { font-size:1rem; font-weight:600; margin-bottom:4px; }
+    #drop .small { font-size:.82rem; color:var(--text-muted); }
+    #file { display:none; }
+
+    /* ── Report ── */
+    .report { display:none; }
+    .report.show { display:block; }
+    .summary-grid {
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+      gap:10px; margin-bottom:20px;
+    }
+    .stat { border:1px solid var(--border-rule); padding:12px 14px; background:#fff; }
+    .stat .n {
+      font-family:var(--pu-font-sans-cd); font-size:1.7rem; font-weight:700;
+      line-height:1; color:var(--pu-aged-deep);
+    }
+    .stat .l {
+      font-size:.66rem; letter-spacing:.1em; text-transform:uppercase;
+      color:var(--text-muted); margin-top:5px;
+    }
+    .stat .d { font-size:.7rem; margin-top:4px; color:var(--text-muted); }
+    .stat .d.up { color:var(--ok); } .stat .d.down { color:var(--err); }
+
+    .finding {
+      border-left:3px solid var(--pu-steam); padding:11px 14px; margin-bottom:8px;
+      font-size:.86rem; background:var(--bg-warm);
+    }
+    .finding.ok   { border-color:var(--ok);   background:var(--ok-bg); }
+    .finding.warn { border-color:var(--pu-rush); background:var(--warn-bg); }
+    .finding.err  { border-color:var(--err);  background:var(--err-bg); }
+    .finding-head { display:flex; align-items:center; gap:8px; font-weight:600; }
+    .finding.ok .finding-head   { color:var(--ok); }
+    .finding.warn .finding-head { color:var(--warn); }
+    .finding.err .finding-head  { color:var(--err); }
+    .finding-body { margin-top:6px; color:var(--text-muted); font-size:.8rem; line-height:1.55; }
+    .finding-body ul { margin:5px 0 0; padding-left:18px; }
+    .finding-body li { margin-bottom:2px; }
+    .finding-body code {
+      font-family:var(--pu-font-mono); font-size:.76rem;
+      background:rgba(0,0,0,.05); padding:1px 4px; border-radius:2px;
+    }
+
+    .section-label {
+      font-size:.68rem; letter-spacing:.12em; text-transform:uppercase;
+      color:var(--pu-aged-deep); font-weight:600; margin:22px 0 9px;
+    }
+
+    /* ── Actions ── */
+    .actions { display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-top:8px; }
+    .btn {
+      font-family:var(--pu-font-sans-cd); font-size:.85rem; font-weight:600;
+      letter-spacing:.09em; text-transform:uppercase; padding:13px 26px;
+      border:1px solid var(--pu-aged); border-radius:2px; background:var(--pu-gold);
+      color:#000; cursor:pointer; display:inline-flex; align-items:center; gap:9px;
+      transition:all .15s ease;
+    }
+    .btn:hover:not(:disabled) { background:var(--pu-aged); color:#fff; }
+    .btn:disabled { opacity:.35; cursor:not-allowed; }
+    .btn-ghost {
+      background:transparent; border-color:var(--border-rule); color:var(--text-muted);
+      font-family:var(--pu-font-sans); text-transform:none; letter-spacing:.04em; font-weight:400;
+    }
+    .btn-ghost:hover { border-color:var(--pu-aged); color:#000; background:var(--bg-tint); }
+
+    .publish-steps {
+      counter-reset:ps; list-style:none; padding:0; margin:14px 0 0;
+      font-size:.86rem; color:var(--text-muted);
+    }
+    .publish-steps li {
+      counter-increment:ps; padding:9px 0 9px 34px; position:relative;
+      border-bottom:1px solid var(--border-rule);
+    }
+    .publish-steps li:last-child { border-bottom:none; }
+    .publish-steps li::before {
+      content:counter(ps); position:absolute; left:0; top:8px;
+      width:21px; height:21px; border-radius:50%; background:var(--pu-dust);
+      color:var(--pu-aged-deep); font-size:.7rem; font-weight:700;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .publish-steps strong { color:var(--text-primary); }
+    .publish-steps code {
+      font-family:var(--pu-font-mono); font-size:.78rem;
+      background:var(--bg-tint); padding:1px 5px; border-radius:2px; color:var(--text-primary);
+    }
+    .note {
+      background:var(--bg-warm); border-left:3px solid var(--pu-gold);
+      padding:12px 15px; font-size:.82rem; color:var(--text-muted);
+      line-height:1.6; margin-top:16px;
+    }
+    .note strong { color:var(--pu-aged-deep); }
+    footer {
+      margin-top:56px; padding-top:14px; border-top:1px solid var(--border-rule);
+      font-size:.74rem; color:var(--pu-railway-gray);
+      display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
+    }
+    @media (max-width:640px) { .wrap { padding:0 18px 60px; } h1 { font-size:1.8rem; } }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="overline">Purdue University · College of Engineering</div>
+    <h1>Course Data <span>Converter</span></h1>
+    <p class="lede">
+      Turns the certificate spreadsheet into the data file the certificate builder reads.
+      Everything runs in this browser — the file is never uploaded anywhere.
+    </p>
+  </header>
+
+  <div class="step" id="step-1">
+    <div class="step-head"><span class="step-num">01</span><h2 class="step-title">Choose the spreadsheet</h2></div>
+    <div id="drop" tabindex="0" role="button" aria-label="Choose or drop the course data spreadsheet">
+      <i class="bi bi-file-earmark-spreadsheet"></i>
+      <div class="big">Drop <code>course_data.xlsx</code> here</div>
+      <div class="small">or click to browse · .xlsx only · the <strong>website</strong> tab is read</div>
+    </div>
+    <input type="file" id="file" accept=".xlsx" />
+  </div>
+
+  <div class="report" id="report">
+    <div class="step">
+      <div class="step-head"><span class="step-num">02</span><h2 class="step-title">Review what changed</h2></div>
+      <div class="summary-grid" id="stats"></div>
+      <div id="findings"></div>
+    </div>
+
+    <div class="step" id="step-3">
+      <div class="step-head"><span class="step-num">03</span><h2 class="step-title">Publish</h2></div>
+      <div class="actions">
+        <button class="btn" id="btn-download"><i class="bi bi-download"></i> Download course-data.json</button>
+        <button class="btn btn-ghost" id="btn-restart"><i class="bi bi-arrow-counterclockwise"></i> Start over</button>
+      </div>
+      <ol class="publish-steps">
+        <li>Download the file above. Keep the name <code>course-data.json</code> exactly as-is.</li>
+        <li>Open the <strong>ZMI</strong> and go to the folder holding <code>index.html</code>.</li>
+        <li><strong>Rename</strong> the existing <code>course-data.json</code> to something like
+            <code>course-data-2026-fall.json</code>. This is your undo — don't skip it.</li>
+        <li>Upload the new <code>course-data.json</code> into that same folder.</li>
+        <li>Open the certificate builder and check the footer shows today's date.</li>
+      </ol>
+      <div class="note" id="blocked-note" style="display:none">
+        <strong>Publishing is blocked.</strong> Fix the errors listed above in the spreadsheet,
+        then drop the corrected file in again. The builder keeps showing the current course
+        list until a valid file is published, so nothing is broken in the meantime.
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span>Semiconductors and Microelectronics Certificate · data converter</span>
+    <span id="live-status">Checking published data…</span>
+  </footer>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   PROGRAM POLICY — deliberately NOT read from the spreadsheet.
+   The five certificate areas, their display order, and their short
+   labels are program decisions, not catalog data. Keeping them here
+   means a semester upload can only change which courses exist, never
+   what the certificate requires or how it is organised.
+══════════════════════════════════════════════════════════════ */
+const SCHEMA_VERSION = 1;
+const SHEET_NAME = 'website';
+const MAX_BYTES = 12 * 1024 * 1024;
+
+const AREA_POLICY = [
+  { id:'dev', label:'Semiconductor and Microelectronic Devices',                            short:'Devices' },
+  { id:'mat', label:'Semiconductor Materials, Characterization, and Processing',            short:'Materials & Processing' },
+  { id:'ic',  label:'Integrated Circuit & System Design, Electronic Design Automation',     short:'IC Design & EDA' },
+  { id:'pkg', label:'Electronics Packaging, Heterogeneous Integration, and Thermal Management', short:'Packaging & Thermal' },
+  { id:'mfg', label:'Semiconductor Manufacturing and Global Supply Chain Management',       short:'Manufacturing & Supply Chain' },
+];
+const AREA_BY_LABEL = new Map(AREA_POLICY.map((a, i) => [a.label.toLowerCase(), i]));
+
+/* Rows whose Course Number is this go to the experience section, not the technical bucket */
+const VIP_MARKER = 'VIP';
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c =>
+  ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+
+let published = null;   /* currently-live catalog, for the diff */
+let result = null;      /* latest conversion */
+
+/* ══════════════════════════════════════════════════════════════
+   NORMALISATION — must stay in step with how the builder renders
+══════════════════════════════════════════════════════════════ */
+const cleanTitle = t => String(t).replace(/^[A-Z]{2,5}\s*\d{3,5}[A-Z]{0,2}\s+/, '').replace(/\s+/g, ' ').trim();
+const normTitle  = t => cleanTitle(t).replace(/\(.*?\)/g, '').replace(/\[.*?\]/g, '').replace(/[^a-z0-9]/gi, '').toLowerCase();
+const cell       = v => v == null ? '' : String(v).replace(/\s+/g, ' ').trim();
+
+function convert(workbook, filename) {
+  const errors = [], warnings = [], notes = [];
+
+  const sheet = workbook.Sheets[SHEET_NAME];
+  if (!sheet) {
+    errors.push({
+      title: `No sheet named "${SHEET_NAME}"`,
+      body: `This workbook has: ${workbook.SheetNames.map(n => `<code>${esc(n)}</code>`).join(', ')}. ` +
+            `The converter only reads the <code>${SHEET_NAME}</code> tab — rename the tab or use the right file.`
+    });
+    return { errors, warnings, notes };
+  }
+
+  const grid = XLSX.utils.sheet_to_json(sheet, { header: 1, blankrows: false, defval: '' });
+  if (grid.length < 3) {
+    errors.push({ title: 'Sheet looks empty', body: 'Expected skill names in row 1, column headers in row 2, and courses from row 3 down.' });
+    return { errors, warnings, notes };
+  }
+
+  /* Row 1, column F onward = skill names */
+  const skills = [];
+  for (let c = 5; c < grid[0].length; c++) {
+    const name = cell(grid[0][c]);
+    if (name) skills.push({ col: c, name });
+  }
+  if (!skills.length) {
+    errors.push({ title: 'No skill columns found', body: 'Expected skill names in row 1 starting at column F.' });
+    return { errors, warnings, notes };
+  }
+  const skillNames = skills.map(s => s.name);
+
+  const dupSkills = skillNames.filter((n, i) => skillNames.indexOf(n) !== i);
+  if (dupSkills.length) {
+    errors.push({
+      title: `Duplicate skill column${dupSkills.length > 1 ? 's' : ''}`,
+      body: `These skill names appear more than once in row 1: ${[...new Set(dupSkills)].map(s => `<code>${esc(s)}</code>`).join(', ')}. ` +
+            `Each skill needs its own unique column.`
+    });
+  }
+
+  /* Rows 3+ = courses */
+  const courses = [], vip = [], unknownAreas = new Map(), skipped = [];
+  const noCredits = [], noSkills = [];
+
+  for (let r = 2; r < grid.length; r++) {
+    const row = grid[r];
+    if (!row || !row.length) continue;
+    const flag  = cell(row[0]).toLowerCase();
+    const area  = cell(row[1]);
+    const num   = cell(row[2]);
+    const title = cell(row[3]);
+
+    if (flag !== 'yes') continue;                       /* not a certificate course */
+    if (!num && !title) continue;                       /* blank filler row */
+    if (!num || !title) {
+      skipped.push({ row: r + 1, why: !num ? 'no course number' : 'no course title' });
+      continue;
+    }
+
+    const rawCr = row[4];
+    let credits = null;
+    if (rawCr !== '' && rawCr != null) {
+      const n = Number(rawCr);
+      if (Number.isFinite(n) && n >= 0 && n <= 12) credits = Math.round(n);
+      else warnings.push({ title: `Unreadable credit value on row ${r + 1}`,
+                           body: `<code>${esc(num)}</code> has <code>${esc(String(rawCr))}</code> in the Credits column. ` +
+                                 `It will be treated as variable-credit and the student will choose.` });
+    }
+
+    const s = [];
+    skills.forEach((sk, idx) => { if (cell(row[sk.col]).toLowerCase() === 'x') s.push(idx); });
+
+    if (num.toUpperCase() === VIP_MARKER) { vip.push({ n: VIP_MARKER, t: cleanTitle(title), s }); continue; }
+
+    const ai = AREA_BY_LABEL.get(area.toLowerCase());
+    if (ai === undefined) {
+      if (!unknownAreas.has(area)) unknownAreas.set(area, []);
+      unknownAreas.get(area).push(`${num} (row ${r + 1})`);
+      continue;
+    }
+
+    const c = { a: ai, n: num, t: cleanTitle(title), c: credits, s };
+    if (credits === null) noCredits.push(c);
+    if (!s.length) noSkills.push(c);
+    courses.push(c);
+  }
+
+  /* Blocking: an unrecognised area would silently create a sixth category */
+  if (unknownAreas.size) {
+    for (const [bad, who] of unknownAreas) {
+      errors.push({
+        title: `Unknown certificate area: "${esc(bad || '(blank)')}"`,
+        body: `Affects ${who.length} course${who.length === 1 ? '' : 's'}: ${who.slice(0, 6).map(esc).join(', ')}` +
+              `${who.length > 6 ? `, +${who.length - 6} more` : ''}.<br>` +
+              `The Primary Certificate Area must exactly match one of the five:` +
+              `<ul>${AREA_POLICY.map(a => `<li><code>${esc(a.label)}</code></li>`).join('')}</ul>` +
+              `Usually this is a typo or a stray space. Fix it in the spreadsheet and re-drop the file.`
+      });
+    }
+  }
+  if (!courses.length && !errors.length) {
+    errors.push({ title: 'No courses found', body: 'No rows had <code>Certificate = Yes</code> with a course number and title.' });
+  }
+
+  /* Cross-listings / renumberings sharing a normalised title */
+  const groups = new Map();
+  courses.forEach((c, i) => {
+    const k = normTitle(c.t);
+    if (!groups.has(k)) groups.set(k, []);
+    groups.get(k).push(i);
+  });
+  const xlists = [];
+  for (const [k, idxs] of groups) {
+    if (idxs.length > 1) {
+      idxs.forEach(i => { courses[i].x = k.slice(0, 14); });
+      xlists.push(idxs.map(i => courses[i].n));
+    }
+  }
+  courses.forEach((c, i) => { c.i = i; });
+
+  /* Non-blocking findings */
+  /* Course numbers repeat across special-topics offerings, so list titles too */
+  const courseLine = c => `<li><code>${esc(c.n)}</code> ${esc(c.t)}</li>`;
+  if (noCredits.length) warnings.push({
+    title: `${noCredits.length} course${noCredits.length === 1 ? '' : 's'} without credit hours`,
+    body: `Students will pick the hours themselves for these. That is correct for variable-credit ` +
+          `special topics — but if any of them do have a fixed credit value, add it to the spreadsheet.` +
+          `<ul>${noCredits.slice(0, 10).map(courseLine).join('')}</ul>` +
+          `${noCredits.length > 10 ? `…and ${noCredits.length - 10} more.` : ''}`
+  });
+  if (xlists.length) warnings.push({
+    title: `${xlists.length} set${xlists.length === 1 ? '' : 's'} of courses share a title`,
+    body: `The builder will warn students who select more than one from a set, since cross-listed or ` +
+          `renumbered courses usually can't both count.` +
+          `<ul>${xlists.map(g => `<li>${g.map(n => `<code>${esc(n)}</code>`).join(' · ')}</li>`).join('')}</ul>`
+  });
+  if (noSkills.length) notes.push({
+    title: `${noSkills.length} course${noSkills.length === 1 ? '' : 's'} have no skill tags`,
+    body: `These still appear in the catalog and count toward credits — they just won't surface in ` +
+          `skill filtering. Add <code>x</code> marks in the skill columns to make them findable.` +
+          `<ul>${noSkills.slice(0, 10).map(courseLine).join('')}</ul>` +
+          `${noSkills.length > 10 ? `…and ${noSkills.length - 10} more.` : ''}`
+  });
+  if (skipped.length) warnings.push({
+    title: `${skipped.length} row${skipped.length === 1 ? '' : 's'} skipped`,
+    body: `<ul>${skipped.slice(0, 8).map(s => `<li>Row ${s.row} — ${esc(s.why)}</li>`).join('')}</ul>` +
+          `${skipped.length > 8 ? `…and ${skipped.length - 8} more.` : ''}`
+  });
+  const emptyAreas = AREA_POLICY.filter((a, i) => !courses.some(c => c.a === i));
+  if (emptyAreas.length) warnings.push({
+    title: `${emptyAreas.length} certificate area${emptyAreas.length === 1 ? ' has' : 's have'} no courses`,
+    body: `${emptyAreas.map(a => `<code>${esc(a.short)}</code>`).join(', ')}. Students need courses from at ` +
+          `least two areas, so an empty area narrows their options.`
+  });
+
+  const doc = {
+    schemaVersion: SCHEMA_VERSION,
+    generatedAt: new Date().toISOString().replace(/\.\d+Z$/, 'Z'),
+    source: filename,
+    sheet: SHEET_NAME,
+    counts: { courses: courses.length, vip: vip.length, skills: skillNames.length, areas: AREA_POLICY.length },
+    skills: skillNames,
+    areas: AREA_POLICY.map(a => ({ id: a.id, label: a.label, short: a.short })),
+    courses, vip
+  };
+  return { doc, errors, warnings, notes };
+}
+
+/* ══════════════════════════════════════════════════════════════
+   DIFF against what's live
+══════════════════════════════════════════════════════════════ */
+function diff(next, prev) {
+  if (!prev) return null;
+  const key = c => `${c.n}␟${c.t}`;
+  const a = new Set((prev.courses || []).map(key));
+  const b = new Set((next.courses || []).map(key));
+  const added   = (next.courses || []).filter(c => !a.has(key(c)));
+  const removed = (prev.courses || []).filter(c => !b.has(key(c)));
+  const skillsAdded   = (next.skills || []).filter(s => !(prev.skills || []).includes(s));
+  const skillsRemoved = (prev.skills || []).filter(s => !(next.skills || []).includes(s));
+  return { added, removed, skillsAdded, skillsRemoved, prevCount: (prev.courses || []).length };
+}
+
+/* ══════════════════════════════════════════════════════════════
+   RENDER
+══════════════════════════════════════════════════════════════ */
+function statBlock(n, label, delta) {
+  const d = delta == null || delta === 0 ? ''
+    : `<div class="d ${delta > 0 ? 'up' : 'down'}">${delta > 0 ? '+' : ''}${delta} vs live</div>`;
+  return `<div class="stat"><div class="n">${n}</div><div class="l">${esc(label)}</div>${d}</div>`;
+}
+
+function findingBlock(kind, f) {
+  const icon = kind === 'err' ? 'x-circle-fill' : kind === 'warn' ? 'exclamation-triangle-fill'
+             : kind === 'ok' ? 'check-circle-fill' : 'info-circle-fill';
+  return `<div class="finding ${kind}">
+      <div class="finding-head"><i class="bi bi-${icon}"></i>${esc(f.title)}</div>
+      ${f.body ? `<div class="finding-body">${f.body}</div>` : ''}
+    </div>`;
+}
+
+function render(res) {
+  const { doc, errors, warnings, notes } = res;
+  const d = doc ? diff(doc, published) : null;
+
+  $('stats').innerHTML = doc ? [
+    statBlock(doc.counts.courses, 'Courses', d ? doc.counts.courses - d.prevCount : null),
+    statBlock(doc.counts.vip, 'VIP / experience', null),
+    statBlock(doc.counts.skills, 'Skills', d ? doc.counts.skills - (published.skills || []).length : null),
+    statBlock(doc.counts.areas, 'Areas', null),
+  ].join('') : '';
+
+  const out = [];
+  errors.forEach(f => out.push(findingBlock('err', f)));
+
+  if (d && (d.added.length || d.removed.length || d.skillsAdded.length || d.skillsRemoved.length)) {
+    out.push(`<div class="section-label">Changes since the published file</div>`);
+    if (d.added.length) out.push(findingBlock('ok', {
+      title: `${d.added.length} course${d.added.length === 1 ? '' : 's'} added`,
+      body: `<ul>${d.added.slice(0, 10).map(c => `<li><code>${esc(c.n)}</code> ${esc(c.t)}</li>`).join('')}</ul>` +
+            `${d.added.length > 10 ? `…and ${d.added.length - 10} more.` : ''}`
+    }));
+    if (d.removed.length) out.push(findingBlock('warn', {
+      title: `${d.removed.length} course${d.removed.length === 1 ? '' : 's'} removed`,
+      body: `Students who already picked these will lose them from a saved plan.` +
+            `<ul>${d.removed.slice(0, 10).map(c => `<li><code>${esc(c.n)}</code> ${esc(c.t)}</li>`).join('')}</ul>` +
+            `${d.removed.length > 10 ? `…and ${d.removed.length - 10} more.` : ''}`
+    }));
+    if (d.skillsAdded.length) out.push(findingBlock('ok', {
+      title: `${d.skillsAdded.length} skill${d.skillsAdded.length === 1 ? '' : 's'} added`,
+      body: d.skillsAdded.map(s => `<code>${esc(s)}</code>`).join(' · ')
+    }));
+    if (d.skillsRemoved.length) out.push(findingBlock('warn', {
+      title: `${d.skillsRemoved.length} skill${d.skillsRemoved.length === 1 ? '' : 's'} removed`,
+      body: `Gone from the filter list: ${d.skillsRemoved.map(s => `<code>${esc(s)}</code>`).join(' · ')}`
+    }));
+  } else if (d) {
+    out.push(findingBlock('ok', { title: 'No course or skill changes since the published file' }));
+  }
+
+  if (warnings.length || notes.length) {
+    out.push(`<div class="section-label">Worth checking</div>`);
+    warnings.forEach(f => out.push(findingBlock('warn', f)));
+    notes.forEach(f => out.push(findingBlock('info', f)));
+  }
+  if (doc && !errors.length && !warnings.length) {
+    out.push(findingBlock('ok', { title: 'No problems found — safe to publish' }));
+  }
+  $('findings').innerHTML = out.join('');
+
+  const blocked = errors.length > 0 || !doc;
+  $('btn-download').disabled = blocked;
+  $('step-3').classList.toggle('locked', false);
+  $('blocked-note').style.display = blocked ? 'block' : 'none';
+  $('report').classList.add('show');
+  $('report').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ══════════════════════════════════════════════════════════════
+   FILE HANDLING
+══════════════════════════════════════════════════════════════ */
+function handleFile(file) {
+  if (!file) return;
+  if (!/\.xlsx$/i.test(file.name)) {
+    render({ errors: [{ title: 'That is not an .xlsx file',
+      body: `Got <code>${esc(file.name)}</code>. Macro-enabled workbooks (.xlsm) and older .xls files are ` +
+            `not accepted — open it in Excel and use <strong>Save As → Excel Workbook (.xlsx)</strong>.` }],
+      warnings: [], notes: [] });
+    return;
+  }
+  if (file.size > MAX_BYTES) {
+    render({ errors: [{ title: 'File is too large',
+      body: `<code>${esc(file.name)}</code> is ${(file.size / 1048576).toFixed(1)} MB. The course spreadsheet ` +
+            `should be well under ${MAX_BYTES / 1048576} MB — check this is the right file.` }],
+      warnings: [], notes: [] });
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onerror = () => render({ errors: [{ title: 'Could not read the file',
+    body: 'The browser failed to open it. Make sure it is not open in Excel, then try again.' }], warnings: [], notes: [] });
+  reader.onload = e => {
+    try {
+      const wb = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
+      result = convert(wb, file.name);
+      render(result);
+    } catch (err) {
+      render({ errors: [{ title: 'Could not read this workbook',
+        body: `${esc(err.message || String(err))}<br>The file may be corrupt or password-protected.` }],
+        warnings: [], notes: [] });
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+$('drop').addEventListener('click', () => $('file').click());
+$('drop').addEventListener('keydown', e => {
+  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); $('file').click(); }
+});
+$('file').addEventListener('change', function () { handleFile(this.files[0]); this.value = ''; });
+['dragenter', 'dragover'].forEach(ev =>
+  $('drop').addEventListener(ev, e => { e.preventDefault(); $('drop').classList.add('over'); }));
+['dragleave', 'drop'].forEach(ev =>
+  $('drop').addEventListener(ev, e => { e.preventDefault(); $('drop').classList.remove('over'); }));
+$('drop').addEventListener('drop', e => handleFile(e.dataTransfer.files[0]));
+
+$('btn-download').addEventListener('click', () => {
+  if (!result || !result.doc) return;
+  const blob = new Blob([JSON.stringify(result.doc)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'course-data.json';
+  document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 0);
+});
+
+$('btn-restart').addEventListener('click', () => {
+  result = null;
+  $('report').classList.remove('show');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+/* Load the currently-published file so the report can show a diff.
+   Absent (first run, or opened locally) simply means no diff. */
+fetch('course-data.json?v=' + new Date().toISOString().slice(0, 10), { cache: 'no-store' })
+  .then(r => r.ok ? r.text() : Promise.reject(new Error('HTTP ' + r.status)))
+  .then(t => {
+    published = JSON.parse(t);
+    const when = published.generatedAt
+      ? new Date(published.generatedAt).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' })
+      : 'unknown date';
+    $('live-status').textContent =
+      `Published data: ${published.counts?.courses ?? '?'} courses · ${when}`;
+  })
+  .catch(() => { $('live-status').textContent = 'No published data found — this will be the first version.'; });
+</script>
+</body>
+</html>

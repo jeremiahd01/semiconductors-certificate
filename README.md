@@ -4,9 +4,17 @@ An interactive plan-of-study builder for Purdue University's Semiconductors and
 Microelectronics Certificate. Students select coursework and log experience; a live
 tracker shows how close they are to meeting every certificate requirement.
 
-`index.html` is fully self-contained — open it directly in a browser, no build step
-or server required. Bootstrap 5 and Bootstrap Icons load from CDN; all other CSS,
-JavaScript, and course data are inline.
+## Files
+
+| File | Role |
+|---|---|
+| `index.html` | The student-facing builder |
+| `admin.html` | Converts the semester spreadsheet into `course-data.json` |
+| `course-data.json` | The published course catalog the builder reads |
+| `course_data.xlsx` | Source spreadsheet, maintained by the program |
+
+All four are static files. There is no build step and no server-side code — they can be
+uploaded to a Zope folder as File objects and served directly.
 
 ## Certificate requirements
 
@@ -34,45 +42,155 @@ is considered equivalent to the full 6 credit hours.
 - Autosave to `localStorage`; plans survive a page reload
 - Print-ready plan-of-study sheet, unlocked once all requirements are met
 
-## Data
+---
 
-Course data lives in `course_data.xlsx` on the **`website`** tab and is compiled into
-the `SKILLS`, `AREAS`, `COURSES`, and `VIP` constants inside `index.html`.
+# Updating the course data
 
-Sheet layout:
+## For the administrator
 
-- Row 1, columns F–AX — the 45 skill names
-- Row 2 — column headers (`Certificate`, `Primary Certificate Area`, `Course Number`, `Course`, `Credits`, `Skills`)
-- Rows 3+ — one course per row; an `x` in a skill column tags that course with that skill
+Each semester:
 
-### Regenerating after a spreadsheet update
+1. Edit `course_data.xlsx` as usual — the **`website`** tab is the one that matters
+2. Open **`admin.html`** in a browser and drop the spreadsheet onto it
+3. Read the report. Warnings are informational; **errors block publishing** until fixed
+4. Click **Download course-data.json**
+5. In the ZMI, open the folder containing `index.html`
+6. **Rename** the existing `course-data.json` to e.g. `course-data-2026-fall.json` —
+   this is the rollback, don't skip it
+7. Upload the new `course-data.json` into that same folder
+8. Load the builder and confirm the footer shows today's date
 
-The data blob in `index.html` is generated, not hand-edited. To refresh it, re-extract
-from the `website` tab and replace the `const SKILLS` / `const AREAS` / `const COURSES` /
-`const VIP` block at the top of the `<script>` element.
+Nothing is uploaded anywhere during steps 2–4. The spreadsheet is parsed inside the
+browser; the server never sees it.
 
-Notes on the current extraction:
+If a bad file does get published, the builder falls back to a snapshot bundled inside
+`index.html` and keeps working — so a mistake degrades the page rather than breaking it.
+To roll back, rename the archived file back to `course-data.json`.
 
-- Certificate areas are displayed in a fixed order set by the `order` list during
-  extraction — **not** spreadsheet order. `COURSES[].a` is an index into `AREAS`, so
-  changing the display order requires regenerating the whole blob, not just reordering `AREAS`.
-- The 3 VIP rows are routed to the **experience** section rather than the technical bucket.
-- 22 courses have blank credits in the spreadsheet (mostly ECE 59500 / IE 49000 / MSE 59700
-  special topics). These render a credit dropdown defaulting to 0 ("Set CR"); selecting one
-  without setting hours flags the row and blocks plan generation.
-- Course numbers are stripped from the front of course titles, since the number is
-  displayed separately.
-- 5 sets of courses share a normalized title (cross-listings and renumberings). Selecting
-  more than one in a set raises a non-blocking "confirm with your advisor" warning.
+## Architecture
 
-## Structure
+```
+course_data.xlsx ── edited each semester
+       │
+       ▼
+  admin.html ── parses, normalises, validates, diffs (all client-side)
+       │
+       ▼  course-data.json
+  ZMI upload
+       │
+       ▼
+  index.html ── fetch + validate ──┬── ok ──▶ live catalog
+                                   └── any failure ──▶ embedded snapshot + banner
+```
 
-Everything is in `index.html`:
+Nothing parses spreadsheets server-side. `.xlsx` is a zip archive of XML, and putting
+that parser behind a file upload on a server invites zip-bomb and entity-expansion
+attacks. Doing it in the administrator's browser keeps the whole format off the server.
 
-- **Purdue brand tokens** — `--pu-*` custom properties per Purdue's web brand standards
-- **Print summary sheet** — `#print-sheet`, hidden until "Generate plan of study"
-- **App markup** — the three requirement sections plus the sticky tracker column
-- **Data + logic** — the generated data blob, then state, filtering, rendering, and persistence
+### Catalog data vs. program policy
+
+These are deliberately kept apart:
+
+| | Catalog data | Program policy |
+|---|---|---|
+| Examples | Courses, credits, skill tags, area assignment | Credit targets (16/1/9/6), the 2-of-5 rule, area display order, short area names, VIP routing, title-prefix stripping |
+| Changes | Every semester | Rarely, by decision |
+| Lives in | `course_data.xlsx` → `course-data.json` | `AREA_POLICY` in `admin.html`; `TARGET_*` and `MIN_AREAS` in `index.html` |
+
+The consequence is that a semester upload can only change *which courses exist*. It
+cannot change what the certificate requires. Credit targets are never read from the
+JSON, so no uploaded file can alter them.
+
+Note that area display order and the short labels ("Devices", "Packaging & Thermal")
+are **not** in the spreadsheet — they live in `AREA_POLICY`. To reorder or rename an
+area, edit that list in `admin.html` and re-run the conversion.
+
+### `course-data.json` schema (version 1)
+
+```jsonc
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-29T16:35:35Z",
+  "source": "course_data.xlsx",
+  "sheet": "website",
+  "counts": { "courses": 100, "vip": 3, "skills": 45, "areas": 5 },
+  "skills": ["Advanced Materials", "..."],          // index-addressed
+  "areas":  [{ "id": "dev", "label": "...", "short": "Devices" }],
+  "courses": [{
+    "a": 0,             // index into areas
+    "n": "ECE 30500",   // course number
+    "t": "Semiconductor Devices",
+    "c": 3,             // credits, or null for variable-credit
+    "s": [12, 33],      // indices into skills
+    "i": 0,             // stable row index
+    "x": "digitalinteg" // optional: shared-title group key
+  }],
+  "vip": [{ "n": "VIP", "t": "VIP STARS", "s": [4, 5] }]
+}
+```
+
+Bump `schemaVersion` on any breaking shape change, and update `SCHEMA_VERSION` in both
+`index.html` and `admin.html`. The builder refuses versions it doesn't recognise and
+falls back rather than misreading them.
+
+### Validation
+
+`admin.html` blocks the download on:
+
+- A missing `website` tab, or an empty/unreadable sheet
+- A `Primary Certificate Area` that doesn't exactly match one of the five canonical
+  labels — a typo would otherwise silently create a sixth area
+- Duplicate skill column names
+
+It warns but allows: missing credit values, unreadable credit values, shared course
+titles, skipped rows, and areas with no courses. **New skill columns are accepted
+automatically**; new or renamed *areas* are treated as errors.
+
+`index.html` independently re-validates everything it fetches, because the JSON is
+untrusted input. The renderer escapes every string it prints, but numeric fields are
+interpolated raw — so `validateCatalog()` type-checks area indices, skill references,
+and credit values, and rejects the file outright if any are wrong.
+
+### Fallback
+
+`index.html` carries `FALLBACK_CATALOG`, a snapshot of the catalog as of the last time
+the app itself was updated. It is used when the fetch fails for any reason: offline,
+404, malformed JSON, an HTML error page from Zope, a schema mismatch, or failed
+validation. A banner explains what happened and the builder stays fully usable.
+
+The snapshot is refreshed by hand when the app is updated — it intentionally does not
+track every semester publish, since its job is to be a known-good floor, not current.
+
+### Zope notes
+
+- **Content type** doesn't matter. The builder parses `res.text()` rather than
+  `res.json()`, so a `text/plain` or octet-stream response still works.
+- **Caching** is handled client-side, since headers can't be set reliably from the ZMI:
+  `cache: 'no-store'` for the browser cache plus a date-stamped `?v=` parameter for any
+  proxy in front.
+- **Uploading over** an existing File object preserves its id and URL.
+- `admin.html` loads the currently-published `course-data.json` from the same folder to
+  produce its diff. If it's absent the tool still works — it just can't show what changed.
+
+### Spreadsheet layout
+
+- Row 1, columns F onward — skill names
+- Row 2 — headers (`Certificate`, `Primary Certificate Area`, `Course Number`, `Course`, `Credits`, `Skills`)
+- Rows 3+ — one course per row; an `x` in a skill column tags that course
+
+Rows are ignored unless `Certificate` is `Yes`. Rows whose `Course Number` is `VIP` are
+routed to the experience section instead of the technical catalog. Course numbers are
+stripped from the front of titles, since the number is displayed separately.
+
+## Local development
+
+```bash
+python3 -m http.server 8777
+```
+
+Then open `http://localhost:8777/index.html`. A plain `file://` open also works, but the
+catalog fetch will fail and the builder will run on the embedded snapshot — which is a
+useful way to exercise the fallback path deliberately.
 
 ## Disclaimer
 
