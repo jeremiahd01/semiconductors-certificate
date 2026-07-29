@@ -172,15 +172,50 @@ track every semester publish, since its job is to be a known-good floor, not cur
 - `admin.html` loads the currently-published `course-data.json` from the same folder to
   produce its diff. If it's absent the tool still works — it just can't show what changed.
 
-### Spreadsheet layout
+### Spreadsheet rules
 
-- Row 1, columns F onward — skill names
-- Row 2 — headers (`Certificate`, `Primary Certificate Area`, `Course Number`, `Course`, `Credits`, `Skills`)
-- Rows 3+ — one course per row; an `x` in a skill column tags that course
+**Structure**
 
-Rows are ignored unless `Certificate` is `Yes`. Rows whose `Course Number` is `VIP` are
-routed to the experience section instead of the technical catalog. Course numbers are
-stripped from the front of titles, since the number is displayed separately.
+- The tab must be named `website`. Case and surrounding spaces are forgiven
+  (`Website` works); any other name is an error.
+- Row 1 — skill names, from column **F** onward. Must be unique. A column with marks
+  but no name in row 1 is ignored.
+- Row 2 — headers. **Read positionally, not by name** — the text in row 2 is never
+  checked, so renaming a header is harmless but *moving, inserting, or deleting a
+  column in A–E breaks everything.*
+- Rows 3+ — one course per row. Blank rows are fine and don't shift row numbering.
+
+**Columns A–E are fixed**
+
+| Col | Field | Rules |
+|---|---|---|
+| A | `Certificate` | Must be `Yes` (any case) to be included. `No` is silently excluded; anything else is excluded **with a warning**. |
+| B | `Primary Certificate Area` | Must match one of the five canonical labels. Case and extra spaces forgiven; punctuation is not. Mismatch **blocks publishing**. |
+| C | `Course Number` | Required. `VIP` (any case) routes the row to the experience section. |
+| D | `Course` | Required. A leading course number is stripped, since it's displayed separately. |
+| E | `Credits` | A number 0–12, or blank. Blank means variable-credit — the student picks. Non-numeric text warns and is treated as blank. |
+| F+ | Skills | Only `x` or `X` tags a skill. Anything else (`✓`, `1`, `yes`) does **not** tag it and warns. |
+
+The five area labels, which must match exactly:
+
+```
+Semiconductor and Microelectronic Devices
+Semiconductor Materials, Characterization, and Processing
+Integrated Circuit & System Design, Electronic Design Automation
+Electronics Packaging, Heterogeneous Integration, and Thermal Management
+Semiconductor Manufacturing and Global Supply Chain Management
+```
+
+**File**
+
+- Must be `.xlsx`. `.xls` and macro-enabled `.xlsm` are rejected — re-save as
+  *Excel Workbook (.xlsx)*.
+- Under 12 MB.
+- Not password-protected, and not open in Excel at the same time.
+
+Adding a **new skill column** is fine and needs no code change. Adding or renaming a
+**certificate area** requires editing `AREA_POLICY` in `admin.html` — the 2-of-5 rule
+assumes exactly five.
 
 ## Local development
 

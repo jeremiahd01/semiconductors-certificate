@@ -257,7 +257,10 @@ const cell       = v => v == null ? '' : String(v).replace(/\s+/g, ' ').trim();
 function convert(workbook, filename) {
   const errors = [], warnings = [], notes = [];
 
-  const sheet = workbook.Sheets[SHEET_NAME];
+  /* Tolerate "Website" / " website " — capitalising a tab is a likely slip and
+     there is no other tab it could be confused with. */
+  const sheetKey = workbook.SheetNames.find(n => n.trim().toLowerCase() === SHEET_NAME);
+  const sheet = sheetKey ? workbook.Sheets[sheetKey] : null;
   if (!sheet) {
     errors.push({
       title: `No sheet named "${SHEET_NAME}"`,
@@ -266,8 +269,15 @@ function convert(workbook, filename) {
     });
     return { errors, warnings, notes };
   }
+  if (sheetKey !== SHEET_NAME) {
+    notes.push({ title: `Read the tab named "${esc(sheetKey)}"`,
+      body: `Matched it to <code>${SHEET_NAME}</code> ignoring case and spacing. Renaming the tab to exactly ` +
+            `<code>${SHEET_NAME}</code> avoids any doubt.` });
+  }
 
-  const grid = XLSX.utils.sheet_to_json(sheet, { header: 1, blankrows: false, defval: '' });
+  /* blankrows:true keeps grid indices aligned with real spreadsheet rows, so the
+     row numbers quoted in warnings match what the admin sees in Excel. */
+  const grid = XLSX.utils.sheet_to_json(sheet, { header: 1, blankrows: true, defval: '' });
   if (grid.length < 3) {
     errors.push({ title: 'Sheet looks empty', body: 'Expected skill names in row 1, column headers in row 2, and courses from row 3 down.' });
     return { errors, warnings, notes };
@@ -294,9 +304,25 @@ function convert(workbook, filename) {
     });
   }
 
+  /* A skill column with data but no header in row 1 would be dropped silently */
+  const widest = grid.reduce((m, row) => Math.max(m, (row || []).length), 0);
+  const headerless = [];
+  for (let c = 5; c < widest; c++) {
+    if (cell(grid[0] && grid[0][c])) continue;
+    const used = grid.slice(2).some(row => cell(row && row[c]));
+    if (used) headerless.push(XLSX.utils.encode_col(c));
+  }
+  if (headerless.length) warnings.push({
+    title: `${headerless.length} column${headerless.length === 1 ? '' : 's'} have marks but no skill name`,
+    body: `Column${headerless.length === 1 ? '' : 's'} ${headerless.map(c => `<code>${c}</code>`).join(', ')} ` +
+          `${headerless.length === 1 ? 'contains' : 'contain'} data below row 2, but row 1 is blank there — ` +
+          `so ${headerless.length === 1 ? 'it is' : 'they are'} ` +
+          `being ignored entirely. Add the skill name in row 1 to include ${headerless.length === 1 ? 'it' : 'them'}.`
+  });
+
   /* Rows 3+ = courses */
   const courses = [], vip = [], unknownAreas = new Map(), skipped = [];
-  const noCredits = [], noSkills = [];
+  const noCredits = [], noSkills = [], badFlags = [], badMarks = [];
 
   for (let r = 2; r < grid.length; r++) {
     const row = grid[r];
@@ -306,12 +332,25 @@ function convert(workbook, filename) {
     const num   = cell(row[2]);
     const title = cell(row[3]);
 
-    if (flag !== 'yes') continue;                       /* not a certificate course */
+    if (flag !== 'yes') {
+      /* Anything other than yes/no in column A drops the row — say so rather than
+         letting a course vanish without explanation. */
+      if (flag && flag !== 'no' && (num || title)) {
+        badFlags.push({ row: r + 1, val: cell(row[0]), num: num || title });
+      }
+      continue;
+    }
     if (!num && !title) continue;                       /* blank filler row */
     if (!num || !title) {
       skipped.push({ row: r + 1, why: !num ? 'no course number' : 'no course title' });
       continue;
     }
+
+    /* Only "x" tags a skill — flag anything else so ticks or 1s aren't lost quietly */
+    skills.forEach(sk => {
+      const v = cell(row[sk.col]);
+      if (v && v.toLowerCase() !== 'x') badMarks.push({ row: r + 1, col: XLSX.utils.encode_col(sk.col), val: v });
+    });
 
     const rawCr = row[4];
     let credits = null;
@@ -401,6 +440,20 @@ function convert(workbook, filename) {
     title: `${skipped.length} row${skipped.length === 1 ? '' : 's'} skipped`,
     body: `<ul>${skipped.slice(0, 8).map(s => `<li>Row ${s.row} — ${esc(s.why)}</li>`).join('')}</ul>` +
           `${skipped.length > 8 ? `…and ${skipped.length - 8} more.` : ''}`
+  });
+  if (badFlags.length) warnings.push({
+    title: `${badFlags.length} row${badFlags.length === 1 ? '' : 's'} left out — unrecognised Certificate value`,
+    body: `The <strong>Certificate</strong> column must say <code>Yes</code> for a course to appear. ` +
+          `These say something else, so they are being left out:` +
+          `<ul>${badFlags.slice(0, 8).map(f => `<li>Row ${f.row} — <code>${esc(f.val)}</code> on ${esc(f.num)}</li>`).join('')}</ul>` +
+          `${badFlags.length > 8 ? `…and ${badFlags.length - 8} more.` : ''}`
+  });
+  if (badMarks.length) warnings.push({
+    title: `${badMarks.length} skill cell${badMarks.length === 1 ? '' : 's'} not marked with "x"`,
+    body: `Only a lower- or upper-case <code>x</code> tags a course with a skill. These cells contain ` +
+          `something else, so those skills are <strong>not</strong> being applied:` +
+          `<ul>${badMarks.slice(0, 8).map(m => `<li>Row ${m.row}, column ${esc(m.col)} — <code>${esc(m.val)}</code></li>`).join('')}</ul>` +
+          `${badMarks.length > 8 ? `…and ${badMarks.length - 8} more.` : ''}`
   });
   const emptyAreas = AREA_POLICY.filter((a, i) => !courses.some(c => c.a === i));
   if (emptyAreas.length) warnings.push({
