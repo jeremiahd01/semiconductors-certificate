@@ -23,10 +23,12 @@ is considered equivalent to the full 6 credit hours.
 ## Features
 
 - **100 technical courses** grouped into 5 collapsible certificate areas
-- **45-skill filter cloud** with live per-skill course counts and match-any / match-all modes
+- **Skill filter cloud** with live per-skill course counts and match-any / match-all modes;
+  skills with no remaining matches drop out of the cloud
 - Free-text search across course number, title, and skill tags
 - Collapsed skill chips per course (`+N more`), with filter-matched skills promoted and highlighted
-- Credit pickers for variable-credit special-topics and VIP offerings
+- Credit pickers for variable-credit special-topics courses, defaulting to unset so hours
+  are never silently assumed
 - Live **area-breadth meter** enforcing the 2-of-5 rule
 - Running **Skills You'll Gain** profile accumulated across all selections
 - Autosave to `localStorage`; plans survive a page reload
@@ -51,9 +53,13 @@ from the `website` tab and replace the `const SKILLS` / `const AREAS` / `const C
 
 Notes on the current extraction:
 
+- Certificate areas are displayed in a fixed order set by the `order` list during
+  extraction — **not** spreadsheet order. `COURSES[].a` is an index into `AREAS`, so
+  changing the display order requires regenerating the whole blob, not just reordering `AREAS`.
 - The 3 VIP rows are routed to the **experience** section rather than the technical bucket.
 - 22 courses have blank credits in the spreadsheet (mostly ECE 59500 / IE 49000 / MSE 59700
-  special topics). These render a 1–4 credit dropdown defaulting to 3.
+  special topics). These render a credit dropdown defaulting to 0 ("Set CR"); selecting one
+  without setting hours flags the row and blocks plan generation.
 - Course numbers are stripped from the front of course titles, since the number is
   displayed separately.
 - 5 sets of courses share a normalized title (cross-listings and renumberings). Selecting

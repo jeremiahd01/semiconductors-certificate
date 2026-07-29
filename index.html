@@ -251,6 +251,32 @@
     .credit-picker:focus { outline: none; box-shadow: 0 0 0 3px var(--gold-glow); }
     .course-row.selected .credit-picker { border-style: solid; background: var(--bg-warm); }
 
+    /* Variable-credit course still sitting at 0 */
+    .credit-picker.unset { color: var(--pu-steel); }
+    .credit-picker.needed {
+      border-color: var(--pu-rush);
+      border-style: solid;
+      background: #FFF9E3;
+      color: #6B5200;
+      font-weight: 600;
+      animation: credit-nudge 1.6s ease-in-out 3;
+    }
+    @keyframes credit-nudge {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(218,170,0,0); }
+      50%      { box-shadow: 0 0 0 4px rgba(218,170,0,0.28); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .credit-picker.needed { animation: none; }
+    }
+    .credit-hint {
+      display: flex; align-items: center; gap: 3px;
+      margin-top: 6px;
+      font-size: 0.71rem;
+      color: #6B5200;
+      font-weight: 500;
+    }
+    .credit-hint i { font-size: 1rem; color: var(--pu-rush); }
+
     /* ─── Skill chips ────────────────────────────────────────── */
     .skill-strip { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 7px; align-items: center; }
     .skill-chip {
@@ -500,21 +526,6 @@
     .btn-remove-exp:hover { color: var(--status-red); border-color: var(--status-red); }
 
     .exp-footer { display: flex; align-items: center; gap: 14px; margin-top: 12px; flex-wrap: wrap; }
-    .btn-add {
-      font-family: var(--pu-font-sans);
-      font-size: 0.78rem;
-      letter-spacing: 0.04em;
-      padding: 8px 15px;
-      border: 1px dashed var(--pu-aged);
-      border-radius: 2px;
-      background: transparent;
-      color: var(--pu-aged-deep);
-      cursor: pointer;
-      display: inline-flex; align-items: center; gap: 7px;
-      transition: all 0.14s ease;
-    }
-    .btn-add:hover:not(:disabled) { background: var(--bg-tint); border-style: solid; color: var(--pu-black); }
-    .btn-add:disabled { opacity: 0.35; cursor: not-allowed; }
     .exp-subtotal { font-size: 0.78rem; color: var(--text-muted); margin-left: auto; letter-spacing: 0.03em; }
     .exp-subtotal .val { color: var(--pu-aged-deep); font-weight: 700; }
 
@@ -530,6 +541,15 @@
       transition: all 0.14s ease;
     }
     .btn-preset:hover { border-color: var(--pu-aged); color: var(--pu-black); background: var(--pu-dust); }
+
+    /* Free-form entry — dashed to read as "write your own" next to the fixed presets */
+    .btn-preset-other {
+      background: transparent;
+      border-style: dashed;
+      border-color: var(--pu-aged);
+      color: var(--pu-aged-deep);
+    }
+    .btn-preset-other:hover { border-style: solid; background: var(--bg-tint); }
 
     /* ─── Tracker ────────────────────────────────────────────── */
     #tracker { position: sticky; top: 20px; }
@@ -930,7 +950,6 @@
     <div class="exp-preset" id="exp-presets"></div>
     <div id="exp-list"></div>
     <div class="exp-footer">
-      <button class="btn-add" id="btn-add-exp"><i class="bi bi-plus-lg"></i> Add experience</button>
       <span class="exp-subtotal">Subtotal: <span class="val" id="exp-subtotal">0</span> of 6 credits</span>
     </div>
   </div>
@@ -1028,108 +1047,108 @@
    DATA — generated from course_data.xlsx › "website" tab
 ══════════════════════════════════════════════════════════════ */
 const SKILLS=["Advanced Materials","Advanced Packaging","AI & ML","AI Acceleration (Hardware)","Analog IC Design","ASIC RTL Design","Characterization & Metrology","Custom Digital IC Design","Data Analysis","Data Center Infrastructure","Design for Sustainability","Design, EDA, and Digital Twins","Device and Circuit Concepts","Digital Design","Embedded Systems","Fabrication Concepts","FPGA Prototyping","Functional verification of ASiC/SoC","Interconnects & Re-Distribution Layers","Lithography","Manufacturing & Control Strategies","Memory design","Mixed Signal IC Design","Optics and Photonics","Physical layout and verification of ICs","Power Delivery","Power Electronics","Process Development & Assembly","Processor Design","Quantum Science","Radiation Hardening","Reliability & Failure Analysis","RF IC design","Semiconductor Fundamentals & Device Theory","Sensors and Actuators","Statistical Analysis","Statistical Process Control","Substrates, Materials, and Encapsulation","Supply Chain Management","System on Chip Architecture","Thermal Management","Timing Analysis","Uncertainty Analysis","VLSI Design","Workforce Development"];
-const AREAS=[{"id":"ic","label":"Integrated Circuit & System Design, Electronic Design Automation","short":"IC Design & EDA"},{"id":"dev","label":"Semiconductor and Microelectronic Devices","short":"Devices"},{"id":"mat","label":"Semiconductor Materials, Characterization, and Processing","short":"Materials & Processing"},{"id":"mfg","label":"Semiconductor Manufacturing and Global Supply Chain Management","short":"Manufacturing & Supply Chain"},{"id":"pkg","label":"Electronics Packaging, Heterogeneous Integration, and Thermal Management","short":"Packaging & Thermal"}];
+const AREAS=[{"id":"dev","label":"Semiconductor and Microelectronic Devices","short":"Devices"},{"id":"mat","label":"Semiconductor Materials, Characterization, and Processing","short":"Materials & Processing"},{"id":"ic","label":"Integrated Circuit & System Design, Electronic Design Automation","short":"IC Design & EDA"},{"id":"pkg","label":"Electronics Packaging, Heterogeneous Integration, and Thermal Management","short":"Packaging & Thermal"},{"id":"mfg","label":"Semiconductor Manufacturing and Global Supply Chain Management","short":"Manufacturing & Supply Chain"}];
 const COURSES=[
- {"a":4,"n":"ECE 59500","t":"Introduction to Electronics Packaging and Heterogeneous Integration (Cross-listed as ME 597/ECE 595/MSE 497)","c":null,"s":[6,8,19,23,27,30,37,40],"x":"introductionto","i":0},
- {"a":4,"n":"ME 50300","t":"Micro-and-Nano Scale Energy Transfer Process","c":3,"s":[40],"i":1},
- {"a":4,"n":"ME 51100","t":"Heat Transfer in Electronics Packaging","c":3,"s":[27,40],"i":2},
- {"a":4,"n":"ME 597","t":"Introduction to Electronics Packaging and Heterogeneous Integration (Cross-listed as ME 597/ECE 595/MSE 497)","c":3,"s":[6,8,19,23,27,30,37,40],"x":"introductionto","i":3},
- {"a":4,"n":"ME 59700","t":"Fundamentals of Microsystems Packaging","c":3,"s":[],"i":4},
- {"a":4,"n":"PHYS 536","t":"Electronic Techniques for Research","c":4,"s":[4,12],"i":5},
- {"a":2,"n":"CHE 56400","t":"Organic Electronic Materials And Devices","c":3,"s":[0,6,10,37],"i":6},
- {"a":0,"n":"ECE 33700","t":"ASIC Design Laboratory","c":2,"s":[1,5,17,33,39,41],"i":7},
- {"a":0,"n":"ECE 36200","t":"Microprocessor Systems And Interfacing","c":4,"s":[1,33,39],"i":8},
- {"a":0,"n":"ECE 40655","t":"Digital Integrated Circuit Analysis and Design","c":3,"s":[7,12,33],"x":"digitalintegra","i":9},
- {"a":0,"n":"ECE 40656","t":"CMOS Analog and Mixed Signal Integrated Circuits","c":3,"s":[4,12,33],"i":10},
- {"a":0,"n":"ECE 51214","t":"CMOS Analog IC Design","c":3,"s":[4,24],"x":"cmosanalogicde","i":11},
- {"a":0,"n":"ECE 51220","t":"Applied Algorithms","c":3,"s":[],"i":12},
- {"a":0,"n":"ECE 55900","t":"MOS VLSI Design","c":3,"s":[7,21,24,33,41],"i":13},
- {"a":0,"n":"ECE 56800","t":"Embedded Systems","c":3,"s":[1,33],"i":14},
- {"a":0,"n":"ECE 59500","t":"Computer Vision for Embedded Systems","c":null,"s":[],"i":15},
- {"a":0,"n":"ECE 59500","t":"CMOS Analog IC Design","c":null,"s":[12,33],"x":"cmosanalogicde","i":16},
- {"a":0,"n":"ECE 59500","t":"Digital Systems Design Automation","c":null,"s":[12,33],"i":17},
- {"a":0,"n":"ECE 45500","t":"Integrated Circuit Engineering","c":3,"s":[4,12,33],"i":18},
- {"a":0,"n":"ECE 45600","t":"Digital Integrated Circuit Analysis And Design","c":3,"s":[7,12,33],"x":"digitalintegra","i":19},
- {"a":1,"n":"ECE 30500","t":"Semiconductor Devices","c":3,"s":[12,33],"i":20},
- {"a":1,"n":"ECE 45300","t":"Fundamentals Of Nanoelectronics","c":3,"s":[33],"x":"fundamentalsof","i":21},
- {"a":1,"n":"ECE 50616","t":"Physics And Manufacturing Of Solar Cells","c":3,"s":[12,15,33],"i":22},
- {"a":1,"n":"ECE 50631","t":"Fundamentals Of Current Flow","c":1,"s":[12,33],"i":23},
- {"a":1,"n":"ECE 50632","t":"Introduction to Quantum Transport","c":1,"s":[12],"i":24},
- {"a":1,"n":"ECE 50633","t":"Boltzmann Law: Physics to Machine Learning","c":1,"s":[12],"i":25},
- {"a":1,"n":"ECE 50641","t":"Semiconductor Fundamentals","c":1,"s":[12,33],"x":"semiconductorf","i":26},
- {"a":1,"n":"ECE 55700","t":"Integrated Circuit Fabrication Laboratory [Now ECE 595IC]","c":3,"s":[27,33,37],"i":27},
- {"a":1,"n":"ECE 50642","t":"Fundamentals of Transistors","c":1,"s":[12,33],"i":28},
- {"a":1,"n":"ECE 50653","t":"Fundamentals Of Nanoelectronics","c":3,"s":[12,33],"x":"fundamentalsof","i":29},
- {"a":1,"n":"ECE 59500","t":"Advanced Lithography","c":null,"s":[1,15,39,43],"i":30},
- {"a":1,"n":"ECE 59500","t":"Essentials of Transistors","c":null,"s":[12,33],"i":31},
- {"a":1,"n":"ECE 59500","t":"MEMS I: Microfabrication and Materials for MEMS","c":null,"s":[12,15,43],"i":32},
- {"a":1,"n":"ECE 59500","t":"MEMS II: Fundamentals of MEMS Design","c":null,"s":[12,43],"i":33},
- {"a":1,"n":"ECE 59500","t":"MEMS III: Applications in MEMS","c":null,"s":[12,43],"i":34},
- {"a":1,"n":"ECE 59500","t":"Microfabrication Fundamentals","c":null,"s":[15,43],"i":35},
- {"a":1,"n":"ECE 59500","t":"Primer on Semiconductors","c":null,"s":[12,33],"i":36},
- {"a":1,"n":"ECE 59500","t":"Semiconductor Fundamentals","c":null,"s":[12,33],"x":"semiconductorf","i":37},
- {"a":1,"n":"ECE 59500","t":"Semiconductor Manufacturing","c":null,"s":[12,15],"i":38},
- {"a":1,"n":"ECE 59500","t":"Theory & Practice of Solar Cells: A Cell to System Perspec","c":null,"s":[1,12,15,39],"i":39},
- {"a":1,"n":"ECE 59500IC","t":"Integrated Circuit/MEMS Fabrication","c":null,"s":[33],"i":40},
- {"a":1,"n":"PHYS 322","t":"Optics","c":3,"s":[23],"i":41},
- {"a":1,"n":"PHYS 349","t":"Introduction to Quantum Computing","c":3,"s":[29,33],"i":42},
- {"a":1,"n":"PHYS 422","t":"Waves and Oscillation","c":3,"s":[23,29,33],"i":43},
- {"a":1,"n":"PHYS 450","t":"Optics Laboratory I","c":2,"s":[23],"i":44},
- {"a":1,"n":"PHYS 445","t":"Introduction to Semiconductor Phyiscs","c":3,"s":[33],"i":45},
- {"a":1,"n":"PHYS 526","t":"Physics Of Quantum Computing And Quantum Information","c":3,"s":[29],"i":46},
- {"a":1,"n":"PHYS 545","t":"Solid State Physics","c":3,"s":[33],"i":47},
- {"a":3,"n":"CHE 32000","t":"Statistical Modeling And Quality Enhancement","c":3,"s":[2,8,20,31,35,42],"i":48},
- {"a":3,"n":"IE 38600","t":"Work Analysis And Design I","c":3,"s":[8,13],"i":49},
- {"a":3,"n":"IE 48600","t":"Work Analysis And Design II","c":3,"s":[8,13],"i":50},
- {"a":3,"n":"IE 49000","t":"Special Topics In Industrial Engineering : Semiconductor Manufacturing and Supply Chain","c":null,"s":[19,38],"i":51},
- {"a":3,"n":"IE 49000","t":"Special Topics In Industrial Engineering : Supply Chain Engineering","c":null,"s":[8,13,31],"i":52},
- {"a":3,"n":"IE 53200","t":"Reliability","c":3,"s":[8,13,31,40],"i":53},
- {"a":3,"n":"IE 53300","t":"Industrial Applications Of Statistics","c":3,"s":[13,19],"i":54},
- {"a":3,"n":"IE 55800","t":"Safety Engineering","c":3,"s":[13,19,40],"i":55},
- {"a":3,"n":"IE 56600","t":"Production Management Control","c":3,"s":[8,13,19,31,35,40],"i":56},
- {"a":3,"n":"IE 58200","t":"Advanced Facilities Design","c":3,"s":[8,9,13,31,40],"i":57},
- {"a":3,"n":"MGMT 26100","t":"Introduction To Supply Chain Management","c":3,"s":[],"i":58},
- {"a":3,"n":"MGMT 40500","t":"Six Sigma And Quality Analytics","c":3,"s":[],"i":59},
- {"a":3,"n":"MGMT 46200","t":"Advanced Manufacturing Planning And Control Systems","c":3,"s":[],"i":60},
- {"a":3,"n":"MGMT 46300","t":"Supply Chain Analytics","c":3,"s":[],"i":61},
- {"a":3,"n":"MGMT 47300","t":"Data Mining","c":3,"s":[],"i":62},
- {"a":3,"n":"MGMT 47400","t":"Predictive Analytics","c":3,"s":[],"i":63},
- {"a":3,"n":"MGMT 47900","t":"Data Visualization","c":null,"s":[],"i":64},
- {"a":2,"n":"CHE 37800","t":"Heat And Mass Transfer","c":4,"s":[9,40],"i":65},
- {"a":2,"n":"CHE 42000","t":"Process Safety Management And Analysis","c":3,"s":[20,27,31,40],"i":66},
- {"a":2,"n":"CHE 45600","t":"Process Dynamics And Control","c":3,"s":[11,20,27,31,36],"i":67},
- {"a":2,"n":"CHE 54000","t":"Transport Penomena","c":3,"s":[9,40],"i":68},
- {"a":2,"n":"CHE 54400","t":"Struct & Behav of Polymer Sys","c":3,"s":[0,6,10,37],"i":69},
- {"a":2,"n":"CHE 59700","t":"Manufacturing Advanced Composites","c":null,"s":[],"i":70},
- {"a":2,"n":"CHM 11500","t":"General Chemistry-I (UCC: SCI)","c":4,"s":[0,10,27,37],"i":71},
- {"a":2,"n":"CHM 11600","t":"General Chemistry-II (UCC: SCI)","c":4,"s":[0,6,10,27,37],"i":72},
- {"a":2,"n":"CHM 34200","t":"Inorganic Chemistry","c":3,"s":[0,10,37],"i":73},
- {"a":2,"n":"CHM 64400","t":"Solid State Chemistry","c":3,"s":[0,37],"i":74},
- {"a":2,"n":"IE 37000","t":"Manufacturing Processes I","c":3,"s":[8,13,19,32,37],"i":75},
- {"a":2,"n":"IE 38300","t":"Integrated Production Systems I","c":3,"s":[13,19,27,32],"i":76},
- {"a":2,"n":"IE 47000","t":"Manufacturing Processes II","c":3,"s":[8,13,19,32,37],"i":77},
- {"a":2,"n":"IE 57000","t":"Manufacturing Process Engineering","c":3,"s":[8,13,19,27,35],"i":78},
- {"a":2,"n":"IE 57900","t":"Design And Control Of Production And Manufacturing Systems","c":3,"s":[8,13,27,35],"i":79},
- {"a":2,"n":"IE 58300","t":"Design And Evaluation Of Material Handling Systems","c":3,"s":[8,13,35],"i":80},
- {"a":2,"n":"ME 363","t":"Principles And Practices Of Manufacturing Processes","c":3,"s":[35],"i":81},
- {"a":2,"n":"ME 557","t":"Design for Manufacturing","c":3,"s":[],"i":82},
- {"a":2,"n":"MSE 23000","t":"Structure & Properties of Materials","c":3,"s":[],"i":83},
- {"a":2,"n":"MSE 33000","t":"Processing And Properties Of Materials","c":3,"s":[19,37],"i":84},
- {"a":2,"n":"MSE 36700","t":"Materials Processing Laboratory","c":3,"s":[37],"i":85},
- {"a":2,"n":"MSE 37000","t":"Electrical, Optical, And Magnetic Properties Of Materials","c":3,"s":[37],"i":86},
- {"a":2,"n":"MSE 49700","t":"Selected Topics In Materials Engineering Electronics Packaging and Heterogeneous Integration (Cross-listed as ME 597/ECE 595/MSE 497)","c":3,"s":[8,19,23,27,37,40],"i":87},
- {"a":2,"n":"MSE 50200","t":"Defects in Solids","c":3,"s":[],"i":88},
- {"a":2,"n":"MSE 51000","t":"Microstructural Characterization Techniques","c":3,"s":[37],"i":89},
- {"a":2,"n":"MSE 52300","t":"Physical Ceramics","c":3,"s":[],"i":90},
- {"a":2,"n":"MSE 54700","t":"Introduction To Surface Science","c":3,"s":[37],"i":91},
- {"a":2,"n":"MSE 54800","t":"Deposition Processing Of Thin Films And Coatings","c":3,"s":[19,37],"i":92},
- {"a":2,"n":"MSE 59700","t":"Magnetic Materials: Physical Properties and Applications","c":null,"s":[],"i":93},
- {"a":2,"n":"MSE 59700","t":"Modeling & Simulation for Materials","c":null,"s":[],"i":94},
- {"a":2,"n":"MSE 59700","t":"Solid State Materials","c":null,"s":[],"i":95},
- {"a":2,"n":"NUCL 42001","t":"Radiation Interaction With Materials And Applications","c":3,"s":[23],"i":96},
- {"a":2,"n":"NUCL 52000","t":"Radiation Effects And Reactor Materials","c":3,"s":[],"i":97},
- {"a":2,"n":"NUCL 55300","t":"Nano-Macro Scale Applications Of Nuclear Technology","c":3,"s":[],"i":98},
- {"a":2,"n":"PHYS 570P","t":"Physics and Material Science of Semiconductor Nanostructures","c":3,"s":[0,33,37],"i":99},
+ {"a":3,"n":"ECE 59500","t":"Introduction to Electronics Packaging and Heterogeneous Integration (Cross-listed as ME 597/ECE 595/MSE 497)","c":null,"s":[6,8,19,23,27,30,37,40],"x":"introductionto","i":0},
+ {"a":3,"n":"ME 50300","t":"Micro-and-Nano Scale Energy Transfer Process","c":3,"s":[40],"i":1},
+ {"a":3,"n":"ME 51100","t":"Heat Transfer in Electronics Packaging","c":3,"s":[27,40],"i":2},
+ {"a":3,"n":"ME 597","t":"Introduction to Electronics Packaging and Heterogeneous Integration (Cross-listed as ME 597/ECE 595/MSE 497)","c":3,"s":[6,8,19,23,27,30,37,40],"x":"introductionto","i":3},
+ {"a":3,"n":"ME 59700","t":"Fundamentals of Microsystems Packaging","c":3,"s":[],"i":4},
+ {"a":3,"n":"PHYS 536","t":"Electronic Techniques for Research","c":4,"s":[4,12],"i":5},
+ {"a":1,"n":"CHE 56400","t":"Organic Electronic Materials And Devices","c":3,"s":[0,6,10,37],"i":6},
+ {"a":2,"n":"ECE 33700","t":"ASIC Design Laboratory","c":2,"s":[1,5,17,33,39,41],"i":7},
+ {"a":2,"n":"ECE 36200","t":"Microprocessor Systems And Interfacing","c":4,"s":[1,33,39],"i":8},
+ {"a":2,"n":"ECE 40655","t":"Digital Integrated Circuit Analysis and Design","c":3,"s":[7,12,33],"x":"digitalintegra","i":9},
+ {"a":2,"n":"ECE 40656","t":"CMOS Analog and Mixed Signal Integrated Circuits","c":3,"s":[4,12,33],"i":10},
+ {"a":2,"n":"ECE 51214","t":"CMOS Analog IC Design","c":3,"s":[4,24],"x":"cmosanalogicde","i":11},
+ {"a":2,"n":"ECE 51220","t":"Applied Algorithms","c":3,"s":[],"i":12},
+ {"a":2,"n":"ECE 55900","t":"MOS VLSI Design","c":3,"s":[7,21,24,33,41],"i":13},
+ {"a":2,"n":"ECE 56800","t":"Embedded Systems","c":3,"s":[1,33],"i":14},
+ {"a":2,"n":"ECE 59500","t":"Computer Vision for Embedded Systems","c":null,"s":[],"i":15},
+ {"a":2,"n":"ECE 59500","t":"CMOS Analog IC Design","c":null,"s":[12,33],"x":"cmosanalogicde","i":16},
+ {"a":2,"n":"ECE 59500","t":"Digital Systems Design Automation","c":null,"s":[12,33],"i":17},
+ {"a":2,"n":"ECE 45500","t":"Integrated Circuit Engineering","c":3,"s":[4,12,33],"i":18},
+ {"a":2,"n":"ECE 45600","t":"Digital Integrated Circuit Analysis And Design","c":3,"s":[7,12,33],"x":"digitalintegra","i":19},
+ {"a":0,"n":"ECE 30500","t":"Semiconductor Devices","c":3,"s":[12,33],"i":20},
+ {"a":0,"n":"ECE 45300","t":"Fundamentals Of Nanoelectronics","c":3,"s":[33],"x":"fundamentalsof","i":21},
+ {"a":0,"n":"ECE 50616","t":"Physics And Manufacturing Of Solar Cells","c":3,"s":[12,15,33],"i":22},
+ {"a":0,"n":"ECE 50631","t":"Fundamentals Of Current Flow","c":1,"s":[12,33],"i":23},
+ {"a":0,"n":"ECE 50632","t":"Introduction to Quantum Transport","c":1,"s":[12],"i":24},
+ {"a":0,"n":"ECE 50633","t":"Boltzmann Law: Physics to Machine Learning","c":1,"s":[12],"i":25},
+ {"a":0,"n":"ECE 50641","t":"Semiconductor Fundamentals","c":1,"s":[12,33],"x":"semiconductorf","i":26},
+ {"a":0,"n":"ECE 55700","t":"Integrated Circuit Fabrication Laboratory [Now ECE 595IC]","c":3,"s":[27,33,37],"i":27},
+ {"a":0,"n":"ECE 50642","t":"Fundamentals of Transistors","c":1,"s":[12,33],"i":28},
+ {"a":0,"n":"ECE 50653","t":"Fundamentals Of Nanoelectronics","c":3,"s":[12,33],"x":"fundamentalsof","i":29},
+ {"a":0,"n":"ECE 59500","t":"Advanced Lithography","c":null,"s":[1,15,39,43],"i":30},
+ {"a":0,"n":"ECE 59500","t":"Essentials of Transistors","c":null,"s":[12,33],"i":31},
+ {"a":0,"n":"ECE 59500","t":"MEMS I: Microfabrication and Materials for MEMS","c":null,"s":[12,15,43],"i":32},
+ {"a":0,"n":"ECE 59500","t":"MEMS II: Fundamentals of MEMS Design","c":null,"s":[12,43],"i":33},
+ {"a":0,"n":"ECE 59500","t":"MEMS III: Applications in MEMS","c":null,"s":[12,43],"i":34},
+ {"a":0,"n":"ECE 59500","t":"Microfabrication Fundamentals","c":null,"s":[15,43],"i":35},
+ {"a":0,"n":"ECE 59500","t":"Primer on Semiconductors","c":null,"s":[12,33],"i":36},
+ {"a":0,"n":"ECE 59500","t":"Semiconductor Fundamentals","c":null,"s":[12,33],"x":"semiconductorf","i":37},
+ {"a":0,"n":"ECE 59500","t":"Semiconductor Manufacturing","c":null,"s":[12,15],"i":38},
+ {"a":0,"n":"ECE 59500","t":"Theory & Practice of Solar Cells: A Cell to System Perspec","c":null,"s":[1,12,15,39],"i":39},
+ {"a":0,"n":"ECE 59500IC","t":"Integrated Circuit/MEMS Fabrication","c":null,"s":[33],"i":40},
+ {"a":0,"n":"PHYS 322","t":"Optics","c":3,"s":[23],"i":41},
+ {"a":0,"n":"PHYS 349","t":"Introduction to Quantum Computing","c":3,"s":[29,33],"i":42},
+ {"a":0,"n":"PHYS 422","t":"Waves and Oscillation","c":3,"s":[23,29,33],"i":43},
+ {"a":0,"n":"PHYS 450","t":"Optics Laboratory I","c":2,"s":[23],"i":44},
+ {"a":0,"n":"PHYS 445","t":"Introduction to Semiconductor Phyiscs","c":3,"s":[33],"i":45},
+ {"a":0,"n":"PHYS 526","t":"Physics Of Quantum Computing And Quantum Information","c":3,"s":[29],"i":46},
+ {"a":0,"n":"PHYS 545","t":"Solid State Physics","c":3,"s":[33],"i":47},
+ {"a":4,"n":"CHE 32000","t":"Statistical Modeling And Quality Enhancement","c":3,"s":[2,8,20,31,35,42],"i":48},
+ {"a":4,"n":"IE 38600","t":"Work Analysis And Design I","c":3,"s":[8,13],"i":49},
+ {"a":4,"n":"IE 48600","t":"Work Analysis And Design II","c":3,"s":[8,13],"i":50},
+ {"a":4,"n":"IE 49000","t":"Special Topics In Industrial Engineering : Semiconductor Manufacturing and Supply Chain","c":null,"s":[19,38],"i":51},
+ {"a":4,"n":"IE 49000","t":"Special Topics In Industrial Engineering : Supply Chain Engineering","c":null,"s":[8,13,31],"i":52},
+ {"a":4,"n":"IE 53200","t":"Reliability","c":3,"s":[8,13,31,40],"i":53},
+ {"a":4,"n":"IE 53300","t":"Industrial Applications Of Statistics","c":3,"s":[13,19],"i":54},
+ {"a":4,"n":"IE 55800","t":"Safety Engineering","c":3,"s":[13,19,40],"i":55},
+ {"a":4,"n":"IE 56600","t":"Production Management Control","c":3,"s":[8,13,19,31,35,40],"i":56},
+ {"a":4,"n":"IE 58200","t":"Advanced Facilities Design","c":3,"s":[8,9,13,31,40],"i":57},
+ {"a":4,"n":"MGMT 26100","t":"Introduction To Supply Chain Management","c":3,"s":[],"i":58},
+ {"a":4,"n":"MGMT 40500","t":"Six Sigma And Quality Analytics","c":3,"s":[],"i":59},
+ {"a":4,"n":"MGMT 46200","t":"Advanced Manufacturing Planning And Control Systems","c":3,"s":[],"i":60},
+ {"a":4,"n":"MGMT 46300","t":"Supply Chain Analytics","c":3,"s":[],"i":61},
+ {"a":4,"n":"MGMT 47300","t":"Data Mining","c":3,"s":[],"i":62},
+ {"a":4,"n":"MGMT 47400","t":"Predictive Analytics","c":3,"s":[],"i":63},
+ {"a":4,"n":"MGMT 47900","t":"Data Visualization","c":null,"s":[],"i":64},
+ {"a":1,"n":"CHE 37800","t":"Heat And Mass Transfer","c":4,"s":[9,40],"i":65},
+ {"a":1,"n":"CHE 42000","t":"Process Safety Management And Analysis","c":3,"s":[20,27,31,40],"i":66},
+ {"a":1,"n":"CHE 45600","t":"Process Dynamics And Control","c":3,"s":[11,20,27,31,36],"i":67},
+ {"a":1,"n":"CHE 54000","t":"Transport Penomena","c":3,"s":[9,40],"i":68},
+ {"a":1,"n":"CHE 54400","t":"Struct & Behav of Polymer Sys","c":3,"s":[0,6,10,37],"i":69},
+ {"a":1,"n":"CHE 59700","t":"Manufacturing Advanced Composites","c":null,"s":[],"i":70},
+ {"a":1,"n":"CHM 11500","t":"General Chemistry-I (UCC: SCI)","c":4,"s":[0,10,27,37],"i":71},
+ {"a":1,"n":"CHM 11600","t":"General Chemistry-II (UCC: SCI)","c":4,"s":[0,6,10,27,37],"i":72},
+ {"a":1,"n":"CHM 34200","t":"Inorganic Chemistry","c":3,"s":[0,10,37],"i":73},
+ {"a":1,"n":"CHM 64400","t":"Solid State Chemistry","c":3,"s":[0,37],"i":74},
+ {"a":1,"n":"IE 37000","t":"Manufacturing Processes I","c":3,"s":[8,13,19,32,37],"i":75},
+ {"a":1,"n":"IE 38300","t":"Integrated Production Systems I","c":3,"s":[13,19,27,32],"i":76},
+ {"a":1,"n":"IE 47000","t":"Manufacturing Processes II","c":3,"s":[8,13,19,32,37],"i":77},
+ {"a":1,"n":"IE 57000","t":"Manufacturing Process Engineering","c":3,"s":[8,13,19,27,35],"i":78},
+ {"a":1,"n":"IE 57900","t":"Design And Control Of Production And Manufacturing Systems","c":3,"s":[8,13,27,35],"i":79},
+ {"a":1,"n":"IE 58300","t":"Design And Evaluation Of Material Handling Systems","c":3,"s":[8,13,35],"i":80},
+ {"a":1,"n":"ME 363","t":"Principles And Practices Of Manufacturing Processes","c":3,"s":[35],"i":81},
+ {"a":1,"n":"ME 557","t":"Design for Manufacturing","c":3,"s":[],"i":82},
+ {"a":1,"n":"MSE 23000","t":"Structure & Properties of Materials","c":3,"s":[],"i":83},
+ {"a":1,"n":"MSE 33000","t":"Processing And Properties Of Materials","c":3,"s":[19,37],"i":84},
+ {"a":1,"n":"MSE 36700","t":"Materials Processing Laboratory","c":3,"s":[37],"i":85},
+ {"a":1,"n":"MSE 37000","t":"Electrical, Optical, And Magnetic Properties Of Materials","c":3,"s":[37],"i":86},
+ {"a":1,"n":"MSE 49700","t":"Selected Topics In Materials Engineering Electronics Packaging and Heterogeneous Integration (Cross-listed as ME 597/ECE 595/MSE 497)","c":3,"s":[8,19,23,27,37,40],"i":87},
+ {"a":1,"n":"MSE 50200","t":"Defects in Solids","c":3,"s":[],"i":88},
+ {"a":1,"n":"MSE 51000","t":"Microstructural Characterization Techniques","c":3,"s":[37],"i":89},
+ {"a":1,"n":"MSE 52300","t":"Physical Ceramics","c":3,"s":[],"i":90},
+ {"a":1,"n":"MSE 54700","t":"Introduction To Surface Science","c":3,"s":[37],"i":91},
+ {"a":1,"n":"MSE 54800","t":"Deposition Processing Of Thin Films And Coatings","c":3,"s":[19,37],"i":92},
+ {"a":1,"n":"MSE 59700","t":"Magnetic Materials: Physical Properties and Applications","c":null,"s":[],"i":93},
+ {"a":1,"n":"MSE 59700","t":"Modeling & Simulation for Materials","c":null,"s":[],"i":94},
+ {"a":1,"n":"MSE 59700","t":"Solid State Materials","c":null,"s":[],"i":95},
+ {"a":1,"n":"NUCL 42001","t":"Radiation Interaction With Materials And Applications","c":3,"s":[23],"i":96},
+ {"a":1,"n":"NUCL 52000","t":"Radiation Effects And Reactor Materials","c":3,"s":[],"i":97},
+ {"a":1,"n":"NUCL 55300","t":"Nano-Macro Scale Applications Of Nuclear Technology","c":3,"s":[],"i":98},
+ {"a":1,"n":"PHYS 570P","t":"Physics and Material Science of Semiconductor Nanostructures","c":3,"s":[0,33,37],"i":99},
 ];
 const VIP=[{"n":"VIP","t":"VIP STARS","s":[4,5,7,11,13,16,17,24,44]},{"n":"VIP","t":"VIP Intro to SOCET","s":[1,2,3,4,5,6,7,11,12,13,14,16,17,18,21,22,26,33,39,41,43,44]},{"n":"VIP","t":"VIP Intro to Semiconductor Manufacturing","s":[]}];
 
@@ -1137,7 +1156,7 @@ const REQUIRED_COURSE = {
   code: 'ENGR 10301',
   name: 'Introduction to Semiconductors',
   credits: 1,
-  desc: 'Weekly small seminars led by faculty designed to introduce a specific topic, problem or discipline of engineering to First-Year Engineering students. Seminars are designed to help students explore a single area of engineering and/or assist in their decision of an engineering degree. Permission of department required.'
+  desc: 'This course will introduce students to semiconductor technology and the broad range of opportunities within the semiconductor industry. Speakers from some of the largest companies in the world including Apple, Tesla, Intel and others will engage students on a weekly basis. Students in the course will develop their personal networks while being presented with resources and opportunities to prepare for exciting careers within the semiconductor industry.'
 };
 
 const TARGET_REQUIRED   = 1;
@@ -1174,9 +1193,15 @@ const esc = s => String(s).replace(/[&<>"']/g, c =>
 
 function courseCredits(c) {
   if (c.c != null) return c.c;
-  return state.credits[c.i] != null ? state.credits[c.i] : 3;
+  return state.credits[c.i] != null ? state.credits[c.i] : 0;
 }
 function isSelected(i) { return state.selected[i] === true; }
+
+/* Variable-credit courses start at 0 — the student has to say what they took.
+   Anything selected but still unset is surfaced rather than silently under-counted. */
+function needsCredits() {
+  return COURSES.filter(c => isSelected(c.i) && c.c == null && !state.credits[c.i]);
+}
 
 function technicalCredits() {
   return COURSES.reduce((sum, c) => isSelected(c.i) ? sum + courseCredits(c) : sum, 0);
@@ -1298,11 +1323,19 @@ function courseRowHTML(c) {
   else if (expanded && ordered.length > CHIPS_COLLAPSED) chips += `<button class="skill-more" data-more="${c.i}">show less</button>`;
   if (!ordered.length) chips = `<span class="skill-none">No skill tags recorded</span>`;
 
+  const unset = c.c == null && !state.credits[c.i];
   const creditControl = c.c != null
     ? `<span class="course-credits-badge">${c.c} CR</span>`
-    : `<select class="credit-picker" data-credit="${c.i}" aria-label="Credit hours for ${esc(c.n)}">
+    : `<select class="credit-picker${unset ? ' unset' : ''}${unset && sel ? ' needed' : ''}"
+               data-credit="${c.i}" aria-label="Credit hours for ${esc(c.n)}"
+               title="This course carries variable credit — choose the number of hours you took.">
+         <option value="0"${unset ? ' selected' : ''}>Set CR</option>
          ${[1,2,3,4].map(v => `<option value="${v}"${courseCredits(c) === v ? ' selected' : ''}>${v} CR</option>`).join('')}
        </select>`;
+
+  const creditHint = unset && sel
+    ? `<div class="credit-hint"><i class="bi bi-arrow-right-short"></i>
+         <span>Variable-credit course — set your credit hours to count it.</span></div>` : '';
 
   const conf = conflictsFor(c);
   const flag = c.x
@@ -1321,6 +1354,7 @@ function courseRowHTML(c) {
           <span class="course-name">${esc(c.t)}</span>
         </div>
         <div class="skill-strip">${chips}</div>
+        ${creditHint}
         ${flag}
       </div>
       ${creditControl}
@@ -1365,16 +1399,18 @@ function renderAreas() {
 ══════════════════════════════════════════════════════════════ */
 function renderSkillCloud() {
   const counts = skillAvailability();
+  /* Skills with nothing left to match are dropped entirely — but an active
+     filter pill always stays put, or there'd be no way to switch it back off. */
   const order = SKILLS.map((name, i) => ({ name, i, n: counts[i] }))
+    .filter(s => s.n > 0 || state.filterSkills.includes(s.i))
     .sort((a, b) => a.name.localeCompare(b.name));
 
   $('skill-cloud').innerHTML = order.map(s => {
     const on = state.filterSkills.includes(s.i);
-    const dim = s.n === 0 && !on ? ' style="opacity:.4"' : '';
-    return `<button class="skill-toggle${on ? ' on' : ''}" data-skill="${s.i}"${dim}>
+    return `<button class="skill-toggle${on ? ' on' : ''}" data-skill="${s.i}">
               ${esc(s.name)} <span class="n">${s.n}</span>
             </button>`;
-  }).join('');
+  }).join('') || '<span class="skills-card-empty">No skills match the current search.</span>';
 
   const cnt = state.filterSkills.length;
   const badge = $('skill-filter-count');
@@ -1402,14 +1438,15 @@ const EXP_PRESETS = [
 
 function renderPresets() {
   $('exp-presets').innerHTML = EXP_PRESETS.map((p, i) =>
-    `<button class="btn-preset" data-preset="${i}"><i class="bi bi-plus"></i> ${esc(p.label)}</button>`).join('');
+    `<button class="btn-preset" data-preset="${i}"><i class="bi bi-plus"></i> ${esc(p.label)}</button>`).join('')
+    + `<button class="btn-preset btn-preset-other" id="btn-add-exp"><i class="bi bi-plus"></i> Other Experience</button>`;
 }
 
 function renderExperience() {
   const list = $('exp-list');
   if (!state.experience.length) {
     list.innerHTML = `<div class="area-empty" style="border:1px dashed var(--border-rule);text-align:center">
-      No experience logged yet. Use a quick-add above, or add your own entry below.</div>`;
+      No experience logged yet. Use one of the options above to get started.</div>`;
   } else {
     list.innerHTML = state.experience.map(e => `
       <div class="exp-entry" data-exp="${e.id}">
@@ -1456,12 +1493,14 @@ function updateTracker() {
   /* Technical */
   const tc = technicalCredits();
   const areas = selectedAreas();
+  const unsetCr = needsCredits();
   const areasMet = areas.size >= MIN_AREAS;
   const crMet = tc >= TARGET_TECHNICAL;
-  const techDone = crMet && areasMet;
+  const techDone = crMet && areasMet && unsetCr.length === 0;
 
   let techStatus;
-  if (techDone) techStatus = `Requirement met · ${areas.size} area${plural(areas.size)}`;
+  if (unsetCr.length) techStatus = `${unsetCr.length} course${plural(unsetCr.length)} still need${unsetCr.length === 1 ? 's' : ''} credit hours`;
+  else if (techDone) techStatus = `Requirement met · ${areas.size} area${plural(areas.size)}`;
   else if (crMet) techStatus = 'Credits met — add a course from a second area';
   else techStatus = `${TARGET_TECHNICAL - tc} more credit${plural(TARGET_TECHNICAL - tc)} needed`;
 
@@ -1503,7 +1542,9 @@ function updateTracker() {
   $('btn-generate').disabled = !allDone;
   $('btn-generate').innerHTML = allDone
     ? '<i class="bi bi-file-earmark-text"></i> Generate plan of study'
-    : '<i class="bi bi-lock"></i> Complete all requirements to generate';
+    : unsetCr.length
+      ? '<i class="bi bi-lock"></i> Set credit hours to generate'
+      : '<i class="bi bi-lock"></i> Complete all requirements to generate';
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -1640,20 +1681,21 @@ $('btn-clear-filters').addEventListener('click', () => {
 
 /* Experience */
 $('exp-presets').addEventListener('click', e => {
-  const b = e.target.closest('[data-preset]');
-  if (!b) return;
-  const p = EXP_PRESETS[Number(b.dataset.preset)];
-  state.experience.push({ id: expSeq++, name: p.name, credits: p.credits, skills: p.skills || [] });
-  renderExperience();
-  update();
-});
-
-$('btn-add-exp').addEventListener('click', () => {
-  state.experience.push({ id: expSeq++, name: '', credits: 3, skills: [] });
-  renderExperience();
-  update();
-  const inputs = $('exp-list').querySelectorAll('[data-exp-name]');
-  if (inputs.length) inputs[inputs.length - 1].focus();
+  const preset = e.target.closest('[data-preset]');
+  if (preset) {
+    const p = EXP_PRESETS[Number(preset.dataset.preset)];
+    state.experience.push({ id: expSeq++, name: p.name, credits: p.credits, skills: p.skills || [] });
+    renderExperience();
+    update();
+    return;
+  }
+  if (e.target.closest('#btn-add-exp')) {
+    state.experience.push({ id: expSeq++, name: '', credits: 3, skills: [] });
+    renderExperience();
+    update();
+    const inputs = $('exp-list').querySelectorAll('[data-exp-name]');
+    if (inputs.length) inputs[inputs.length - 1].focus();   /* land the cursor in the blank row */
+  }
 });
 
 $('exp-list').addEventListener('input', e => {
