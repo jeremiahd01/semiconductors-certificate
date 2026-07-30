@@ -344,6 +344,14 @@
     .area-caret { font-size: 0.85rem; color: var(--pu-aged-deep); transition: transform 0.18s ease; flex-shrink: 0; }
     .area-group.collapsed .area-caret { transform: rotate(-90deg); }
     .area-group.collapsed .area-body { display: none; }
+    /* Name and tally travel together so they can stack on narrow screens */
+    .area-head-text {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
     .area-name {
       flex: 1;
       font-family: var(--pu-font-sans-cd);
@@ -763,6 +771,16 @@
       .skills-card { margin-top: 11px; }
       .page-header { padding-top: 24px; }
     }
+    /* Below this the nowrap tally competes with the full area name for width and
+       squeezes it to six lines — stack them instead. */
+    @media (max-width: 640px) {
+      .area-head-text { flex-direction: column; align-items: flex-start; gap: 3px; }
+      .area-name { flex: none; }
+      .area-head { align-items: flex-start; padding: 12px 14px; }
+      .area-caret { margin-top: 3px; }
+      .area-count-badge { margin-top: 2px; }
+    }
+
     @media (max-width: 560px) {
       .app-outer { padding: 0 14px 48px; }
       .course-row { padding: 11px 8px; }
@@ -799,7 +817,9 @@
     .ps-table { width: 100%; border-collapse: collapse; font-size: 9pt; }
     .ps-table td { padding: 4px 6px; border-bottom: 1px solid #EEE; vertical-align: top; }
     .ps-table td.ps-code { width: 88px; font-weight: 700; color: var(--pu-aged-deep); white-space: nowrap; }
-    .ps-table td.ps-area { width: 118px; font-size: 7.8pt; color: #666; }
+    /* Area sits under the course title rather than in its own column — the full
+       area names wrap to five lines in a narrow column and inflate every row. */
+    .ps-table .ps-area { display: block; font-size: 7.6pt; color: #6A6A6A; margin-top: 1px; }
     .ps-table td.ps-cr { width: 46px; text-align: right; white-space: nowrap; }
     .ps-empty { font-size: 9pt; color: #888; font-style: italic; padding: 4px 6px; }
     .ps-totals {
@@ -1423,8 +1443,10 @@ function renderAreas() {
       <div class="area-group${collapsed ? ' collapsed' : ''}${selCount ? ' has-selected' : ''}" data-area="${ai}">
         <button class="area-head" data-toggle-area="${ai}" aria-expanded="${!collapsed}">
           <i class="bi bi-chevron-down area-caret"></i>
-          <span class="area-name">${esc(a.short)}</span>
-          <span class="area-tally">${list.length === total ? total : list.length + ' of ' + total} course${total === 1 ? '' : 's'}${selCount ? ` · <b>${selCr} cr selected</b>` : ''}</span>
+          <span class="area-head-text">
+            <span class="area-name">${esc(a.short)}</span>
+            <span class="area-tally">${list.length === total ? total : list.length + ' of ' + total} course${total === 1 ? '' : 's'}${selCount ? ` · <b>${selCr} cr selected</b>` : ''}</span>
+          </span>
           <span class="area-count-badge${selCount ? '' : ' zero'}">${selCount}</span>
         </button>
         <div class="area-body">
@@ -1799,9 +1821,12 @@ $('btn-reset').addEventListener('click', () => {
 /* ══════════════════════════════════════════════════════════════
    PLAN OF STUDY / PRINT
 ══════════════════════════════════════════════════════════════ */
+const PS_COLS = 3;
+
 function psRow(code, name, area, cr) {
-  return `<tr><td class="ps-code">${esc(code)}</td><td>${esc(name)}</td>` +
-         `<td class="ps-area">${esc(area || '')}</td><td class="ps-cr">${esc(cr)}</td></tr>`;
+  return `<tr><td class="ps-code">${esc(code)}</td>` +
+         `<td>${esc(name)}${area ? `<span class="ps-area">${esc(area)}</span>` : ''}</td>` +
+         `<td class="ps-cr">${esc(cr)}</td></tr>`;
 }
 
 $('btn-generate').addEventListener('click', () => {
@@ -1813,12 +1838,12 @@ $('btn-generate').addEventListener('click', () => {
   const tech = COURSES.filter(c => isSelected(c.i));
   $('ps-technical').innerHTML = tech.length
     ? tech.map(c => psRow(c.n, c.t, AREAS[c.a].short, courseCredits(c) + ' cr')).join('')
-    : `<tr><td colspan="4" class="ps-empty">None selected</td></tr>`;
+    : `<tr><td colspan="${PS_COLS}" class="ps-empty">None selected</td></tr>`;
 
   const exp = state.experience.filter(e => e.name.trim());
   $('ps-experience').innerHTML = exp.length
     ? exp.map(e => psRow('—', e.name, '', e.credits + ' cr')).join('')
-    : `<tr><td colspan="4" class="ps-empty">None recorded</td></tr>`;
+    : `<tr><td colspan="${PS_COLS}" class="ps-empty">None recorded</td></tr>`;
 
   $('ps-total').textContent = countedTotal();
 

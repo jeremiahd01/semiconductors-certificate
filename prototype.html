@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Purdue Semiconductor Certificate Planner</title>
+    <link rel="stylesheet" href="styles.css?v=20260303" />
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  </head>
+  <body>
+    <header class="app-header">
+      <h1>Purdue Semiconductor Certificate Planner</h1>
+      <p>Filter courses by category, topic, and skillset, then build a plan that meets certificate requirements.</p>
+    </header>
+
+    <main class="layout">
+      <section class="panel upload-panel">
+        <h2>1) Load Course Workbook</h2>
+        <p>The current certificate catalog loads by default.</p>
+        <div class="upload-controls">
+          <input id="fileInput" type="file" accept=".xlsx,.xls" />
+          <button id="clearDataBtn" class="secondary">Clear Data</button>
+        </div>
+        <div id="loadStatus" class="status">No workbook loaded.</div>
+      </section>
+
+      <section class="panel filters-panel">
+        <div class="panel-header">
+          <h2>2) Filter Courses</h2>
+          <button id="resetFiltersBtn" class="secondary" type="button">Reset Filters</button>
+        </div>
+        <div class="filters-grid">
+          <label>
+            Course Level
+            <select id="courseLevelFilter">
+              <option value="">All levels</option>
+            </select>
+          </label>
+
+          <label>
+            Category
+            <select id="categoryFilter">
+              <option value="">All categories</option>
+            </select>
+          </label>
+
+          <label>
+            Topic
+            <select id="topicFilter">
+              <option value="">All topics</option>
+            </select>
+          </label>
+
+          <label>
+            Skillset
+            <select id="skillFilter">
+              <option value="">All skillsets</option>
+            </select>
+          </label>
+
+          <label>
+            Search title or course number
+            <input id="searchFilter" type="text" placeholder="e.g., ECE 595 or Packaging" />
+          </label>
+        </div>
+        <div id="resultCount" class="hint">0 courses shown.</div>
+      </section>
+
+      <section class="panel table-panel">
+        <h2>3) Courses</h2>
+        <p class="hint">The Catalog button will open the Purdue course catalog for more details, so you can verify prerequisites0 and course descriptions. Special topics courses (often starting with 497, 595, and 597, and PHYS 570), the catalog page shows the generic special topics course description and you will need to refer to department-specific webpages for updated information.</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Course</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Topics</th>
+                <th>Skillsets</th>
+                <th>Credits</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="courseTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel planner-panel">
+        <div class="panel-header">
+          <h2>4) Student Plan</h2>
+          <button id="resetPlanBtn" class="secondary" type="button">Reset Plan</button>
+        </div>
+        <p>Add courses and set credit hours where needed. Specific VIP courses and certain other coureses have variable credit hours that need to be manually updated.</p>
+        <div id="selectedCourses" class="selected-list"></div>
+        <div class="requirements">
+          <div id="creditSummary">Credits: 0 / 9</div>
+          <div id="categorySummary">Categories covered: 0 / 2</div>
+          <div id="requirementStatus" class="status warning">Requirement not yet met.</div>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js?v=20260303"></script>
+  </body>
+</html>
