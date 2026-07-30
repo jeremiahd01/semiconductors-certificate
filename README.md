@@ -37,6 +37,7 @@ is considered equivalent to the full 6 credit hours.
 - Collapsed skill chips per course (`+N more`), with filter-matched skills promoted and highlighted
 - Credit pickers for variable-credit special-topics courses, defaulting to unset so hours
   are never silently assumed
+- **Catalog deep link** on every course row, opening that course in the myPurdue catalog
 - Live **area-breadth meter** enforcing the 2-of-5 rule
 - Running **Skills You'll Gain** profile accumulated across all selections
 - Autosave to `localStorage`; plans survive a page reload
@@ -137,6 +138,32 @@ area can be abbreviated later without a schema change or a spreadsheet edit.
 Bump `schemaVersion` on any breaking shape change, and update `SCHEMA_VERSION` in both
 `index.html` and `admin.html`. The builder refuses versions it doesn't recognise and
 falls back rather than misreading them.
+
+### Course catalog links — `CATALOG_TERM` needs a bump each year
+
+Every course row deep-links into the myPurdue self-service catalog:
+
+```
+https://selfservice.mypurdue.purdue.edu/prod/bwckctlg.p_disp_course_detail
+  ?cat_term_in=202620&subj_code_in=ECE&crse_numb_in=30500
+```
+
+The URL is derived from the course number at render time — nothing extra is stored in
+the spreadsheet or the JSON. `catalogUrl()` in `index.html` takes the subject letters
+and digits and discards section suffixes the catalog doesn't recognise
+(`ECE 59500IC` → `59500`, `PHYS 570P` → `57000`), then pads three-digit numbers to five
+(`ME 597` → `59700`). All 100 current courses produce a valid link.
+
+**`CATALOG_TERM` is a hardcoded Purdue term code** (`YYYYTT`, currently `202620`). It is
+deliberately *not* part of the uploaded course data, since it is not something the
+spreadsheet knows about — but that means it does not update itself. When the catalog
+rolls to a new term, edit the constant near the top of the `<script>` block in
+`index.html`. Leaving it stale doesn't break the page; links just resolve against an
+older term.
+
+Special-topics numbers (ECE 59500, MSE 59700, PHYS 570P and similar) land on the
+catalog's generic special-topics entry rather than the specific offering. That is a
+limitation of the catalog, not the link — students need the department page for those.
 
 ### Validation
 

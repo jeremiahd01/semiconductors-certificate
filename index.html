@@ -221,6 +221,30 @@
     .course-name { font-size: 0.92rem; line-height: 1.4; color: var(--text-primary); }
     .course-row.selected .course-name { font-weight: 500; }
 
+    /* Catalog deep link — quiet until hovered so it doesn't compete with the title */
+    .catalog-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+      font-size: 0.7rem;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      white-space: nowrap;
+      transition: color 0.14s ease, border-color 0.14s ease;
+    }
+    .catalog-link i { font-size: 0.66rem; }
+    .catalog-link:hover,
+    .catalog-link:focus-visible {
+      color: var(--pu-aged-deep);
+      border-bottom-color: var(--pu-aged);
+    }
+    .catalog-link:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--gold-glow); border-radius: 2px; }
+    .course-row:hover .catalog-link { color: var(--pu-aged-deep); }
+    @media print { .catalog-link { display: none; } }
+
     .course-credits-badge {
       flex-shrink: 0;
       align-self: flex-start;
@@ -774,6 +798,8 @@
     /* Below this the nowrap tally competes with the full area name for width and
        squeezes it to six lines — stack them instead. */
     @media (max-width: 640px) {
+      /* The link drops to its own line here — give it a real tap target */
+      .catalog-link { padding: 6px 0; }
       .area-head-text { flex-direction: column; align-items: flex-start; gap: 3px; }
       .area-name { flex: none; }
       .area-head { align-items: flex-start; padding: 12px 14px; }
@@ -1223,6 +1249,32 @@ const REQUIRED_COURSE = {
   desc: 'This course will introduce students to semiconductor technology and the broad range of opportunities within the semiconductor industry. Speakers from some of the largest companies in the world including Apple, Tesla, Intel and others will engage students on a weekly basis. Students in the course will develop their personal networks while being presented with resources and opportunities to prepare for exciting careers within the semiconductor industry.'
 };
 
+/* ── Purdue course catalog ───────────────────────────────────────
+   Deep link into the myPurdue self-service catalog, matching the
+   scheme used by the certificate planner prototype.
+
+   CATALOG_TERM is a Purdue term code (YYYYTT) and IS NOT part of the
+   uploaded course data — it must be bumped by hand when the catalog
+   rolls to a new term, or every link starts pointing at a stale one.
+   202620 verified working. */
+const CATALOG_TERM = '202620';
+const CATALOG_URL_BASE = 'https://selfservice.mypurdue.purdue.edu/prod/bwckctlg.p_disp_course_detail';
+
+/* Course numbers here carry section suffixes the catalog doesn't know
+   ("ECE 59500IC", "PHYS 570P"), so take only SUBJ + digits. Three-digit
+   numbers are catalogued as five ("ME 597" -> 59700). */
+function catalogUrl(courseNumber) {
+  const m = String(courseNumber || '').match(/([A-Za-z]{2,4})\s*(\d{3,5})/);
+  if (!m) return '';
+  const subject = m[1].toUpperCase();
+  const number = m[2].length === 3 ? m[2] + '00' : m[2];
+  return `${CATALOG_URL_BASE}?${new URLSearchParams({
+    cat_term_in: CATALOG_TERM,
+    subj_code_in: subject,
+    crse_numb_in: number
+  })}`;
+}
+
 const TARGET_REQUIRED   = 1;
 const TARGET_TECHNICAL  = 9;
 const TARGET_EXPERIENCE = 6;
@@ -1356,6 +1408,7 @@ function renderRequired() {
         <div class="course-line1">
           <span class="course-code">${esc(r.code)}</span>
           <span class="course-name">${esc(r.name)}</span>
+          ${catalogLinkHTML({ n: r.code })}
         </div>
         <div class="course-desc">${esc(r.desc)}</div>
       </div>
@@ -1371,6 +1424,14 @@ function renderRequired() {
 /* ══════════════════════════════════════════════════════════════
    RENDER — technical area groups
 ══════════════════════════════════════════════════════════════ */
+function catalogLinkHTML(c) {
+  const url = catalogUrl(c.n);
+  if (!url) return '';
+  return `<a class="catalog-link" href="${esc(url)}" target="_blank" rel="noopener noreferrer"
+             aria-label="View ${esc(c.n)} in the Purdue course catalog (opens in a new tab)"
+          >Catalog<i class="bi bi-box-arrow-up-right"></i></a>`;
+}
+
 function courseRowHTML(c) {
   const sel = isSelected(c.i);
   const expanded = state.expanded[c.i];
@@ -1416,6 +1477,7 @@ function courseRowHTML(c) {
         <div class="course-line1">
           <span class="course-code">${esc(c.n)}</span>
           <span class="course-name">${esc(c.t)}</span>
+          ${catalogLinkHTML(c)}
         </div>
         <div class="skill-strip">${chips}</div>
         ${creditHint}
