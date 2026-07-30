@@ -228,12 +228,15 @@ const SCHEMA_VERSION = 1;
 const SHEET_NAME = 'website';
 const MAX_BYTES = 12 * 1024 * 1024;
 
+/* `short` is what the builder prints in area headings, the breadth tooltips and the
+   printed plan. It currently mirrors `label` — the program asked for full names — but
+   stays a separate field so any one area can be shortened again without a schema change. */
 const AREA_POLICY = [
-  { id:'dev', label:'Semiconductor and Microelectronic Devices',                            short:'Devices' },
-  { id:'mat', label:'Semiconductor Materials, Characterization, and Processing',            short:'Materials & Processing' },
-  { id:'ic',  label:'Integrated Circuit & System Design, Electronic Design Automation',     short:'IC Design & EDA' },
-  { id:'pkg', label:'Electronics Packaging, Heterogeneous Integration, and Thermal Management', short:'Packaging & Thermal' },
-  { id:'mfg', label:'Semiconductor Manufacturing and Global Supply Chain Management',       short:'Manufacturing & Supply Chain' },
+  { id:'dev', label:'Semiconductor and Microelectronic Devices',                                short:'Semiconductor and Microelectronic Devices' },
+  { id:'mat', label:'Semiconductor Materials, Characterization, and Processing',                short:'Semiconductor Materials, Characterization, and Processing' },
+  { id:'ic',  label:'Integrated Circuit & System Design, Electronic Design Automation',         short:'Integrated Circuit & System Design, Electronic Design Automation' },
+  { id:'pkg', label:'Electronics Packaging, Heterogeneous Integration, and Thermal Management', short:'Electronics Packaging, Heterogeneous Integration, and Thermal Management' },
+  { id:'mfg', label:'Semiconductor Manufacturing and Global Supply Chain Management',           short:'Semiconductor Manufacturing and Global Supply Chain Management' },
 ];
 const AREA_BY_LABEL = new Map(AREA_POLICY.map((a, i) => [a.label.toLowerCase(), i]));
 

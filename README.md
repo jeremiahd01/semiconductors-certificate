@@ -101,9 +101,14 @@ The consequence is that a semester upload can only change *which courses exist*.
 cannot change what the certificate requires. Credit targets are never read from the
 JSON, so no uploaded file can alter them.
 
-Note that area display order and the short labels ("Devices", "Packaging & Thermal")
-are **not** in the spreadsheet — they live in `AREA_POLICY`. To reorder or rename an
-area, edit that list in `admin.html` and re-run the conversion.
+Note that area display order and the displayed labels are **not** in the spreadsheet —
+they live in `AREA_POLICY`. To reorder or rename an area, edit that list in `admin.html`
+and re-run the conversion.
+
+Each area carries both a `label` (the canonical name matched against the spreadsheet)
+and a `short` (what the builder displays). They are currently identical, since the
+program asked for full names throughout. `short` is kept as its own field so any one
+area can be abbreviated later without a schema change or a spreadsheet edit.
 
 ### `course-data.json` schema (version 1)
 
