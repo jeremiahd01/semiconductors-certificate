@@ -76,16 +76,21 @@
     }
 
     /* ─── Layout ─────────────────────────────────────────────── */
+    /* Grid rather than flex so the tracker can sit beside the content on wide
+       screens but between the course sections and the action buttons on narrow
+       ones — the three blocks are placed independently at each width. */
     .app-outer {
-      display: flex;
-      align-items: flex-start;
-      gap: 28px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) var(--tracker-width);
+      column-gap: 28px;
       max-width: 1380px;
       margin: 0 auto;
       padding: 0 32px 80px;
     }
-    .page-wrapper { flex: 1; min-width: 0; position: relative; z-index: 1; }
-    .tracker-column { flex-shrink: 0; width: var(--tracker-width); align-self: stretch; }
+    .page-wrapper   { grid-column: 1; grid-row: 1; min-width: 0; position: relative; z-index: 1; }
+    /* Spans both rows so the sticky tracker has the full content height to travel */
+    .tracker-column { grid-column: 2; grid-row: 1 / span 2; }
+    .action-block   { grid-column: 1; grid-row: 2; min-width: 0; }
 
     /* ─── Header ─────────────────────────────────────────────── */
     .page-header {
@@ -836,8 +841,12 @@
 
     /* ─── Responsive ─────────────────────────────────────────── */
     @media (max-width: 1080px) {
-      .app-outer { flex-direction: column-reverse; padding: 0 20px 60px; }
-      .tracker-column { width: 100%; align-self: auto; }
+      /* One column: course sections, then the tracker, then the buttons — so the
+         student sees where they stand immediately before deciding to generate. */
+      .app-outer { grid-template-columns: minmax(0, 1fr); padding: 0 20px 60px; }
+      .page-wrapper   { grid-column: 1; grid-row: 1; }
+      .tracker-column { grid-column: 1; grid-row: 2; width: 100%; }
+      .action-block   { grid-column: 1; grid-row: 3; }
       #tracker { position: static; }
       .tracker-header { padding-top: 32px; }
       .tracker-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 11px; }
@@ -1083,16 +1092,6 @@
     </div>
   </div>
 
-  <div class="action-row">
-    <button class="btn-generate" id="btn-generate" disabled>
-      <i class="bi bi-file-earmark-text"></i> Generate plan of study
-    </button>
-    <button class="btn-reset" id="btn-reset"><i class="bi bi-arrow-counterclockwise"></i> Reset</button>
-    <span class="save-note" id="save-note"></span>
-  </div>
-
-  <div class="data-stamp" id="data-stamp"></div>
-
 </div><!-- /page-wrapper -->
 
 <!-- ─── TRACKER ─────────────────────────────────────────── -->
@@ -1169,6 +1168,20 @@
     </div>
   </div>
 </div><!-- /tracker-column -->
+
+<!-- Sits outside .page-wrapper so the grid can drop the tracker between the
+     course sections and these buttons once the layout goes single-column. -->
+<div class="action-block">
+  <div class="action-row">
+    <button class="btn-generate" id="btn-generate" disabled>
+      <i class="bi bi-file-earmark-text"></i> Generate plan of study
+    </button>
+    <button class="btn-reset" id="btn-reset"><i class="bi bi-arrow-counterclockwise"></i> Reset</button>
+    <span class="save-note" id="save-note"></span>
+  </div>
+
+  <div class="data-stamp" id="data-stamp"></div>
+</div><!-- /action-block -->
 
 </div><!-- /app-outer -->
 
