@@ -135,7 +135,39 @@
       color: var(--text-muted);
       max-width: 640px;
       line-height: 1.65;
+      margin-bottom: 0;
     }
+    /* Three rendered lines, whatever the width — the box model does the counting
+       so the cut stays correct as the measure changes. */
+    .page-subtitle.is-clamped {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      overflow: hidden;
+    }
+    .subtitle-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 8px;
+      padding: 3px 0;
+      background: none;
+      border: none;
+      font-family: var(--pu-font-sans);
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--pu-aged-deep);
+      cursor: pointer;
+      transition: color 0.14s ease;
+    }
+    .subtitle-toggle[hidden] { display: none; }
+    .subtitle-toggle i { font-size: 0.7rem; transition: transform 0.18s ease; }
+    .subtitle-toggle[aria-expanded="true"] i { transform: rotate(180deg); }
+    .subtitle-toggle:hover { color: var(--pu-black); }
+    .subtitle-toggle:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--gold-glow); border-radius: 2px; }
     .requirement-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
     .req-pill {
       font-size: 0.75rem;
@@ -994,11 +1026,24 @@
   <div class="page-header">
     <div class="overline">Purdue University · College of Engineering</div>
     <h1 class="page-title">Semiconductors &amp; Microelectronics<br><span>Certificate Program</span></h1>
-    <p class="page-subtitle">
-      Build your plan of study. Select the required seminar, choose technical-area coursework
-      across at least two certificate areas, and log your semiconductor experience — the tracker
-      updates as you go.
+    <p class="page-subtitle is-clamped" id="page-subtitle">
+      The Certificate in Semiconductors and Microelectronics is open to students in all
+      undergraduate majors interested in careers in the field of semiconductors and
+      microelectronics. This certificate give undergraduate students broad technical
+      exposure to topics in the areas of semiconductors and microelectronics and is
+      designed to supplement the baccalaureate plans of studies in different majors,
+      including (but not limited to) engineering, computer science, physics, chemistry,
+      technology, and business. The U.S. semiconductor and microelectronics industry is
+      facing an overwhelming and rapidly growing crunch for trained talent. The broad
+      scope of the semiconductors and microelectronics industry - from materials and
+      processing to device and integrated circuit/system design, to manufacturing, supply
+      chains, and data analytics, to testing, qualification, packaging, and thermal
+      management - provides exciting career opportunities for students from a wide range
+      of disciplines.
     </p>
+    <button class="subtitle-toggle" id="subtitle-toggle" aria-expanded="false" aria-controls="page-subtitle">
+      <span id="subtitle-toggle-text">Read more</span><i class="bi bi-chevron-down"></i>
+    </button>
     <div class="requirement-pills">
       <div class="req-pill"><strong>1</strong> required seminar course</div>
       <div class="req-pill"><strong>9</strong> technical area credits</div>
@@ -1842,6 +1887,32 @@ $('area-groups').addEventListener('click', e => {
     if (again) again.focus({ preventScroll: true });
   }
 });
+
+/* ── Page subtitle "read more" ─────────────────────────────────
+   The control is hidden when the copy already fits in three lines, so
+   shortening the text later doesn't leave a toggle that does nothing. */
+(function () {
+  const para = $('page-subtitle');
+  const btn = $('subtitle-toggle');
+  const label = $('subtitle-toggle-text');
+  if (!para || !btn) return;
+
+  function syncVisibility() {
+    if (!para.classList.contains('is-clamped')) return;   /* expanded — keep the control */
+    btn.hidden = para.scrollHeight <= para.clientHeight + 1;
+  }
+
+  btn.addEventListener('click', () => {
+    const clamped = para.classList.toggle('is-clamped');
+    btn.setAttribute('aria-expanded', String(!clamped));
+    label.textContent = clamped ? 'Read more' : 'Show less';
+  });
+
+  syncVisibility();
+  /* a webfont swapping in changes the line count, so re-measure once it lands */
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncVisibility);
+  window.addEventListener('resize', syncVisibility);
+})();
 
 $('search-input').addEventListener('input', function () {
   state.search = this.value.trim();
