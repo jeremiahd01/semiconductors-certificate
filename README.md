@@ -11,7 +11,7 @@ tracker shows how close they are to meeting every certificate requirement.
 | `index.html` | The student-facing builder |
 | `admin.html` | Converts the semester spreadsheet into `course-data.json` |
 | `course-data.json` | The published course catalog the builder reads |
-| `course_data.xlsx` | Source spreadsheet, maintained by the program |
+| `semiconductors_course_data_2026_09_24.xlsx` | Source spreadsheet, maintained by the program |
 
 All four are static files. There is no build step and no server-side code — they can be
 uploaded to a Zope folder as File objects and served directly.
@@ -38,6 +38,7 @@ is considered equivalent to the full 6 credit hours.
 - Credit pickers for variable-credit special-topics courses, defaulting to unset so hours
   are never silently assumed
 - **Catalog deep link** on every course row, opening that course in the myPurdue catalog
+- **Details disclosure** per course — description, prerequisites, and other restrictions
 - Live **area-breadth meter** enforcing the 2-of-5 rule
 - Running **Skills You'll Gain** profile accumulated across all selections
 - Autosave to `localStorage`; plans survive a page reload
@@ -51,7 +52,7 @@ is considered equivalent to the full 6 credit hours.
 
 Each semester:
 
-1. Edit `course_data.xlsx` as usual — the **`website`** tab is the one that matters
+1. Edit the course workbook as usual — the **`Updated`** tab holds the course rows and the **`Data`** tab holds the catalog addresses
 2. Open **`admin.html`** in a browser and drop the spreadsheet onto it
 3. Read the report. Warnings are informational; **errors block publishing** until fixed
 4. Click **Download course-data.json**
@@ -111,7 +112,7 @@ and a `short` (what the builder displays). They are currently identical, since t
 program asked for full names throughout. `short` is kept as its own field so any one
 area can be abbreviated later without a schema change or a spreadsheet edit.
 
-### `course-data.json` schema (version 1)
+### `course-data.json` schema (version 2)
 
 ```jsonc
 {
@@ -123,47 +124,54 @@ area can be abbreviated later without a schema change or a spreadsheet edit.
   "skills": ["Advanced Materials", "..."],          // index-addressed
   "areas":  [{ "id": "dev", "label": "...", "short": "Devices" }],
   "courses": [{
-    "a": 0,             // index into areas
+    "a": 0,             // index into areas — Primary Certificate Category
+    "a2": null,         // Secondary Certificate Category, or null. Stored, not yet displayed
     "n": "ECE 30500",   // course number
     "t": "Semiconductor Devices",
     "c": 3,             // credits, or null for variable-credit
     "s": [12, 33],      // indices into skills
-    "i": 0,             // stable row index
-    "x": "digitalinteg" // optional: shared-title group key
+    "d": "...",         // course description   ─┐ shown in the row's
+    "p": "...",         // prerequisites         ├─ "Details" panel,
+    "r": "...",         // other restrictions   ─┘  in this order
+    "u": "https://...", // catalog link, or "" — always http(s)
+    "x": "digitalinteg",// optional: shared-title group key
+    "i": 0              // stable row index
   }],
-  "vip": [{ "n": "VIP", "t": "VIP STARS", "s": [4, 5] }]
+  "vip": [{ "n": "VIP", "t": "VIP STARS", "s": [4, 5], "d": "", "p": "", "r": "", "u": "" }]
 }
 ```
 
-Bump `schemaVersion` on any breaking shape change, and update `SCHEMA_VERSION` in both
-`index.html` and `admin.html`. The builder refuses versions it doesn't recognise and
+Version 2 added `a2`, `d`, `p`, `r` and `u`. Bump `schemaVersion` on any breaking shape
+change, and update `SCHEMA_VERSION` in both `index.html` and `admin.html`. The builder refuses versions it doesn't recognise and
 falls back rather than misreading them.
 
-### Course catalog links — `CATALOG_TERM` needs a bump each year
+### Course catalog links
 
-Every course row deep-links into the myPurdue self-service catalog:
+Each course carries its own catalog address in the published JSON (`u`), taken from the
+workbook. Nothing is derived from the course number and there is no term code to
+maintain in the code — when the catalog rolls to a new term, the spreadsheet's links
+change and the next publish picks them up.
+
+**The address is not in the cell you would expect.** Column K on the `Updated` tab is
 
 ```
-https://selfservice.mypurdue.purdue.edu/prod/bwckctlg.p_disp_course_detail
-  ?cat_term_in=202620&subj_code_in=ECE&crse_numb_in=30500
+=IF(IFNA(VLOOKUP(C3,Data!A:H,7,FALSE),"")=0,"",
+    IFNA(HYPERLINK(VLOOKUP(C3,Data!A:H,7,FALSE),"Catalog Link"),""))
 ```
 
-The URL is derived from the course number at render time — nothing extra is stored in
-the spreadsheet or the JSON. `catalogUrl()` in `index.html` takes the subject letters
-and digits and discards section suffixes the catalog doesn't recognise
-(`ECE 59500IC` → `59500`, `PHYS 570P` → `57000`), then pads three-digit numbers to five
-(`ME 597` → `59700`). All 100 current courses produce a valid link.
+so the cell's cached value — which is all a reader of the file can see — is the literal
+words `Catalog Link`. The converter therefore redoes that lookup itself: it matches the
+**ID#** in column C against the key column of the `Data` tab and reads the address from
+there. If the `Data` tab is missing, the converter warns and publishes without links
+rather than failing.
 
-**`CATALOG_TERM` is a hardcoded Purdue term code** (`YYYYTT`, currently `202620`). It is
-deliberately *not* part of the uploaded course data, since it is not something the
-spreadsheet knows about — but that means it does not update itself. When the catalog
-rolls to a new term, edit the constant near the top of the `<script>` block in
-`index.html`. Leaving it stale doesn't break the page; links just resolve against an
-older term.
+Only `http://` and `https://` addresses are ever emitted. The address comes from a
+workbook and lands in an `href`, so `javascript:` and `data:` values are an injection
+vector; both the converter and the builder reject anything else, and the builder's
+renderer refuses a bad link a second time even if one somehow reached the JSON.
 
-Special-topics numbers (ECE 59500, MSE 59700, PHYS 570P and similar) land on the
-catalog's generic special-topics entry rather than the specific offering. That is a
-limitation of the catalog, not the link — students need the department page for those.
+Courses with no address simply show no Catalog link. ENGR 10301 is not in the workbook —
+it is defined in `index.html`, and so is its link.
 
 ### Validation
 
@@ -208,27 +216,36 @@ track every semester publish, since its job is to be a known-good floor, not cur
 
 **Structure**
 
-- The tab must be named `website`. Case and surrounding spaces are forgiven
-  (`Website` works); any other name is an error.
-- Row 1 — skill names, from column **F** onward. Must be unique. A column with marks
-  but no name in row 1 is ignored.
+- Course rows are read from the tab named `Updated`; catalog addresses come from the
+  tab named `Data`. Case and surrounding spaces are forgiven. A missing `Updated` tab
+  is an error; a missing `Data` tab only costs the catalog links.
+- Row 1 — skill names, from column **N** onward (through BL). Must be unique. A column
+  with marks but no name in row 1 is ignored, with a warning.
 - Row 2 — headers. **Read positionally, not by name** — the text in row 2 is never
   checked, so renaming a header is harmless but *moving, inserting, or deleting a
-  column in A–E breaks everything.*
+  column in A–M breaks everything.*
 - Rows 3+ — one course per row. Blank rows are fine and don't shift row numbering.
 
-**Columns A–E are fixed**
+**Columns A–M are fixed**
 
-| Col | Field | Rules |
-|---|---|---|
-| A | `Certificate` | Must be `Yes` (any case) to be included. `No` is silently excluded; anything else is excluded **with a warning**. |
-| B | `Primary Certificate Area` | Must match one of the five canonical labels. Case and extra spaces forgiven; punctuation is not. Mismatch **blocks publishing**. |
-| C | `Course Number` | Required. `VIP` (any case) routes the row to the experience section. |
-| D | `Course` | Required. A leading course number is stripped, since it's displayed separately. |
-| E | `Credits` | A number 0–12, or blank. Blank means variable-credit — the student picks. Non-numeric text warns and is treated as blank. |
-| F+ | Skills | Only `x` or `X` tags a skill. Anything else (`✓`, `1`, `yes`) does **not** tag it and warns. |
+| Col | Field | Published? | Rules |
+|---|---|---|---|
+| A | `Certificate?` | — | Must be `Yes` (any case) to be included. `No` is silently excluded; anything else is excluded **with a warning**. |
+| B | `Course Number` | yes | Required. Anything starting `VIP` routes the row to the experience section. |
+| C | `ID#` | no | Admin key. Also the key used to look the catalog address up on the `Data` tab. |
+| D | `Course` | yes | Required. A leading course number is stripped, since it's displayed separately. |
+| E | `Credits` | yes | A number 0–12, or blank. Blank means variable-credit — the student picks. Non-numeric text (e.g. `2 or 3`) warns and is treated as blank. |
+| F | `Primary Certificate Category` | yes | Must match one of the five canonical labels. Case and extra spaces forgiven; punctuation is not. Mismatch **blocks publishing**. |
+| G | `Secondary Certificate Category` | yes | Optional. Stored for later use, not displayed yet. An unrecognised value **warns** and is stored as empty rather than guessed. |
+| H | `Pre-Requisites` | yes | Free text. Shown second in the Details panel. |
+| I | `Other Restrictions / Notes` | yes | Free text. Shown third in the Details panel. |
+| J | `Course Description` | yes | Free text. Shown **first** in the Details panel. |
+| K | `Catalog Link` | yes | A HYPERLINK formula — the address is resolved from the `Data` tab, not this cell. See *Course catalog links*. |
+| L | `Additional Information` | no | Admin only. |
+| M | `Topics` | no | Admin only. |
+| N–BL | Skills | yes | Only `x` or `X` tags a skill. Anything else (`✓`, `1`, `yes`) does **not** tag it and warns. |
 
-The five area labels, which must match exactly:
+The five category labels, which must match exactly:
 
 ```
 Semiconductor and Microelectronic Devices
@@ -242,12 +259,12 @@ Semiconductor Manufacturing and Global Supply Chain Management
 
 - Must be `.xlsx`. `.xls` and macro-enabled `.xlsm` are rejected — re-save as
   *Excel Workbook (.xlsx)*.
-- Under 12 MB.
+- Under 20 MB.
 - Not password-protected, and not open in Excel at the same time.
 
 Adding a **new skill column** is fine and needs no code change. Adding or renaming a
-**certificate area** requires editing `AREA_POLICY` in `admin.html` — the 2-of-5 rule
-assumes exactly five.
+**certificate category** requires editing `AREA_POLICY` in `admin.html` — the 2-of-5
+rule assumes exactly five.
 
 ## Local development
 

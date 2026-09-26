@@ -175,8 +175,8 @@
     <div class="step-head"><span class="step-num">01</span><h2 class="step-title">Choose the spreadsheet</h2></div>
     <div id="drop" tabindex="0" role="button" aria-label="Choose or drop the course data spreadsheet">
       <i class="bi bi-file-earmark-spreadsheet"></i>
-      <div class="big">Drop <code>course_data.xlsx</code> here</div>
-      <div class="small">or click to browse · .xlsx only · the <strong>website</strong> tab is read</div>
+      <div class="big">Drop the course workbook here</div>
+      <div class="small">or click to browse · .xlsx only · reads the <strong>Updated</strong> and <strong>Data</strong> tabs</div>
     </div>
     <input type="file" id="file" accept=".xlsx" />
   </div>
@@ -224,9 +224,37 @@
    means a semester upload can only change which courses exist, never
    what the certificate requires or how it is organised.
 ══════════════════════════════════════════════════════════════ */
-const SCHEMA_VERSION = 1;
-const SHEET_NAME = 'website';
-const MAX_BYTES = 12 * 1024 * 1024;
+const SCHEMA_VERSION = 2;
+const SHEET_NAME = 'updated';       /* matched case-insensitively */
+const LOOKUP_SHEET = 'data';        /* holds the catalog URLs the main sheet VLOOKUPs */
+const SHEET_LABEL = 'Updated';      /* how the tabs are spelled in the report */
+const LOOKUP_LABEL = 'Data';
+const MAX_BYTES = 20 * 1024 * 1024;
+
+/* Fixed column positions on the main sheet (0-based). Row 2 headers are never
+   read by name, so renaming one is harmless — moving one is not. */
+const COL = {
+  certificate: 0,   // A  Certificate?
+  number:      1,   // B  Course Number
+  id:          2,   // C  ID#   (admin key; also the catalog-URL lookup key)
+  title:       3,   // D  Course
+  credits:     4,   // E  Credits
+  primary:     5,   // F  Primary Certificate Category
+  secondary:   6,   // G  Secondary Certificate Category
+  prereq:      7,   // H  Pre-Requisites
+  restrict:    8,   // I  Other Restrictions / Notes
+  description: 9,   // J  Course Description
+  catalog:    10,   // K  Catalog Link  (a HYPERLINK formula — see resolveCatalogUrls)
+  adminInfo:  11,   // L  Additional Information   (not published)
+  topics:     12,   // M  Topics                   (not published)
+  skills0:    13    // N  first skill column, running to BL
+};
+
+/* Only http(s) links are ever emitted. The URL comes from the workbook and lands
+   in an href, so a javascript: or data: value here would be an injection vector. */
+function safeUrl(u) {
+  return /^https?:\/\//i.test(u) ? u : '';
+}
 
 /* `short` is what the builder prints in area headings, the breadth tooltips and the
    printed plan. It currently mirrors `label` — the program asked for full names — but
@@ -260,22 +288,42 @@ const cell       = v => v == null ? '' : String(v).replace(/\s+/g, ' ').trim();
 function convert(workbook, filename) {
   const errors = [], warnings = [], notes = [];
 
-  /* Tolerate "Website" / " website " — capitalising a tab is a likely slip and
-     there is no other tab it could be confused with. */
-  const sheetKey = workbook.SheetNames.find(n => n.trim().toLowerCase() === SHEET_NAME);
+  const findSheet = want => workbook.SheetNames.find(n => n.trim().toLowerCase() === want);
+  const sheetKey = findSheet(SHEET_NAME);
   const sheet = sheetKey ? workbook.Sheets[sheetKey] : null;
   if (!sheet) {
     errors.push({
-      title: `No sheet named "${SHEET_NAME}"`,
+      title: `No sheet named "${SHEET_LABEL}"`,
       body: `This workbook has: ${workbook.SheetNames.map(n => `<code>${esc(n)}</code>`).join(', ')}. ` +
-            `The converter only reads the <code>${SHEET_NAME}</code> tab — rename the tab or use the right file.`
+            `The converter reads course rows from the <code>${SHEET_LABEL}</code> tab — rename the tab or use the right file.`
     });
     return { errors, warnings, notes };
   }
-  if (sheetKey !== SHEET_NAME) {
-    notes.push({ title: `Read the tab named "${esc(sheetKey)}"`,
-      body: `Matched it to <code>${SHEET_NAME}</code> ignoring case and spacing. Renaming the tab to exactly ` +
-            `<code>${SHEET_NAME}</code> avoids any doubt.` });
+
+  /* Column K is =HYPERLINK(VLOOKUP(...),"Catalog Link"), so the cached cell value is
+     the words "Catalog Link", never the address. Redo that lookup here: match the
+     ID# in column C against the key column of the Data tab and take its URL. */
+  const catalogUrls = new Map();
+  const lookupKey = findSheet(LOOKUP_SHEET);
+  if (lookupKey) {
+    const rows = XLSX.utils.sheet_to_json(workbook.Sheets[lookupKey], { header: 1, blankrows: false, defval: '' });
+    const head = (rows[0] || []).map(h => cell(h).toLowerCase());
+    let keyCol = head.indexOf('certificate course number');
+    let urlCol = head.indexOf('catalog link');
+    if (keyCol < 0) keyCol = 0;
+    if (urlCol < 0) urlCol = 6;
+    for (let r = 1; r < rows.length; r++) {
+      const k = cell(rows[r][keyCol]);
+      const u = cell(rows[r][urlCol]);
+      if (k && u) catalogUrls.set(k, u);
+    }
+  } else {
+    warnings.push({
+      title: `No "${LOOKUP_LABEL}" tab — catalog links will be missing`,
+      body: `Course rows carry a <code>Catalog Link</code> formula that looks its address up on the ` +
+            `<code>${LOOKUP_LABEL}</code> tab, so without that tab no course can link to the catalog. ` +
+            `Everything else still publishes normally.`
+    });
   }
 
   /* blankrows:true keeps grid indices aligned with real spreadsheet rows, so the
@@ -286,14 +334,14 @@ function convert(workbook, filename) {
     return { errors, warnings, notes };
   }
 
-  /* Row 1, column F onward = skill names */
+  /* Row 1, column N onward = skill names */
   const skills = [];
-  for (let c = 5; c < grid[0].length; c++) {
+  for (let c = COL.skills0; c < grid[0].length; c++) {
     const name = cell(grid[0][c]);
     if (name) skills.push({ col: c, name });
   }
   if (!skills.length) {
-    errors.push({ title: 'No skill columns found', body: 'Expected skill names in row 1 starting at column F.' });
+    errors.push({ title: 'No skill columns found', body: 'Expected skill names in row 1 starting at column N.' });
     return { errors, warnings, notes };
   }
   const skillNames = skills.map(s => s.name);
@@ -310,7 +358,7 @@ function convert(workbook, filename) {
   /* A skill column with data but no header in row 1 would be dropped silently */
   const widest = grid.reduce((m, row) => Math.max(m, (row || []).length), 0);
   const headerless = [];
-  for (let c = 5; c < widest; c++) {
+  for (let c = COL.skills0; c < widest; c++) {
     if (cell(grid[0] && grid[0][c])) continue;
     const used = grid.slice(2).some(row => cell(row && row[c]));
     if (used) headerless.push(XLSX.utils.encode_col(c));
@@ -326,20 +374,22 @@ function convert(workbook, filename) {
   /* Rows 3+ = courses */
   const courses = [], vip = [], unknownAreas = new Map(), skipped = [];
   const noCredits = [], noSkills = [], badFlags = [], badMarks = [];
+  const noUrl = [], badUrl = [], unknownSecondary = new Map();
 
   for (let r = 2; r < grid.length; r++) {
     const row = grid[r];
     if (!row || !row.length) continue;
-    const flag  = cell(row[0]).toLowerCase();
-    const area  = cell(row[1]);
-    const num   = cell(row[2]);
-    const title = cell(row[3]);
+    const flag  = cell(row[COL.certificate]).toLowerCase();
+    const num   = cell(row[COL.number]);
+    const idNum = cell(row[COL.id]);
+    const title = cell(row[COL.title]);
+    const area  = cell(row[COL.primary]);
 
     if (flag !== 'yes') {
       /* Anything other than yes/no in column A drops the row — say so rather than
          letting a course vanish without explanation. */
       if (flag && flag !== 'no' && (num || title)) {
-        badFlags.push({ row: r + 1, val: cell(row[0]), num: num || title });
+        badFlags.push({ row: r + 1, val: cell(row[COL.certificate]), num: num || title });
       }
       continue;
     }
@@ -355,7 +405,7 @@ function convert(workbook, filename) {
       if (v && v.toLowerCase() !== 'x') badMarks.push({ row: r + 1, col: XLSX.utils.encode_col(sk.col), val: v });
     });
 
-    const rawCr = row[4];
+    const rawCr = row[COL.credits];
     let credits = null;
     if (rawCr !== '' && rawCr != null) {
       const n = Number(rawCr);
@@ -368,7 +418,23 @@ function convert(workbook, filename) {
     const s = [];
     skills.forEach((sk, idx) => { if (cell(row[sk.col]).toLowerCase() === 'x') s.push(idx); });
 
-    if (num.toUpperCase() === VIP_MARKER) { vip.push({ n: VIP_MARKER, t: cleanTitle(title), s }); continue; }
+    const rawUrl = catalogUrls.get(idNum) || '';
+    const url = safeUrl(rawUrl);
+    if (rawUrl && !url) badUrl.push({ row: r + 1, num, val: rawUrl });
+
+    const detail = {
+      d: cell(row[COL.description]),
+      p: cell(row[COL.prereq]),
+      r: cell(row[COL.restrict]),
+      u: url
+    };
+
+    if (num.toUpperCase().startsWith(VIP_MARKER)) {
+      vip.push(Object.assign({ n: VIP_MARKER, t: cleanTitle(title), s }, detail));
+      continue;
+    }
+
+    if (!url) noUrl.push({ n: num, t: cleanTitle(title) });
 
     const ai = AREA_BY_LABEL.get(area.toLowerCase());
     if (ai === undefined) {
@@ -377,7 +443,22 @@ function convert(workbook, filename) {
       continue;
     }
 
-    const c = { a: ai, n: num, t: cleanTitle(title), c: credits, s };
+    /* Secondary category is stored but not yet displayed. An unrecognised value
+       warns rather than blocking — it would be harsh to stop a publish over a
+       field nothing renders — but it is stored as null, never as a guess. */
+    const secondary = cell(row[COL.secondary]);
+    let a2 = null;
+    if (secondary) {
+      const si = AREA_BY_LABEL.get(secondary.toLowerCase());
+      if (si === undefined) {
+        if (!unknownSecondary.has(secondary)) unknownSecondary.set(secondary, []);
+        unknownSecondary.get(secondary).push(`${num} (row ${r + 1})`);
+      } else {
+        a2 = si;
+      }
+    }
+
+    const c = Object.assign({ a: ai, a2, n: num, t: cleanTitle(title), c: credits, s }, detail);
     if (credits === null) noCredits.push(c);
     if (!s.length) noSkills.push(c);
     courses.push(c);
@@ -465,11 +546,46 @@ function convert(workbook, filename) {
           `least two areas, so an empty area narrows their options.`
   });
 
+  if (noUrl.length) warnings.push({
+    title: `${noUrl.length} course${noUrl.length === 1 ? ' has' : 's have'} no catalog link`,
+    body: `No address was found on the <code>${LOOKUP_LABEL}</code> tab for these, so their rows will ` +
+          `show no Catalog link. Everything else about them works normally.` +
+          `<ul>${noUrl.slice(0, 10).map(courseLine).join('')}</ul>` +
+          `${noUrl.length > 10 ? `…and ${noUrl.length - 10} more.` : ''}`
+  });
+  if (badUrl.length) warnings.push({
+    title: `${badUrl.length} catalog link${badUrl.length === 1 ? '' : 's'} rejected`,
+    body: `Only <code>http://</code> and <code>https://</code> addresses are published. These were left ` +
+          `blank instead:` +
+          `<ul>${badUrl.slice(0, 8).map(b => `<li>Row ${b.row} — <code>${esc(b.num)}</code>: <code>${esc(b.val.slice(0, 70))}</code></li>`).join('')}</ul>`
+  });
+  if (unknownSecondary.size) {
+    for (const [bad, who] of unknownSecondary) {
+      warnings.push({
+        title: `Unrecognised secondary category: "${esc(bad)}"`,
+        body: `Affects ${who.length} course${who.length === 1 ? '' : 's'}: ${who.slice(0, 6).map(esc).join(', ')}` +
+              `${who.length > 6 ? `, +${who.length - 6} more` : ''}.<br>` +
+              `It must match one of the five certificate categories exactly. The secondary category is ` +
+              `stored for later use and is not shown on the site yet, so this does not block publishing — ` +
+              `but it is being saved as empty rather than guessed at.`
+      });
+    }
+  }
+
+  const withText = courses.filter(c => c.d || c.p || c.r).length;
+  notes.push({
+    title: `${withText} of ${courses.length} courses have description, prerequisite or notes text`,
+    body: `Shown in the “Details” panel on each course row. ` +
+          `${courses.filter(c => c.d).length} have a description, ` +
+          `${courses.filter(c => c.p).length} list prerequisites, ` +
+          `${courses.filter(c => c.r).length} carry other restrictions.`
+  });
+
   const doc = {
     schemaVersion: SCHEMA_VERSION,
     generatedAt: new Date().toISOString().replace(/\.\d+Z$/, 'Z'),
     source: filename,
-    sheet: SHEET_NAME,
+    sheet: sheetKey,
     counts: { courses: courses.length, vip: vip.length, skills: skillNames.length, areas: AREA_POLICY.length },
     skills: skillNames,
     areas: AREA_POLICY.map(a => ({ id: a.id, label: a.label, short: a.short })),
