@@ -72,7 +72,7 @@ To roll back, rename the archived file back to `course-data.json`.
 ## Architecture
 
 ```
-course_data.xlsx ── edited each semester
+course workbook .xlsx ── edited each semester
        │
        ▼
   admin.html ── parses, normalises, validates, diffs (all client-side)
@@ -95,9 +95,9 @@ These are deliberately kept apart:
 
 | | Catalog data | Program policy |
 |---|---|---|
-| Examples | Courses, credits, skill tags, area assignment | Credit targets (16/1/9/6), the 2-of-5 rule, area display order, short area names, VIP routing, title-prefix stripping |
+| Examples | Courses, credits, skill tags, area assignment | Credit targets (16/1/9/6), the 2-of-5 rule, area display order and labels, VIP routing, title-prefix stripping |
 | Changes | Every semester | Rarely, by decision |
-| Lives in | `course_data.xlsx` → `course-data.json` | `AREA_POLICY` in `admin.html`; `TARGET_*` and `MIN_AREAS` in `index.html` |
+| Lives in | the course workbook → `course-data.json` | `AREA_POLICY` in `admin.html`; `TARGET_*` and `MIN_AREAS` in `index.html` |
 
 The consequence is that a semester upload can only change *which courses exist*. It
 cannot change what the certificate requires. Credit targets are never read from the
@@ -116,11 +116,11 @@ area can be abbreviated later without a schema change or a spreadsheet edit.
 
 ```jsonc
 {
-  "schemaVersion": 1,
-  "generatedAt": "2026-07-29T16:35:35Z",
-  "source": "course_data.xlsx",
-  "sheet": "website",
-  "counts": { "courses": 100, "vip": 3, "skills": 45, "areas": 5 },
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-26T18:04:11Z",
+  "source": "semiconductors_course_data_2026_09_24.xlsx",
+  "sheet": "Updated",
+  "counts": { "courses": 100, "vip": 3, "skills": 51, "areas": 5 },
   "skills": ["Advanced Materials", "..."],          // index-addressed
   "areas":  [{ "id": "dev", "label": "...", "short": "Devices" }],
   "courses": [{
