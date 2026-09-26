@@ -1055,10 +1055,10 @@
   <div class="course-section" id="section-required">
     <div class="section-header">
       <span class="section-index">01</span>
-      <h2 class="section-title">Required Course</h2>
+      <h2 class="section-title">Required Course (1 credit)</h2>
     </div>
     <hr class="section-rule" />
-    <p class="section-meta">Required: <span class="target">1 credit hour</span> — every certificate student completes this course.</p>
+    <p class="section-meta">Required: <span class="target">1 credit hour</span> — every certificate student must complete this course.</p>
     <div id="required-list"></div>
   </div>
 
@@ -1152,7 +1152,7 @@
           <span class="tally-target">1 credit</span>
         </div>
         <div class="tracker-progress"><div class="tracker-bar" id="bar-required"></div></div>
-        <div class="tracker-status-text" id="status-required">ENGR 10301 not yet selected</div>
+        <div class="tracker-status-text" id="status-required">Not yet selected</div>
       </div>
 
       <div class="tracker-card" id="card-technical">
@@ -1352,15 +1352,16 @@ const FALLBACK_CATALOG = {
 /* Populated by applyCatalog() once the live file is fetched (or the fallback taken) */
 let SKILLS = [], AREAS = [], COURSES = [], VIP = [];
 
+/* The required course is not in the workbook — it is the one fixed requirement
+   rather than catalog data, so it is defined here. Every other place on the page
+   reads these fields; nothing about it is written out a second time. */
 const REQUIRED_COURSE = {
-  code: 'ENGR 10301',
-  name: 'Introduction to Semiconductors',
+  code: 'OPP 10100',
+  name: 'Changing the World with Chips',
   credits: 1,
-  /* Not in the workbook — the required course is defined here, so its catalog
-     address is too. Same term as the workbook's links. */
-  url: 'https://selfservice.mypurdue.purdue.edu/prod/bwckctlg.p_disp_course_detail' +
-       '?cat_term_in=202710&subj_code_in=ENGR&crse_numb_in=10301',
-  desc: 'This course will introduce students to semiconductor technology and the broad range of opportunities within the semiconductor industry. Speakers from some of the largest companies in the world including Apple, Tesla, Intel and others will engage students on a weekly basis. Students in the course will develop their personal networks while being presented with resources and opportunities to prepare for exciting careers within the semiconductor industry.'
+  url: 'https://catalog.purdue.edu/preview_course_nopop.php?catoid=18&coid=224111',
+  syllabus: 'https://purdue.simplesyllabus.com/en-US/doc/ltwhivj01/WL-Fall-2026-OPP-%28WL%29-10100-008-Changing-The-World-With-Chips',
+  desc: 'On a weekly basis, students will be exposed to semiconductor industry professionals representing some of the largest companies in the world. Students will learn about new technologies, semiconductor products and applications, and career opportunities relevant to a variety of academic disciplines. This course is a requirement for the Semiconductor and Microelectronics certificate and serves as a gateway to a variety of research and internship opportunities relevant to the semiconductor industry.'
 };
 
 /* Catalog links now travel with the course data: the workbook carries an address
@@ -1502,6 +1503,7 @@ function renderRequired() {
           <span class="course-code">${esc(r.code)}</span>
           <span class="course-name">${esc(r.name)}</span>
           ${catalogLinkHTML({ n: r.code, u: r.url })}
+          ${externalLinkHTML(r.syllabus, 'Syllabus', `View the ${r.code} syllabus`)}
         </div>
         <div class="course-desc">${esc(r.desc)}</div>
       </div>
@@ -1517,12 +1519,16 @@ function renderRequired() {
 /* ══════════════════════════════════════════════════════════════
    RENDER — technical area groups
 ══════════════════════════════════════════════════════════════ */
-function catalogLinkHTML(c) {
-  const url = c && c.u;
+function externalLinkHTML(url, label, ariaLabel) {
   if (!url || !isHttpUrl(url)) return '';
   return `<a class="catalog-link" href="${esc(url)}" target="_blank" rel="noopener noreferrer"
-             aria-label="View ${esc(c.n)} in the Purdue course catalog (opens in a new tab)"
-          >Catalog<i class="bi bi-box-arrow-up-right"></i></a>`;
+             aria-label="${esc(ariaLabel)} (opens in a new tab)"
+          >${esc(label)}<i class="bi bi-box-arrow-up-right"></i></a>`;
+}
+
+function catalogLinkHTML(c) {
+  return externalLinkHTML(c && c.u, 'Catalog',
+    `View ${c && c.n ? c.n : 'this course'} in the Purdue course catalog`);
 }
 
 /* Description, prerequisites and restrictions are long — descriptions alone average
@@ -1733,7 +1739,7 @@ const plural = n => n === 1 ? '' : 's';
 function updateTracker() {
   /* Required */
   setCard('required', requiredCredits(), TARGET_REQUIRED,
-    state.requiredDone ? 'ENGR 10301 complete' : 'ENGR 10301 not yet selected',
+    `${REQUIRED_COURSE.code} ${state.requiredDone ? 'complete' : 'not yet selected'}`,
     state.requiredDone);
 
   /* Technical */
@@ -2046,7 +2052,8 @@ $('btn-generate').addEventListener('click', () => {
   $('ps-date').textContent = 'Generated ' + new Date().toLocaleDateString('en-US',
     { year: 'numeric', month: 'long', day: 'numeric' });
 
-  $('ps-required').innerHTML = psRow(REQUIRED_COURSE.code, REQUIRED_COURSE.name, '', '1 cr');
+  $('ps-required').innerHTML = psRow(REQUIRED_COURSE.code, REQUIRED_COURSE.name, '',
+                                     `${REQUIRED_COURSE.credits} cr`);
 
   const tech = COURSES.filter(c => isSelected(c.i));
   $('ps-technical').innerHTML = tech.length
