@@ -501,6 +501,56 @@
       margin-bottom: 20px;
     }
     .filter-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .filter-row-secondary {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-rule);
+    }
+
+    /* Subject / level dropdowns */
+    .filter-select { display: inline-flex; align-items: center; gap: 7px; }
+    .filter-select > span {
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--pu-aged-deep);
+      white-space: nowrap;
+    }
+    .filter-select select {
+      font-family: var(--pu-font-sans);
+      font-size: 0.8rem;
+      padding: 7px 9px;
+      border: 1px solid var(--border-rule);
+      border-radius: 2px;
+      background: var(--pu-white);
+      color: var(--text-primary);
+      cursor: pointer;
+      max-width: 15rem;
+    }
+    .filter-select select:focus { outline: none; border-color: var(--pu-aged); box-shadow: 0 0 0 3px var(--gold-glow); }
+    .filter-select select.on { border-color: var(--pu-aged); background: var(--pu-dust); font-weight: 600; }
+
+    .btn-filter-clear { margin-left: auto; }
+    .btn-filter-clear:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-filter-clear:not(:disabled):hover { border-color: var(--status-red); color: var(--status-red); }
+
+    /* Requirements / instructions / note block */
+    .section-notes { margin-bottom: 18px; }
+    .section-notes p {
+      margin: 0 0 8px;
+      font-size: 0.82rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+      max-width: 78ch;
+    }
+    .section-notes p:last-child { margin-bottom: 0; }
+    .section-notes .note-lead {
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: 0.02em;
+    }
+    .section-notes .target { color: var(--pu-aged-deep); font-weight: 600; }
     .filter-search { flex: 1; min-width: 220px; position: relative; }
     .filter-search i {
       position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
@@ -592,11 +642,6 @@
       display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
     }
     .filter-summary b { color: var(--pu-aged-deep); }
-    .btn-clear-filters {
-      font-size: 0.72rem; background: none; border: none; padding: 0;
-      color: var(--pu-aged-deep); text-decoration: underline; text-underline-offset: 2px; cursor: pointer;
-    }
-    .btn-clear-filters:hover { color: var(--pu-black); }
     .no-results { padding: 32px 16px; text-align: center; color: var(--pu-railway-gray); font-size: 0.85rem; }
 
     /* ─── Experience section ─────────────────────────────────── */
@@ -891,6 +936,11 @@
     @media (max-width: 640px) {
       /* The link drops to its own line here — give it a real tap target */
       .catalog-link { padding: 6px 0; }
+      /* Without this the auto margin strands Clear between the two dropdowns
+         once the row wraps; let the controls flow in source order instead. */
+      .btn-filter-clear { margin-left: 0; }
+      .filter-select { flex: 1 1 100%; }
+      .filter-select select { flex: 1; max-width: none; }
       /* The checkbox and credit columns are top-aligned, so the space beside a tall
          detail panel is dead. Reclaim it rather than wrapping text at ~30 characters. */
       .detail-panel { margin-left: -30px; margin-right: -46px; }
@@ -1066,14 +1116,21 @@
   <div class="course-section" id="section-technical">
     <div class="section-header">
       <span class="section-index">02</span>
-      <h2 class="section-title">Technical Area Courses</h2>
+      <h2 class="section-title">Technical Courses (9 credits)</h2>
     </div>
     <hr class="section-rule" />
-    <p class="section-meta">
-      Required: <span class="target">at least 9 credit hours</span>, drawn from
-      <span class="target">at least two of the five certificate areas</span>.
-      Filter by skill to find the courses that match the work you want to do.
-    </p>
+    <div class="section-notes">
+      <p><span class="note-lead">Requirements:</span> Take at least
+        <span class="target">9 credit hours</span> of courses in
+        <span class="target">at least two out of the five technical areas</span> listed below.</p>
+      <p><span class="note-lead">Instructions:</span> Use the search box and filter options to
+        identify and select 9 credits of courses that you would like to take. The Technical Areas
+        tracker on the right-side or top of your screen will update as you select the courses to
+        indicate if your plan meets the requirements.</p>
+      <p><span class="note-lead">Note:</span> Special Topics Courses (like ECE 595, ME 597, etc.)
+        vary in credit hours by topic. Use the dropdown box to indicate the correct number of
+        credit hours for the course you select.</p>
+    </div>
 
     <div class="filter-bar">
       <div class="filter-row">
@@ -1090,6 +1147,20 @@
         </button>
       </div>
 
+      <div class="filter-row filter-row-secondary">
+        <label class="filter-select">
+          <span>Subject</span>
+          <select id="major-filter"><option value="">All subjects</option></select>
+        </label>
+        <label class="filter-select">
+          <span>Level</span>
+          <select id="level-filter"><option value="">All levels</option></select>
+        </label>
+        <button class="btn-filter btn-filter-clear" id="btn-clear-all" disabled>
+          <i class="bi bi-x-circle"></i> Clear filters
+        </button>
+      </div>
+
       <div class="skill-panel" id="skill-panel">
         <div class="skill-panel-head">
           <span class="skill-panel-label">Select target skills</span>
@@ -1103,7 +1174,6 @@
 
       <div class="filter-summary">
         <span id="filter-summary-text"></span>
-        <button class="btn-clear-filters" id="btn-clear-filters" style="display:none">Clear all filters</button>
       </div>
     </div>
 
@@ -1386,6 +1456,8 @@ const state = {
   experience: [],        // { id, name, credits, skills }
   filterSkills: [],      // skill indices
   filterMode: 'any',
+  filterMajor: '',       // subject prefix, e.g. "ECE"
+  filterLevel: '',       // "200".."500", matched on the leading digit
   search: '',
   selectedOnly: false,
   collapsed: {},         // areaIndex -> bool; absent means "use the default for the current filter state"
@@ -1448,8 +1520,17 @@ function conflictsFor(course) {
 /* ══════════════════════════════════════════════════════════════
    FILTERING
 ══════════════════════════════════════════════════════════════ */
+/* "ECE 30500" -> { subject:"ECE", level:"300" }. Suffixed numbers such as
+   PHYS 570P still resolve, since only the leading digits are read. */
+function courseParts(n) {
+  const m = /^([A-Za-z]{2,4})\s*(\d+)/.exec(String(n || ''));
+  if (!m) return null;
+  return { subject: m[1].toUpperCase(), level: m[2].length >= 3 ? m[2][0] + '00' : '' };
+}
+
 function filtersActive() {
-  return !!(state.search || state.filterSkills.length || state.selectedOnly);
+  return !!(state.search || state.filterSkills.length || state.selectedOnly ||
+            state.filterMajor || state.filterLevel);
 }
 
 /* Area groups sit closed by default, but open themselves while a filter is
@@ -1459,6 +1540,13 @@ function resetAreaCollapse() { state.collapsed = {}; }
 
 function matchesFilters(c) {
   if (state.selectedOnly && !isSelected(c.i)) return false;
+
+  if (state.filterMajor || state.filterLevel) {
+    const parts = courseParts(c.n);
+    if (!parts) return false;
+    if (state.filterMajor && parts.subject !== state.filterMajor) return false;
+    if (state.filterLevel && parts.level !== state.filterLevel) return false;
+  }
 
   if (state.search) {
     const q = state.search.toLowerCase();
@@ -1479,6 +1567,12 @@ function skillAvailability() {
   const counts = new Array(SKILLS.length).fill(0);
   COURSES.forEach(c => {
     if (state.selectedOnly && !isSelected(c.i)) return;
+    if (state.filterMajor || state.filterLevel) {
+      const parts = courseParts(c.n);
+      if (!parts) return;
+      if (state.filterMajor && parts.subject !== state.filterMajor) return;
+      if (state.filterLevel && parts.level !== state.filterLevel) return;
+    }
     if (state.search) {
       const q = state.search.toLowerCase();
       const hay = (c.n + ' ' + c.t).toLowerCase();
@@ -1668,13 +1762,35 @@ function renderSkillCloud() {
   $('btn-skill-panel').classList.toggle('active', cnt > 0);
 }
 
+/* Options come from the catalog, so a new subject or level appears on its own
+   and one that is not represented never shows as an empty choice. */
+function renderFilterOptions() {
+  const subjects = new Map(), levels = new Map();
+  COURSES.forEach(c => {
+    const p = courseParts(c.n);
+    if (!p) return;
+    subjects.set(p.subject, (subjects.get(p.subject) || 0) + 1);
+    if (p.level) levels.set(p.level, (levels.get(p.level) || 0) + 1);
+  });
+
+  const major = $('major-filter'), level = $('level-filter');
+  major.innerHTML = `<option value="">All subjects</option>` +
+    [...subjects.keys()].sort().map(k =>
+      `<option value="${esc(k)}"${state.filterMajor === k ? ' selected' : ''}>${esc(k)} (${subjects.get(k)})</option>`).join('');
+  level.innerHTML = `<option value="">All levels</option>` +
+    [...levels.keys()].sort().map(k =>
+      `<option value="${esc(k)}"${state.filterLevel === k ? ' selected' : ''}>${esc(k)}-level (${levels.get(k)})</option>`).join('');
+
+  major.classList.toggle('on', !!state.filterMajor);
+  level.classList.toggle('on', !!state.filterLevel);
+  $('btn-clear-all').disabled = !filtersActive();
+}
+
 function renderFilterSummary() {
   const visible = COURSES.filter(matchesFilters).length;
-  const active = state.search || state.filterSkills.length || state.selectedOnly;
-  $('filter-summary-text').innerHTML = active
+  $('filter-summary-text').innerHTML = filtersActive()
     ? `Showing <b>${visible}</b> of ${COURSES.length} courses`
     : `<b>${COURSES.length}</b> courses across ${AREAS.length} certificate areas`;
-  $('btn-clear-filters').style.display = active ? 'inline' : 'none';
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -1805,9 +1921,11 @@ function updateTracker() {
 let saveTimer = null;
 let lastSaved = null;   /* browsers replay form state on reload — a no-op save shouldn't overwrite the restore note */
 
-function update({ rerenderAreas = false, rerenderSkills = false } = {}) {
+function update({ rerenderAreas = false, rerenderSkills = false, rerenderOptions = false } = {}) {
   if (rerenderAreas) renderAreas();
   if (rerenderSkills) renderSkillCloud();
+  if (rerenderOptions) renderFilterOptions();
+  $('btn-clear-all').disabled = !filtersActive();
   renderFilterSummary();
   updateTracker();
   save();
@@ -1940,6 +2058,20 @@ $('skill-cloud').addEventListener('click', e => {
   update({ rerenderAreas: true, rerenderSkills: true });
 });
 
+$('major-filter').addEventListener('change', function () {
+  state.filterMajor = this.value;
+  resetAreaCollapse();
+  update({ rerenderAreas: true, rerenderSkills: true, rerenderOptions: true });
+});
+
+$('level-filter').addEventListener('change', function () {
+  state.filterLevel = this.value;
+  resetAreaCollapse();
+  update({ rerenderAreas: true, rerenderSkills: true, rerenderOptions: true });
+});
+
+$('btn-clear-all').addEventListener('click', clearAllFilters);
+
 $('mode-any').addEventListener('click', () => setMode('any'));
 $('mode-all').addEventListener('click', () => setMode('all'));
 function setMode(m) {
@@ -1957,15 +2089,17 @@ $('btn-selected-only').addEventListener('click', function () {
   update({ rerenderAreas: true, rerenderSkills: true });
 });
 
-$('btn-clear-filters').addEventListener('click', () => {
+function clearAllFilters() {
   state.search = '';
   state.filterSkills = [];
   state.selectedOnly = false;
+  state.filterMajor = '';
+  state.filterLevel = '';
   $('search-input').value = '';
   $('btn-selected-only').classList.remove('active');
   resetAreaCollapse();
-  update({ rerenderAreas: true, rerenderSkills: true });
-});
+  update({ rerenderAreas: true, rerenderSkills: true, rerenderOptions: true });
+}
 
 /* Experience */
 $('exp-presets').addEventListener('click', e => {
@@ -2022,6 +2156,8 @@ $('btn-reset').addEventListener('click', () => {
   state.filterSkills = [];
   state.search = '';
   state.selectedOnly = false;
+  state.filterMajor = '';
+  state.filterLevel = '';
   state.expanded = {};
   $('search-input').value = '';
   $('btn-selected-only').classList.remove('active');
@@ -2031,6 +2167,7 @@ $('btn-reset').addEventListener('click', () => {
   renderExperience();
   renderAreas();
   renderSkillCloud();
+  renderFilterOptions();
   renderFilterSummary();
   updateTracker();
   $('save-note').textContent = '';
@@ -2182,6 +2319,7 @@ loadCatalog().then(({ cat, live, reason }) => {
   renderExperience();
   renderAreas();
   renderSkillCloud();
+  renderFilterOptions();
   renderFilterSummary();
   updateTracker();
 });
