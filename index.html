@@ -689,6 +689,97 @@
     }
     .btn-remove-exp:hover { color: var(--status-red); border-color: var(--status-red); }
 
+    /* ─── Experience cards ───────────────────────────────────── */
+    .exp-card {
+      border: 1px solid var(--border-rule);
+      border-left: 3px solid var(--pu-gold);
+      background: var(--pu-white);
+      margin-bottom: 10px;
+    }
+    .exp-card-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      background: var(--bg-warm);
+      border-bottom: 1px solid var(--border-rule);
+    }
+    .exp-card-type {
+      flex: 1;
+      min-width: 0;
+      font-family: var(--pu-font-sans-cd);
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      line-height: 1.3;
+      color: var(--text-primary);
+    }
+    .exp-card-credits { display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; }
+    .exp-card-credits label {
+      font-size: 0.66rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--pu-aged-deep);
+    }
+    .exp-card-credits select {
+      font-family: var(--pu-font-sans);
+      font-size: 0.78rem;
+      padding: 4px 6px;
+      border: 1px solid var(--border-rule);
+      border-radius: 2px;
+      background: var(--pu-white);
+      color: var(--text-primary);
+      cursor: pointer;
+    }
+    .exp-card-credits select:focus { outline: none; border-color: var(--pu-aged); box-shadow: 0 0 0 3px var(--gold-glow); }
+
+    .exp-fields {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px 18px;
+      padding: 14px 12px;
+    }
+    .exp-field { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+    .exp-field-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--pu-aged-deep);
+    }
+    .exp-field input[type="text"],
+    .exp-field input[type="date"],
+    .exp-field select {
+      font-family: var(--pu-font-sans);
+      font-size: 0.86rem;
+      padding: 7px 9px;
+      border: 1px solid var(--border-rule);
+      border-radius: 2px;
+      background: var(--pu-white);
+      color: var(--text-primary);
+      min-width: 0;
+    }
+    .exp-field input::placeholder { color: var(--pu-railway-gray); font-style: italic; }
+    .exp-field input:focus, .exp-field select:focus {
+      outline: none; border-color: var(--pu-aged); box-shadow: 0 0 0 3px var(--gold-glow);
+    }
+    /* Composite fields: VIP prefix, date ranges, term pickers */
+    .exp-inline { display: flex; align-items: center; gap: 6px; min-width: 0; }
+    .exp-inline > input[type="text"] { flex: 1; min-width: 0; }
+    .exp-inline > input[type="date"] { flex: 1; min-width: 0; }
+    .exp-inline > select { flex: 1; min-width: 0; }
+    .exp-fixed {
+      font-family: var(--pu-font-sans-cd);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--pu-aged-deep);
+      flex-shrink: 0;
+    }
+    .exp-sep { font-size: 0.76rem; color: var(--text-muted); flex-shrink: 0; }
+
     .exp-footer { display: flex; align-items: center; gap: 14px; margin-top: 12px; flex-wrap: wrap; }
     .exp-subtotal { font-size: 0.78rem; color: var(--text-muted); margin-left: auto; letter-spacing: 0.03em; }
     .exp-subtotal .val { color: var(--pu-aged-deep); font-weight: 700; }
@@ -1187,15 +1278,25 @@
   <div class="course-section" id="section-experience">
     <div class="section-header">
       <span class="section-index">03</span>
-      <h2 class="section-title">Semiconductor Experience</h2>
+      <h2 class="section-title">Semiconductor Experience for Undergraduates (6 credits)</h2>
     </div>
     <hr class="section-rule" />
-    <p class="section-meta">Required: <span class="target">6 credit hours</span>.</p>
-    <div class="note-box">
-      Research courses including relevant independent studies and Vertically Integrated Projects (VIP)
-      courses, or full-time internship relevant to technical areas of semiconductors and microelectronics.
-      <strong>A summer or semester-long full-time internship / co-op / SURF or similar experience is
-      considered equivalent to 6 credit hours.</strong>
+    <div class="section-notes">
+      <p><span class="note-lead">Requirements:</span> Students are required to complete the equivalent
+        of <span class="target">6 credit hours</span> of experiential learning or internships/co-ops
+        relevant to technical areas of semiconductors and microelectronics. Experiential learning
+        opportunities include research courses (such as independent study research with a faculty
+        member, Vertically Integrated Projects (VIP) courses, or the Summer Undergraduate Research
+        Fellowship (SURF) program). Full-time (40 hr/week) summer internships, semester-long of
+        full-time (40 hr/week) internship or co-ops, or completing the SURF program are considered
+        equivalent to 6 credit hours.</p>
+      <p><span class="note-lead">Instructions:</span> Add each experience separately (e.g., if taking
+        2 semesters of VIP, include the details for each). If you are completing this for your planning
+        purposes, you may leave unknown information blank. If you are preparing this to submit for
+        approval of the certificate because you&rsquo;ve completed all the requirements, please fill in
+        all details, download, and email to the Certificate Coordinator.</p>
+      <p><span class="note-lead">Note:</span> VIP Intro to SoCET (first semester) and VIP Introduction
+        to Semiconductors count towards the technical area courses above.</p>
     </div>
 
     <div class="exp-preset" id="exp-presets"></div>
@@ -1494,7 +1595,7 @@ function selectedAreas() {
   return set;
 }
 function experienceCredits() {
-  return state.experience.reduce((s, e) => s + (Number(e.credits) || 0), 0);
+  return state.experience.reduce((s, e) => expType(e.type) ? s + (Number(e.credits) || 0) : s, 0);
 }
 function requiredCredits() { return state.requiredDone ? TARGET_REQUIRED : 0; }
 
@@ -1796,37 +1897,187 @@ function renderFilterSummary() {
 /* ══════════════════════════════════════════════════════════════
    RENDER — experience
 ══════════════════════════════════════════════════════════════ */
-/* Built on demand — VIP is empty until the catalog finishes loading */
-function expPresets() {
-  return [
-    { label: 'Full-time internship / co-op / SURF', name: 'Full-time internship / co-op / SURF', credits: 6, skills: [] },
-    ...VIP.map(v => ({ label: v.t, name: v.t, credits: 3, skills: v.s }))
-  ];
+/* ══════════════════════════════════════════════════════════════
+   EXPERIENCE TYPES
+
+   Each type declares the fields the Certificate Coordinator needs on a
+   submitted plan of study, plus the credits it normally carries. The
+   student can change the credits — the defaults are the usual case, not
+   a rule. Fields may be left blank while planning; the printed plan
+   shows whatever has been filled in.
+══════════════════════════════════════════════════════════════ */
+const TERM_YEARS = (() => {
+  const y = new Date().getFullYear();
+  return Array.from({ length: 11 }, (_, i) => y - 4 + i);
+})();
+const TERM_SEASONS = ['Fall', 'Spring'];
+const EXP_CREDIT_CHOICES = [1, 2, 3, 4, 5, 6];
+
+const VIP_FIELDS = [
+  { k: 'vip',  label: 'Course Number', kind: 'vip',  placeholder: 'e.g. 47920-017' },
+  { k: 'role', label: 'Your Project Role/Topic', kind: 'text' },
+  { k: 'term', label: 'Term', kind: 'term' }
+];
+
+const EXPERIENCE_TYPES = [
+  { id: 'intern', label: 'Internship or Co-Op', credits: 6, fields: [
+      { k: 'company', label: 'Company', kind: 'text' },
+      { k: 'topic',   label: 'Your Project Topic', kind: 'text' },
+      { k: 'dates',   label: 'Dates of Employment', kind: 'dates' },
+      { k: 'hours',   label: 'Hours per Week', kind: 'text', placeholder: 'e.g. 40' }
+  ]},
+  { id: 'surf', label: 'SURF', credits: 6, fields: [
+      { k: 'mentor', label: 'Faculty Mentor', kind: 'text' },
+      { k: 'topic',  label: 'Your Research Topic', kind: 'text' },
+      { k: 'term',   label: 'Term', kind: 'summerYear' }
+  ]},
+  { id: 'indstudy', label: 'Independent Study Research', credits: 6, fields: [
+      { k: 'course', label: 'Course Number', kind: 'text', placeholder: 'e.g. ME 498' },
+      { k: 'mentor', label: 'Faculty Mentor', kind: 'text' },
+      { k: 'topic',  label: 'Your Research Topic', kind: 'text' },
+      { k: 'term',   label: 'Term', kind: 'term' }
+  ]},
+  { id: 'vipSocet', label: 'VIP SoCET (Semester 2 and beyond)', credits: 2, fields: VIP_FIELDS },
+  { id: 'vipSemi',  label: 'VIP Semiconductors@Birck',          credits: 2, fields: VIP_FIELDS },
+  { id: 'vipTwins', label: 'VIP Virtual Twins@Birck',           credits: 2, fields: VIP_FIELDS },
+  { id: 'vipOther', label: 'Other VIP Course', credits: 2, fields: [
+      { k: 'vip',  label: 'Course Number', kind: 'vip', placeholder: 'e.g. 47920-017' },
+      { k: 'name', label: 'Course Name', kind: 'text' },
+      { k: 'role', label: 'Your Project Role/Topic', kind: 'text' },
+      { k: 'term', label: 'Term', kind: 'term' }
+  ]}
+];
+
+const expType = id => EXPERIENCE_TYPES.find(t => t.id === id) || null;
+
+/* Term stored as two parts so the printed plan can render "Fall 2027" */
+function expTermText(f) {
+  const season = f.termSeason || '';
+  const year = f.termYear || '';
+  return (season && year) ? `${season} ${year}` : (season || year || '');
+}
+
+/* One-line summary for the tracker: the type, narrowed by whichever
+   identifying field the student has filled in so far. */
+function expTitle(e) {
+  const t = expType(e.type);
+  if (!t) return 'Experience';
+  const f = e.f || {};
+  let detail = '';
+  if (t.id === 'intern')        detail = f.company || '';
+  else if (t.id === 'surf')     detail = f.termYear ? `Summer ${f.termYear}` : '';
+  else if (t.id === 'indstudy') detail = f.course || expTermText(f);
+  else                          detail = (f.vip ? `VIP ${f.vip}` : '') || f.name || expTermText(f);
+  return detail ? `${t.label} — ${detail}` : t.label;
+}
+
+/* Everything the student filled in, for the printed plan of study */
+function expDetailText(e) {
+  const t = expType(e.type);
+  if (!t) return '';
+  const f = e.f || {};
+  const bits = [];
+  t.fields.forEach(fld => {
+    if (fld.kind === 'dates') {
+      const from = f.datesFrom || '', to = f.datesTo || '';
+      if (from || to) bits.push(`${fld.label}: ${from || '?'} to ${to || '?'}`);
+    } else if (fld.kind === 'term') {
+      const v = expTermText(f);
+      if (v) bits.push(`${fld.label}: ${v}`);
+    } else if (fld.kind === 'summerYear') {
+      if (f.termYear) bits.push(`${fld.label}: Summer ${f.termYear}`);
+    } else if (fld.kind === 'vip') {
+      if (f.vip) bits.push(`${fld.label}: VIP ${f.vip}`);
+    } else if (f[fld.k]) {
+      bits.push(`${fld.label}: ${f[fld.k]}`);
+    }
+  });
+  return bits.join(' · ');
+}
+
+/* ── field rendering ─────────────────────────────────────────── */
+function yearOptions(selected) {
+  return `<option value="">Year</option>` + TERM_YEARS.map(y =>
+    `<option value="${y}"${String(selected) === String(y) ? ' selected' : ''}>${y}</option>`).join('');
+}
+
+function expFieldHTML(id, f, fld) {
+  const name = `${fld.label}`;
+  const ph = fld.placeholder ? ` placeholder="${esc(fld.placeholder)}"` : '';
+  let control;
+
+  switch (fld.kind) {
+    case 'dates':
+      control = `<span class="exp-inline">
+          <input type="date" data-exp-field="${id}:datesFrom" value="${esc(f.datesFrom || '')}"
+                 aria-label="${esc(name)} — start" />
+          <span class="exp-sep">to</span>
+          <input type="date" data-exp-field="${id}:datesTo" value="${esc(f.datesTo || '')}"
+                 aria-label="${esc(name)} — end" />
+        </span>`;
+      break;
+    case 'term':
+      control = `<span class="exp-inline">
+          <select data-exp-field="${id}:termSeason" aria-label="${esc(name)} — season">
+            <option value="">Term</option>
+            ${TERM_SEASONS.map(sn => `<option value="${sn}"${f.termSeason === sn ? ' selected' : ''}>${sn}</option>`).join('')}
+          </select>
+          <select data-exp-field="${id}:termYear" aria-label="${esc(name)} — year">${yearOptions(f.termYear)}</select>
+        </span>`;
+      break;
+    case 'summerYear':
+      control = `<span class="exp-inline">
+          <span class="exp-fixed">Summer</span>
+          <select data-exp-field="${id}:termYear" aria-label="${esc(name)} — year">${yearOptions(f.termYear)}</select>
+        </span>`;
+      break;
+    case 'vip':
+      control = `<span class="exp-inline">
+          <span class="exp-fixed">VIP</span>
+          <input type="text" data-exp-field="${id}:vip" value="${esc(f.vip || '')}"${ph}
+                 aria-label="${esc(name)}" />
+        </span>`;
+      break;
+    default:
+      control = `<input type="text" data-exp-field="${id}:${fld.k}" value="${esc(f[fld.k] || '')}"${ph}
+                        aria-label="${esc(name)}" />`;
+  }
+  return `<div class="exp-field"><span class="exp-field-label">${esc(fld.label)}</span>${control}</div>`;
 }
 
 function renderPresets() {
-  $('exp-presets').innerHTML = expPresets().map((p, i) =>
-    `<button class="btn-preset" data-preset="${i}"><i class="bi bi-plus"></i> ${esc(p.label)}</button>`).join('')
-    + `<button class="btn-preset btn-preset-other" id="btn-add-exp"><i class="bi bi-plus"></i> Other Experience</button>`;
+  $('exp-presets').innerHTML = EXPERIENCE_TYPES.map(t =>
+    `<button class="btn-preset" data-exp-add="${esc(t.id)}"><i class="bi bi-plus"></i> ${esc(t.label)}</button>`
+  ).join('');
 }
 
 function renderExperience() {
   const list = $('exp-list');
   if (!state.experience.length) {
     list.innerHTML = `<div class="area-empty" style="border:1px dashed var(--border-rule);text-align:center">
-      No experience logged yet. Use one of the options above to get started.</div>`;
+      No experience logged yet. Choose one of the options above to get started.</div>`;
   } else {
-    list.innerHTML = state.experience.map(e => `
-      <div class="exp-entry" data-exp="${e.id}">
-        <input type="text" value="${esc(e.name)}" data-exp-name="${e.id}"
-               placeholder="e.g. VIP: SoC Extended Team — Fall 2026" />
-        <select data-exp-credits="${e.id}" aria-label="Credit hours">
-          ${[1,2,3,4,5,6].map(v => `<option value="${v}"${Number(e.credits) === v ? ' selected' : ''}>${v} CR</option>`).join('')}
-        </select>
-        <button class="btn-remove-exp" data-exp-remove="${e.id}" aria-label="Remove entry">
-          <i class="bi bi-x-lg"></i>
-        </button>
-      </div>`).join('');
+    list.innerHTML = state.experience.map(e => {
+      const t = expType(e.type);
+      if (!t) return '';
+      const f = e.f || {};
+      return `
+      <div class="exp-card" data-exp="${e.id}">
+        <div class="exp-card-head">
+          <span class="exp-card-type">${esc(t.label)}</span>
+          <span class="exp-card-credits">
+            <label for="exp-cr-${e.id}">Credits</label>
+            <select id="exp-cr-${e.id}" data-exp-credits="${e.id}">
+              ${EXP_CREDIT_CHOICES.map(v => `<option value="${v}"${Number(e.credits) === v ? ' selected' : ''}>${v}</option>`).join('')}
+            </select>
+          </span>
+          <button class="btn-remove-exp" data-exp-remove="${e.id}" aria-label="Remove ${esc(t.label)}">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+        <div class="exp-fields">${t.fields.map(fld => expFieldHTML(e.id, f, fld)).join('')}</div>
+      </div>`;
+    }).join('');
   }
   $('exp-subtotal').textContent = experienceCredits();
 }
@@ -1890,7 +2141,7 @@ function updateTracker() {
     expDone ? 'Requirement met' : `${TARGET_EXPERIENCE - ec} more credit${plural(TARGET_EXPERIENCE - ec)} needed`,
     expDone);
   trackerList($('courses-experience'),
-    state.experience.filter(e => e.name.trim()).map(e => ({ code: e.credits + ' CR', name: e.name })));
+    state.experience.map(e => ({ code: e.credits + ' CR', name: expTitle(e) })));
 
   /* Total */
   const total = countedTotal();
@@ -1959,10 +2210,17 @@ function load() {
     state.requiredDone = !!d.requiredDone;
     state.selected = d.selected || {};
     state.credits = d.credits || {};
-    state.experience = Array.isArray(d.experience) ? d.experience : [];
+    /* Experience entries used to be a free-text name plus credits. Those predate
+       the typed forms and cannot be mapped onto one, so drop them and say so
+       rather than restoring a plan that silently lost part of itself. */
+    const saved = Array.isArray(d.experience) ? d.experience : [];
+    state.experience = saved.filter(e => e && expType(e.type));
+    const dropped = saved.length - state.experience.length;
     expSeq = state.experience.reduce((m, e) => Math.max(m, e.id + 1), 1);
-    if (state.requiredDone || state.experience.length || Object.keys(state.selected).length) {
-      $('save-note').textContent = 'Restored your saved plan';
+    if (state.requiredDone || state.experience.length || Object.keys(state.selected).length || dropped) {
+      $('save-note').textContent = dropped
+        ? `Restored your saved plan — ${dropped} older experience ${dropped === 1 ? 'entry needs' : 'entries need'} re-entering`
+        : 'Restored your saved plan';
     }
   } catch (e) { /* corrupt state — start fresh */ }
 }
@@ -2103,31 +2361,37 @@ function clearAllFilters() {
 
 /* Experience */
 $('exp-presets').addEventListener('click', e => {
-  const preset = e.target.closest('[data-preset]');
-  if (preset) {
-    const p = expPresets()[Number(preset.dataset.preset)];
-    state.experience.push({ id: expSeq++, name: p.name, credits: p.credits, skills: p.skills || [] });
-    renderExperience();
-    update();
-    return;
-  }
-  if (e.target.closest('#btn-add-exp')) {
-    state.experience.push({ id: expSeq++, name: '', credits: 3, skills: [] });
-    renderExperience();
-    update();
-    const inputs = $('exp-list').querySelectorAll('[data-exp-name]');
-    if (inputs.length) inputs[inputs.length - 1].focus();   /* land the cursor in the blank row */
-  }
+  const btn = e.target.closest('[data-exp-add]');
+  if (!btn) return;
+  const t = expType(btn.dataset.expAdd);
+  if (!t) return;
+  const id = expSeq++;
+  state.experience.push({ id, type: t.id, credits: t.credits, f: {} });
+  renderExperience();
+  update();
+  /* land the cursor in the new card's first field */
+  const first = $('exp-list').querySelector(`.exp-card[data-exp="${id}"] [data-exp-field]`);
+  if (first) first.focus();
 });
 
+/* Text and date fields: record the keystroke without re-rendering the card,
+   or the field being typed into would lose focus. */
+function setExpField(target) {
+  const [rawId, key] = String(target.dataset.expField || '').split(':');
+  const rec = state.experience.find(x => x.id === Number(rawId));
+  if (!rec || !key) return;
+  rec.f = rec.f || {};
+  rec.f[key] = target.value;
+  update();
+}
+
 $('exp-list').addEventListener('input', e => {
-  const n = e.target.closest('[data-exp-name]');
-  if (!n) return;
-  const rec = state.experience.find(x => x.id === Number(n.dataset.expName));
-  if (rec) { rec.name = n.value; update(); }
+  if (e.target.closest('[data-exp-field]')) setExpField(e.target);
 });
 
 $('exp-list').addEventListener('change', e => {
+  const field = e.target.closest('[data-exp-field]');
+  if (field) { setExpField(field); return; }
   const c = e.target.closest('[data-exp-credits]');
   if (!c) return;
   const rec = state.experience.find(x => x.id === Number(c.dataset.expCredits));
@@ -2197,9 +2461,9 @@ $('btn-generate').addEventListener('click', () => {
     ? tech.map(c => psRow(c.n, c.t, AREAS[c.a].short, courseCredits(c) + ' cr')).join('')
     : `<tr><td colspan="${PS_COLS}" class="ps-empty">None selected</td></tr>`;
 
-  const exp = state.experience.filter(e => e.name.trim());
+  const exp = state.experience.filter(e => expType(e.type));
   $('ps-experience').innerHTML = exp.length
-    ? exp.map(e => psRow('—', e.name, '', e.credits + ' cr')).join('')
+    ? exp.map(e => psRow('—', expType(e.type).label, expDetailText(e), e.credits + ' cr')).join('')
     : `<tr><td colspan="${PS_COLS}" class="ps-empty">None recorded</td></tr>`;
 
   $('ps-total').textContent = countedTotal();

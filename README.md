@@ -38,6 +38,8 @@ is considered equivalent to the full 6 credit hours.
 - Credit pickers for variable-credit special-topics courses, defaulting to unset so hours
   are never silently assumed
 - **Catalog deep link** on every course row, opening that course in the myPurdue catalog
+- **Typed experience forms** — seven experience kinds, each collecting the details the
+  Certificate Coordinator needs on a submitted plan of study
 - **Details disclosure** per course — description, prerequisites, and other restrictions
 - Live **area-breadth meter** enforcing the 2-of-5 rule
 - Running **Skills You'll Gain** profile accumulated across all selections
@@ -145,6 +147,30 @@ Version 2 added `a2`, `d`, `p`, `r` and `u`. Bump `schemaVersion` on any breakin
 change, and update `SCHEMA_VERSION` in both `index.html` and `admin.html`. The builder refuses versions it doesn't recognise and
 falls back rather than misreading them.
 
+### Experience section
+
+Section 3 is **not** driven by the workbook. The seven experience kinds, their fields
+and their default credits are declared in `EXPERIENCE_TYPES` in `index.html`, because
+they describe what the Certificate Coordinator needs on a submitted plan of study
+rather than a course catalog.
+
+Entries are stored as `{ id, type, credits, f: {…} }`, where `f` holds the filled-in
+field values. `expDetailText()` flattens them onto the printed plan, so a student who
+completes every field can download the plan and email it as-is.
+
+Two consequences worth knowing:
+
+- The converter still routes workbook rows whose Course Number begins `VIP` into a
+  separate `vip` array, and **the builder no longer reads it**. Those rows appear
+  nowhere on the site: not in the technical catalog, and not among the experience
+  options. See the note in the experience section, which says VIP Intro to SoCET and
+  VIP Introduction to Semiconductors count toward the *technical* areas — that routing
+  has not been changed yet.
+- Experience entries saved before this shape existed (a free-text name plus credits)
+  cannot be mapped onto a typed form. They are dropped on load and the save note says
+  how many need re-entering, rather than restoring a plan that quietly lost part of
+  itself.
+
 ### Course catalog links
 
 Each course carries its own catalog address in the published JSON (`u`), taken from the
@@ -231,7 +257,7 @@ track every semester publish, since its job is to be a known-good floor, not cur
 | Col | Field | Published? | Rules |
 |---|---|---|---|
 | A | `Certificate?` | — | Must be `Yes` (any case) to be included. `No` is silently excluded; anything else is excluded **with a warning**. |
-| B | `Course Number` | yes | Required. Anything starting `VIP` routes the row to the experience section. |
+| B | `Course Number` | yes | Required. Anything starting `VIP` is held out of the technical catalog (see *Experience section* below). |
 | C | `ID#` | no | Admin key. Also the key used to look the catalog address up on the `Data` tab. |
 | D | `Course` | yes | Required. A leading course number is stripped, since it's displayed separately. |
 | E | `Credits` | yes | A number 0–12, or blank. Blank means variable-credit — the student picks. Non-numeric text (e.g. `2 or 3`) warns and is treated as blank. |
