@@ -147,6 +147,22 @@ Version 2 added `a2`, `d`, `p`, `r` and `u`. Bump `schemaVersion` on any breakin
 change, and update `SCHEMA_VERSION` in both `index.html` and `admin.html`. The builder refuses versions it doesn't recognise and
 falls back rather than misreading them.
 
+### Saved plans
+
+Plans autosave to `localStorage`. Selections are stored by the course's own identity —
+its number and title joined by a unit separator — **not** by `COURSES[].i`, which is
+only the row's position in the published file. Keying on position would silently
+re-point a student's selections at different courses the first time a row was inserted
+mid-list rather than appended.
+
+On load the keys are resolved back to indices. A saved course that is no longer in the
+catalog is dropped and counted, and the save note says so rather than letting it
+disappear quietly. Plans written before this change stored positional indices; they are
+detected by shape, resolved against the current catalog, and rewritten into the stable
+form on the next save.
+
+The stored payload carries `v: 2` to make any future migration easier to detect.
+
 ### Experience section
 
 Section 3 is **not** driven by the workbook. The seven experience kinds, their fields

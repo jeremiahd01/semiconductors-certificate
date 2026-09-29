@@ -193,8 +193,6 @@
       margin: 0;
     }
     .section-rule { border: none; border-top: 1px solid var(--border-rule); margin: 10px 0 18px; }
-    .section-meta { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 18px; line-height: 1.6; }
-    .section-meta .target { color: var(--pu-aged-deep); font-weight: 600; }
 
     .note-box {
       background: var(--bg-warm);
@@ -1199,7 +1197,10 @@
       <h2 class="section-title">Required Course (1 credit)</h2>
     </div>
     <hr class="section-rule" />
-    <p class="section-meta">Required: <span class="target">1 credit hour</span> — every certificate student must complete this course.</p>
+    <div class="section-notes">
+      <p><span class="note-lead">Required:</span> <span class="target">1 credit hour</span> — every
+        certificate student must complete this course.</p>
+    </div>
     <div id="required-list"></div>
   </div>
 
@@ -2187,13 +2188,36 @@ function update({ rerenderAreas = false, rerenderSkills = false, rerenderOptions
   save();
 }
 
+/* A saved plan must survive the catalog changing under it. COURSES[].i is the
+   course's position in the published file, so persisting that would silently
+   re-point a student's selections at different courses the moment a row is
+   inserted mid-list. Selections are therefore stored by the course's own
+   identity — its number and title — and resolved back to indices on load. */
+const KEY_SEP = '\u241F';
+const courseKey = c => `${c.n}${KEY_SEP}${c.t}`;
+const courseByIndex = () => new Map(COURSES.map(c => [c.i, c]));
+const courseByKey = () => new Map(COURSES.map(c => [courseKey(c), c]));
+
+const STORAGE_FORMAT = 2;
+
 function save() {
   clearTimeout(saveTimer);
   saveTimer = setTimeout(() => {
+    const idx = courseByIndex();
+    const keyOf = i => { const c = idx.get(Number(i)); return c ? courseKey(c) : null; };
+
+    const selected = Object.keys(state.selected)
+      .filter(i => state.selected[i]).map(keyOf).filter(Boolean);
+    const credits = {};
+    Object.keys(state.credits).forEach(i => {
+      const k = keyOf(i);
+      if (k) credits[k] = state.credits[i];
+    });
+
     const payload = JSON.stringify({
+      v: STORAGE_FORMAT,
       requiredDone: state.requiredDone,
-      selected: state.selected,
-      credits: state.credits,
+      selected, credits,
       experience: state.experience
     });
     if (payload === lastSaved) return;   /* nothing actually changed */
@@ -2213,18 +2237,51 @@ function load() {
     lastSaved = raw;
     const d = JSON.parse(raw);
     state.requiredDone = !!d.requiredDone;
-    state.selected = d.selected || {};
-    state.credits = d.credits || {};
+
+    let missingCourses = 0;
+
+    if (Array.isArray(d.selected)) {
+      /* Current format: keyed by course identity. Anything no longer in the
+         catalog is dropped and counted rather than quietly ignored. */
+      const byKey = courseByKey();
+      d.selected.forEach(k => {
+        const c = byKey.get(k);
+        if (c) state.selected[c.i] = true; else missingCourses++;
+      });
+      Object.keys(d.credits || {}).forEach(k => {
+        const c = byKey.get(k);
+        if (c) state.credits[c.i] = d.credits[k];
+      });
+    } else {
+      /* Plans saved before this change stored positional indices. Resolve them
+         against the catalog as it stands now; the next save rewrites them as keys. */
+      const byIndex = courseByIndex();
+      Object.keys(d.selected || {}).forEach(i => {
+        if (!d.selected[i]) return;
+        const c = byIndex.get(Number(i));
+        if (c) state.selected[c.i] = true; else missingCourses++;
+      });
+      Object.keys(d.credits || {}).forEach(i => {
+        const c = byIndex.get(Number(i));
+        if (c) state.credits[c.i] = d.credits[i];
+      });
+    }
+
     /* Experience entries used to be a free-text name plus credits. Those predate
        the typed forms and cannot be mapped onto one, so drop them and say so
        rather than restoring a plan that silently lost part of itself. */
     const saved = Array.isArray(d.experience) ? d.experience : [];
     state.experience = saved.filter(e => e && expType(e.type));
-    const dropped = saved.length - state.experience.length;
+    const droppedExp = saved.length - state.experience.length;
     expSeq = state.experience.reduce((m, e) => Math.max(m, e.id + 1), 1);
-    if (state.requiredDone || state.experience.length || Object.keys(state.selected).length || dropped) {
-      $('save-note').textContent = dropped
-        ? `Restored your saved plan — ${dropped} older experience ${dropped === 1 ? 'entry needs' : 'entries need'} re-entering`
+
+    if (state.requiredDone || state.experience.length || Object.keys(state.selected).length ||
+        droppedExp || missingCourses) {
+      const notes = [];
+      if (missingCourses) notes.push(`${missingCourses} course${missingCourses === 1 ? ' is' : 's are'} no longer offered`);
+      if (droppedExp) notes.push(`${droppedExp} older experience ${droppedExp === 1 ? 'entry needs' : 'entries need'} re-entering`);
+      $('save-note').textContent = notes.length
+        ? `Restored your saved plan — ${notes.join('; ')}`
         : 'Restored your saved plan';
     }
   } catch (e) { /* corrupt state — start fresh */ }
