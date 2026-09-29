@@ -160,12 +160,11 @@ completes every field can download the plan and email it as-is.
 
 Two consequences worth knowing:
 
-- The converter still routes workbook rows whose Course Number begins `VIP` into a
-  separate `vip` array, and **the builder no longer reads it**. Those rows appear
-  nowhere on the site: not in the technical catalog, and not among the experience
-  options. See the note in the experience section, which says VIP Intro to SoCET and
-  VIP Introduction to Semiconductors count toward the *technical* areas — that routing
-  has not been changed yet.
+- Workbook rows whose Course Number begins `VIP` are ordinary technical-area courses
+  and appear in the catalog under their declared category. The published `vip` array is
+  retained for schema stability but is always empty, and the builder ignores it. VIP
+  rows are numbered just `VIP` with no digits, so they group under a `VIP` subject in
+  the filter and are correctly excluded by any level filter.
 - Experience entries saved before this shape existed (a free-text name plus credits)
   cannot be mapped onto a typed form. They are dropped on load and the save note says
   how many need re-entering, rather than restoring a plan that quietly lost part of
@@ -257,7 +256,7 @@ track every semester publish, since its job is to be a known-good floor, not cur
 | Col | Field | Published? | Rules |
 |---|---|---|---|
 | A | `Certificate?` | — | Must be `Yes` (any case) to be included. `No` is silently excluded; anything else is excluded **with a warning**. |
-| B | `Course Number` | yes | Required. Anything starting `VIP` is held out of the technical catalog (see *Experience section* below). |
+| B | `Course Number` | yes | Required. `VIP` rows are ordinary technical-area courses; they carry no digits, so they have a subject but no level. |
 | C | `ID#` | no | Admin key. Also the key used to look the catalog address up on the `Data` tab. |
 | D | `Course` | yes | Required. A leading course number is stripped, since it's displayed separately. |
 | E | `Credits` | yes | A number 0–12, or blank. Blank means variable-credit — the student picks. Non-numeric text (e.g. `2 or 3`) warns and is treated as blank. |

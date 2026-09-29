@@ -268,8 +268,9 @@ const AREA_POLICY = [
 ];
 const AREA_BY_LABEL = new Map(AREA_POLICY.map((a, i) => [a.label.toLowerCase(), i]));
 
-/* Rows whose Course Number is this go to the experience section, not the technical bucket */
-const VIP_MARKER = 'VIP';
+/* `vip` is retained in the output for schema stability but is always empty: VIP rows
+   are ordinary technical-area courses now, and the experience section declares its own
+   options rather than reading them from the workbook. */
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"']/g, c =>
@@ -372,7 +373,8 @@ function convert(workbook, filename) {
   });
 
   /* Rows 3+ = courses */
-  const courses = [], vip = [], unknownAreas = new Map(), skipped = [];
+  const courses = [], unknownAreas = new Map(), skipped = [];
+  const vip = [];   /* always empty — see the note beside AREA_POLICY */
   const noCredits = [], noSkills = [], badFlags = [], badMarks = [];
   const noUrl = [], badUrl = [], unknownSecondary = new Map();
 
@@ -428,11 +430,6 @@ function convert(workbook, filename) {
       r: cell(row[COL.restrict]),
       u: url
     };
-
-    if (num.toUpperCase().startsWith(VIP_MARKER)) {
-      vip.push(Object.assign({ n: VIP_MARKER, t: cleanTitle(title), s }, detail));
-      continue;
-    }
 
     if (!url) noUrl.push({ n: num, t: cleanTitle(title) });
 

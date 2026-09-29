@@ -1409,10 +1409,10 @@
    Refreshed by hand whenever the app itself is updated. */
 const FALLBACK_CATALOG = {
  schemaVersion:2,
- generatedAt:"2026-09-26T20:08:58Z",
+ generatedAt:"2026-09-29T18:23:04Z",
  source:"semiconductors_course_data_2026_09_24.xlsx (embedded snapshot)",
  sheet:"Updated",
- counts:{"courses":100,"vip":3,"skills":51,"areas":5},
+ counts:{"courses":103,"vip":0,"skills":51,"areas":5},
  skills:["Advanced Packaging","Artificial Intelligence & Machine Learning","AI Acceleration (Hardware)","Analog IC Design","ASIC RTL Design","Characterization & Metrology","Custom Digital IC Design","Data Analysis","Data Center Infrastructure","Design for Sustainability","Design, EDA, and Digital Twins","Device and Circuit Concepts","Digital Design","Embedded Systems","Fabrication Concepts","Facilities Design","FPGA Prototyping","Functional verification of ASiC/SoC","Interconnects & Re-Distribution Layers","Lithography","Manufacturing & Control Strategies","Material Properties","Memory design","Micro-Electro-Mechanical Systems (MEMS)","Mixed Signal IC Design","Nanoscale Materials, Systems, & Devices","Optics and Photonics","Physical layout and verification of ICs","Power Delivery","Power Electronics","Process Analysis & Scheduling","Process Development & Assembly","Processor Design","Quality Control","Quantum Computing","Quantum Mechanics & Solid State Physics","Radiation Hardening","Reliability & Failure Analysis","RF IC design","Health & Safety","Semiconductor Fundamentals & Device Theory","Sensors and Actuators","Statistical Analysis","Statistical Process Control","Substrates, Materials, and Encapsulation","Supply Chain Management","System on Chip Architecture","Thermal Management","Timing Analysis","Uncertainty Analysis","VLSI Design"],
  areas:[{"id":"dev","label":"Semiconductor and Microelectronic Devices","short":"Semiconductor and Microelectronic Devices"},{"id":"mat","label":"Semiconductor Materials, Characterization, and Processing","short":"Semiconductor Materials, Characterization, and Processing"},{"id":"ic","label":"Integrated Circuit & System Design, Electronic Design Automation","short":"Integrated Circuit & System Design, Electronic Design Automation"},{"id":"pkg","label":"Electronics Packaging, Heterogeneous Integration, and Thermal Management","short":"Electronics Packaging, Heterogeneous Integration, and Thermal Management"},{"id":"mfg","label":"Semiconductor Manufacturing and Global Supply Chain Management","short":"Semiconductor Manufacturing and Global Supply Chain Management"}],
  courses:[
@@ -1516,12 +1516,15 @@ const FALLBACK_CATALOG = {
   {"a":4,"a2":null,"n":"SCOM 26100","t":"Introduction To Supply Chain Management","c":3,"s":[45],"d":"This course introduces general concepts in supply chain management, including procurement, supply planning, demand planning, and logistics, using state-of-the-art tools in predictive analytics, artificial intelligence, and optimization. This course is designed around a corporate partnership to provide students with the opportunity to work on a real-world case presented by the corporate partner, a complex problem broken down into several learning areas throughout the semester","p":"Junior status and above","r":"","u":"https://selfservice.mypurdue.purdue.edu/prod/bwckctlg.p_disp_course_detail?cat_term_in=202710&subj_code_in=MGMT&crse_numb_in=26100","i":97},
   {"a":4,"a2":null,"n":"SCOM 46200","t":"Advanced Manufacturing Planning And Control Systems","c":3,"s":[20,30],"d":"The course examines key concepts in the planning, control, and improvement of processes in manufacturing and service operations. Specific topics covered in the course include: (i) Product/service characteristics that provide value to customers and competitive priorities, (ii) Role of processes and key operations choices to support the competitive priorities, (iii) Process analysis and scheduling, (iv) Throughput principles to deal with adverse impacts of process uncertainties and bottlenecks, (v) Managing capacity and lead times, (vi) Throughput principles to deal with wastes and errors, including the Toyota Production System and Lean Operations, and (vii) Coordinating material/order flows in supply chain - MRP, and Resources and Production Planning - Aggregate Production Planning. The class uses a combination of lectures, cases, simulations, outside speakers, experiential exercises, and student presentations. An important component of the course is a hands-on exercise where students in teams of seven or eight design and run a production process to meet demand for a quality-conscious customer. The teams then present the lessons learned to the class","p":"MGMT 36100","r":"","u":"https://selfservice.mypurdue.purdue.edu/prod/bwckctlg.p_disp_course_detail?cat_term_in=202710&subj_code_in=MGMT&crse_numb_in=46200","i":98},
   {"a":4,"a2":null,"n":"SCOM 46300","t":"Supply Chain Analytics","c":3,"s":[45],"d":"This course focuses on data-driven and rigorous decision-making in supply chain management. It is a complete problem-solving and decision-making process, and integrates a broad set of analytical methodologies (data analysis, optimization, and simulation). Students will implement these methodologies in both Excel and in Python, and they will learn how to use AI to augment and support their coding abilities. MGMT 30600 is highly recommended but not required. Basic Calculus, Statistics, and Excel literacy are required","p":"MGMT 36100 [concurrent ok]","r":"","u":"https://selfservice.mypurdue.purdue.edu/prod/bwckctlg.p_disp_course_detail?cat_term_in=202710&subj_code_in=MGMT&crse_numb_in=46300","i":99},
+  {"a":2,"a2":null,"n":"VIP","t":"STARS (Taken in 2026 and later)","c":null,"s":[3,4,6,10,12,16,17,27],"d":"Check course registration information","p":"Check course registration information","r":"Taken in 2026 or later","u":"","i":100},
+  {"a":2,"a2":null,"n":"VIP","t":"STARS: Introduction to SoCET 1","c":null,"s":[0,1,2,3,4,5,6,10,11,12,13,16,17,18,22,24,29,40,46,48,50],"d":"The primary objective of the SoCET team is to provide students with a comprehensive System on Chip design, fabrication and test experience that is as similar to industry practice as possible","p":"Check course registration information","r":"Semester 1 of SoCET","u":"","i":101},
+  {"a":4,"a2":null,"n":"VIP","t":"Intro to Semiconductor Manufacturing","c":null,"s":[14,20],"d":"Check course registration information","p":"Check course registration information","r":"","u":"","i":102},
  ],
- vip:[{"n":"VIP","t":"STARS (Taken in 2026 and later)","s":[3,4,6,10,12,16,17,27],"d":"Check course registration information","p":"Check course registration information","r":"Taken in 2026 or later","u":""},{"n":"VIP","t":"STARS: Introduction to SoCET 1","s":[0,1,2,3,4,5,6,10,11,12,13,16,17,18,22,24,29,40,46,48,50],"d":"The primary objective of the SoCET team is to provide students with a comprehensive System on Chip design, fabrication and test experience that is as similar to industry practice as possible","p":"Check course registration information","r":"Semester 1 of SoCET","u":""},{"n":"VIP","t":"Intro to Semiconductor Manufacturing","s":[14,20],"d":"Check course registration information","p":"Check course registration information","r":"","u":""}]
+ vip:[]
 };
 
 /* Populated by applyCatalog() once the live file is fetched (or the fallback taken) */
-let SKILLS = [], AREAS = [], COURSES = [], VIP = [];
+let SKILLS = [], AREAS = [], COURSES = [];
 
 /* The required course is not in the workbook — it is the one fixed requirement
    rather than catalog data, so it is defined here. Every other place on the page
@@ -1624,8 +1627,10 @@ function conflictsFor(course) {
 /* "ECE 30500" -> { subject:"ECE", level:"300" }. Suffixed numbers such as
    PHYS 570P still resolve, since only the leading digits are read. */
 function courseParts(n) {
-  const m = /^([A-Za-z]{2,4})\s*(\d+)/.exec(String(n || ''));
-  if (!m) return null;
+  /* Digits are optional: VIP rows are numbered just "VIP", so they still belong to a
+     subject but have no level and are correctly excluded by a level filter. */
+  const m = /^([A-Za-z]{2,4})\s*(\d*)/.exec(String(n || ''));
+  if (!m || !m[1]) return null;
   return { subject: m[1].toUpperCase(), level: m[2].length >= 3 ? m[2][0] + '00' : '' };
 }
 
@@ -1910,7 +1915,7 @@ const TERM_YEARS = (() => {
   const y = new Date().getFullYear();
   return Array.from({ length: 11 }, (_, i) => y - 4 + i);
 })();
-const TERM_SEASONS = ['Fall', 'Spring'];
+const TERM_SEASONS = ['Fall', 'Spring', 'Summer'];
 const EXP_CREDIT_CHOICES = [1, 2, 3, 4, 5, 6];
 
 const VIP_FIELDS = [
@@ -2509,7 +2514,8 @@ function validateCatalog(d) {
   if (!Array.isArray(d.areas)  || !d.areas.length) return 'areas must be a non-empty array';
   if (!d.areas.every(a => a && isStr(a.id) && isStr(a.label) && isStr(a.short))) return 'every area needs id, label and short strings';
   if (!Array.isArray(d.courses) || !d.courses.length) return 'courses must be a non-empty array';
-  if (!Array.isArray(d.vip)) return 'vip must be an array';
+  /* Vestigial since VIP rows became ordinary courses; still shape-checked if present */
+  if (d.vip !== undefined && !Array.isArray(d.vip)) return 'vip must be an array';
 
   const nSkills = d.skills.length, nAreas = d.areas.length;
   const optStr = v => v === undefined || isStr(v);
@@ -2529,7 +2535,7 @@ function validateCatalog(d) {
     if (!optStr(c.u)) return `course ${c.n} has a non-string catalog link`;
     if (c.u && !isHttpUrl(c.u)) return `course ${c.n} has a catalog link that is not http(s)`;
   }
-  for (const v of d.vip) {
+  for (const v of (d.vip || [])) {
     if (!v || !isStr(v.t)) return 'a VIP entry is missing its title';
     if (!Array.isArray(v.s) || !v.s.every(s => isInt(s) && s >= 0 && s < nSkills)) return 'a VIP entry has an out-of-range skill reference';
     if (v.u && (!isStr(v.u) || !isHttpUrl(v.u))) return 'a VIP entry has a catalog link that is not http(s)';
@@ -2538,7 +2544,7 @@ function validateCatalog(d) {
 }
 
 function applyCatalog(d) {
-  SKILLS = d.skills; AREAS = d.areas; COURSES = d.courses; VIP = d.vip;
+  SKILLS = d.skills; AREAS = d.areas; COURSES = d.courses;
 }
 
 function showProvenance(cat, live, reason) {
