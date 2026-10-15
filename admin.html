@@ -630,7 +630,6 @@ function render(res) {
 
   $('stats').innerHTML = doc ? [
     statBlock(doc.counts.courses, 'Courses', d ? doc.counts.courses - d.prevCount : null),
-    statBlock(doc.counts.vip, 'VIP / experience', null),
     statBlock(doc.counts.skills, 'Skills', d ? doc.counts.skills - (published.skills || []).length : null),
     statBlock(doc.counts.areas, 'Areas', null),
   ].join('') : '';

@@ -1124,18 +1124,20 @@
     </div>
   </div>
 
+  <!-- Headings are filled from the page's own section titles at generate time, so
+       renaming a section on the page cannot leave the printed plan behind. -->
   <div class="ps-section">
-    <div class="ps-section-title"><span>1 · Required Course</span><span class="ps-req">1 credit hour</span></div>
+    <div class="ps-section-title"><span id="ps-title-required"></span></div>
     <table class="ps-table"><tbody id="ps-required"></tbody></table>
   </div>
 
   <div class="ps-section">
-    <div class="ps-section-title"><span>2 · Technical Area Courses</span><span class="ps-req">9 credit hours min · 2 of 5 areas min</span></div>
+    <div class="ps-section-title"><span id="ps-title-technical"></span><span class="ps-req" id="ps-req-technical"></span></div>
     <table class="ps-table"><tbody id="ps-technical"></tbody></table>
   </div>
 
   <div class="ps-section">
-    <div class="ps-section-title"><span>3 · Semiconductor Experience</span><span class="ps-req">6 credit hours</span></div>
+    <div class="ps-section-title"><span id="ps-title-experience"></span></div>
     <table class="ps-table"><tbody id="ps-experience"></tbody></table>
   </div>
 
@@ -2536,7 +2538,20 @@ function psRow(code, name, area, cr) {
          `<td class="ps-cr">${esc(cr)}</td></tr>`;
 }
 
+/* The page markup is the only copy of each section's name; the printed plan reads it
+   back rather than restating it. The area rule is derived from the same constants the
+   tracker enforces. */
+function syncPrintHeadings() {
+  [['required', 1], ['technical', 2], ['experience', 3]].forEach(([id, n]) => {
+    const h = document.querySelector(`#section-${id} .section-title`);
+    $(`ps-title-${id}`).textContent = `${n} · ${h ? h.textContent.trim() : ''}`;
+  });
+  $('ps-req-technical').textContent =
+    `at least ${MIN_AREAS} of ${AREAS.length} certificate areas`;
+}
+
 $('btn-generate').addEventListener('click', () => {
+  syncPrintHeadings();
   $('ps-date').textContent = 'Generated ' + new Date().toLocaleDateString('en-US',
     { year: 'numeric', month: 'long', day: 'numeric' });
 
