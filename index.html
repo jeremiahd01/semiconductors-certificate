@@ -778,6 +778,17 @@
     }
     .exp-sep { font-size: 0.76rem; color: var(--text-muted); flex-shrink: 0; }
 
+    .exp-note {
+      margin: 0;
+      padding: 0 12px 14px;
+      font-size: 0.78rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+      max-width: 78ch;
+    }
+    .exp-note a { color: var(--pu-aged-deep); text-decoration: underline; text-underline-offset: 2px; }
+    .exp-note a:hover { color: var(--pu-black); }
+
     .exp-footer { display: flex; align-items: center; gap: 14px; margin-top: 12px; flex-wrap: wrap; }
     .exp-subtotal { font-size: 0.78rem; color: var(--text-muted); margin-left: auto; letter-spacing: 0.03em; }
     .exp-subtotal .val { color: var(--pu-aged-deep); font-weight: 700; }
@@ -1926,11 +1937,14 @@ const VIP_FIELDS = [
 ];
 
 const EXPERIENCE_TYPES = [
-  { id: 'intern', label: 'Internship or Co-Op', credits: 6, fields: [
+  { id: 'intern', label: 'Internship or Co-Op', credits: 6,
+    note: 'Students completing an internship should enroll in OPP 30999-01. Students completing a co-op should work with the Office of Professional Practice (propractice@purdue.edu) to ensure they are enrolled in the appropriate co-op course(s).',
+    fields: [
       { k: 'company', label: 'Company', kind: 'text' },
       { k: 'topic',   label: 'Your Project Topic', kind: 'text' },
       { k: 'dates',   label: 'Dates of Employment', kind: 'dates' },
-      { k: 'hours',   label: 'Hours per Week', kind: 'text', placeholder: 'e.g. 40' }
+      { k: 'hours',   label: 'Hours per Week', kind: 'text', placeholder: 'e.g. 40' },
+      { k: 'course',  label: 'Course Number(s)', kind: 'text', placeholder: 'e.g. OPP 30999-01' }
   ]},
   { id: 'surf', label: 'SURF', credits: 6, fields: [
       { k: 'mentor', label: 'Faculty Mentor', kind: 'text' },
@@ -2051,6 +2065,16 @@ function expFieldHTML(id, f, fld) {
   return `<div class="exp-field"><span class="exp-field-label">${esc(fld.label)}</span>${control}</div>`;
 }
 
+/* Optional per-type guidance shown under the fields. Static copy, but it is escaped
+   before the address is linkified so the pattern stays safe if the text ever moves
+   into data. */
+function expNoteHTML(t) {
+  if (!t.note) return '';
+  const html = esc(t.note).replace(/([\w.+-]+@[\w.-]+\.\w+)/g,
+    '<a href="mailto:$1">$1</a>');
+  return `<p class="exp-note">${html}</p>`;
+}
+
 function renderPresets() {
   $('exp-presets').innerHTML = EXPERIENCE_TYPES.map(t =>
     `<button class="btn-preset" data-exp-add="${esc(t.id)}"><i class="bi bi-plus"></i> ${esc(t.label)}</button>`
@@ -2082,6 +2106,7 @@ function renderExperience() {
           </button>
         </div>
         <div class="exp-fields">${t.fields.map(fld => expFieldHTML(e.id, f, fld)).join('')}</div>
+        ${expNoteHTML(t)}
       </div>`;
     }).join('');
   }
