@@ -11,7 +11,7 @@ tracker shows how close they are to meeting every certificate requirement.
 | `index.html` | The student-facing builder |
 | `admin.html` | Converts the semester spreadsheet into `course-data.json` |
 | `course-data.json` | The published course catalog the builder reads |
-| `semiconductors_course_data_2026_09_24.xlsx` | Source spreadsheet, maintained by the program |
+| `semiconductors_course_data_2026_10_30.xlsx` | Source spreadsheet, maintained by the program |
 
 All four are static files. There is no build step and no server-side code — they can be
 uploaded to a Zope folder as File objects and served directly.
@@ -119,10 +119,10 @@ area can be abbreviated later without a schema change or a spreadsheet edit.
 ```jsonc
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-26T18:04:11Z",
-  "source": "semiconductors_course_data_2026_09_24.xlsx",
+  "generatedAt": "2026-10-30T19:41:28Z",
+  "source": "semiconductors_course_data_2026_10_30.xlsx",
   "sheet": "Updated",
-  "counts": { "courses": 100, "vip": 3, "skills": 51, "areas": 5 },
+  "counts": { "courses": 102, "vip": 0, "skills": 51, "areas": 5 },
   "skills": ["Advanced Materials", "..."],          // index-addressed
   "areas":  [{ "id": "dev", "label": "...", "short": "Devices" }],
   "courses": [{
