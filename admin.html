@@ -231,6 +231,12 @@ const SHEET_LABEL = 'Updated';      /* how the tabs are spelled in the report */
 const LOOKUP_LABEL = 'Data';
 const MAX_BYTES = 20 * 1024 * 1024;
 
+/* Column A values that admit a course to the site. "Add" is the admins' own
+   marker for a row they have staged and want live — it carries the same weight
+   as "Yes". They keep the two words apart to track their own work, not to gate
+   publication. Any other value drops the row and warns. */
+const INCLUDE_FLAGS = new Set(['yes', 'add']);
+
 /* Fixed column positions on the main sheet (0-based). Row 2 headers are never
    read by name, so renaming one is harmless — moving one is not. */
 const COL = {
@@ -375,7 +381,7 @@ function convert(workbook, filename) {
   /* Rows 3+ = courses */
   const courses = [], unknownAreas = new Map(), skipped = [];
   const vip = [];   /* always empty — see the note beside AREA_POLICY */
-  const noCredits = [], noSkills = [], badFlags = [], badMarks = [];
+  const noCredits = [], noSkills = [], badFlags = [], badMarks = [], addFlags = [];
   const noUrl = [], badUrl = [], unknownSecondary = new Map();
 
   for (let r = 2; r < grid.length; r++) {
@@ -387,9 +393,9 @@ function convert(workbook, filename) {
     const title = cell(row[COL.title]);
     const area  = cell(row[COL.primary]);
 
-    if (flag !== 'yes') {
-      /* Anything other than yes/no in column A drops the row — say so rather than
-         letting a course vanish without explanation. */
+    if (!INCLUDE_FLAGS.has(flag)) {
+      /* Anything that is neither an including value nor "no" drops the row — say so
+         rather than letting a course vanish without explanation. */
       if (flag && flag !== 'no' && (num || title)) {
         badFlags.push({ row: r + 1, val: cell(row[COL.certificate]), num: num || title });
       }
@@ -400,6 +406,7 @@ function convert(workbook, filename) {
       skipped.push({ row: r + 1, why: !num ? 'no course number' : 'no course title' });
       continue;
     }
+    if (flag !== 'yes') addFlags.push({ row: r + 1, num, val: cell(row[COL.certificate]) });
 
     /* Only "x" tags a skill — flag anything else so ticks or 1s aren't lost quietly */
     skills.forEach(sk => {
@@ -475,7 +482,7 @@ function convert(workbook, filename) {
     }
   }
   if (!courses.length && !errors.length) {
-    errors.push({ title: 'No courses found', body: 'No rows had <code>Certificate = Yes</code> with a course number and title.' });
+    errors.push({ title: 'No courses found', body: 'No rows had <code>Certificate = Yes</code> or <code>Add</code> with a course number and title.' });
   }
 
   /* Cross-listings / renumberings sharing a normalised title */
@@ -524,10 +531,19 @@ function convert(workbook, filename) {
   });
   if (badFlags.length) warnings.push({
     title: `${badFlags.length} row${badFlags.length === 1 ? '' : 's'} left out — unrecognised Certificate value`,
-    body: `The <strong>Certificate</strong> column must say <code>Yes</code> for a course to appear. ` +
+    body: `The <strong>Certificate</strong> column must say <code>Yes</code> or <code>Add</code> for a ` +
+          `course to appear. ` +
           `These say something else, so they are being left out:` +
           `<ul>${badFlags.slice(0, 8).map(f => `<li>Row ${f.row} — <code>${esc(f.val)}</code> on ${esc(f.num)}</li>`).join('')}</ul>` +
           `${badFlags.length > 8 ? `…and ${badFlags.length - 8} more.` : ''}`
+  });
+  if (addFlags.length) notes.push({
+    title: `${addFlags.length} course${addFlags.length === 1 ? '' : 's'} published from an "Add" marker`,
+    body: `<code>Add</code> publishes a course exactly as <code>Yes</code> does. These rows are live on ` +
+          `the site — if any of them is still being worked on, change its Certificate value to ` +
+          `<code>No</code> and upload again:` +
+          `<ul>${addFlags.slice(0, 8).map(f => `<li>Row ${f.row} — <code>${esc(f.val)}</code> on ${esc(f.num)}</li>`).join('')}</ul>` +
+          `${addFlags.length > 8 ? `…and ${addFlags.length - 8} more.` : ''}`
   });
   if (badMarks.length) warnings.push({
     title: `${badMarks.length} skill cell${badMarks.length === 1 ? '' : 's'} not marked with "x"`,

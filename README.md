@@ -119,10 +119,10 @@ area can be abbreviated later without a schema change or a spreadsheet edit.
 ```jsonc
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-30T19:41:28Z",
+  "generatedAt": "2026-11-02T14:48:31Z",
   "source": "semiconductors_course_data_2026_10_30.xlsx",
   "sheet": "Updated",
-  "counts": { "courses": 102, "vip": 0, "skills": 51, "areas": 5 },
+  "counts": { "courses": 120, "vip": 0, "skills": 51, "areas": 5 },
   "skills": ["Advanced Materials", "..."],          // index-addressed
   "areas":  [{ "id": "dev", "label": "...", "short": "Devices" }],
   "courses": [{
@@ -271,7 +271,7 @@ track every semester publish, since its job is to be a known-good floor, not cur
 
 | Col | Field | Published? | Rules |
 |---|---|---|---|
-| A | `Certificate?` | — | Must be `Yes` (any case) to be included. `No` is silently excluded; anything else is excluded **with a warning**. |
+| A | `Certificate?` | — | Must be `Yes` or `Add` (any case) to be included. `No` is silently excluded; anything else is excluded **with a warning**. `Add` is the admins' own marker for a row they have staged — it publishes exactly as `Yes` does, and the converter lists the rows it admitted that way so nothing goes live unnoticed. The admitting values live in `INCLUDE_FLAGS` in `admin.html`. |
 | B | `Course Number` | yes | Required. `VIP` rows are ordinary technical-area courses; they carry no digits, so they have a subject but no level. |
 | C | `ID#` | no | Admin key. Also the key used to look the catalog address up on the `Data` tab. |
 | D | `Course` | yes | Required. A leading course number is stripped, since it's displayed separately. |
