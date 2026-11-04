@@ -2,15 +2,15 @@
      GENERATED FROM index.html BY build-embed.py — DO NOT EDIT BY HAND.
      Edit index.html, re-run the script, re-upload what changed.
 
-     Set data-catalog-url below to the published path of course-data.json,
-     starting with "/" so it does not depend on this page's url.
+     Assets are loaded from "embed/", relative to the page this renders on.
+     course-data.json is not named here: semi-cert.js looks for it beside
+     itself, so it follows the folder wherever it moves.
 -->
-<link rel="stylesheet" href="@@BASE@@/semi-cert.css" />
+<link rel="stylesheet" href="embed/semi-cert.css" />
 
 <!-- Single root. Every CSS rule in this file is scoped to it, so the app cannot
      restyle the host page and host rules cannot reach in and restyle the app. -->
-<div id="sc-app"
-     data-catalog-url="@@CATALOG_URL@@">
+<div id="sc-app">
 
 <!-- Icon sprite. Bootstrap Icons 1.11.3, inlined so the page loads nothing from a
      CDN. Ids are namespaced like everything else here, so they cannot clash with a
@@ -352,4 +352,4 @@
 
 </div><!-- /sc-app -->
 
-<script src="@@BASE@@/semi-cert.js" defer="defer"></script>
+<script src="embed/semi-cert.js" defer="defer"></script>

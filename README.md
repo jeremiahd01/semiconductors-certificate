@@ -40,17 +40,20 @@ python3 build-embed.py
 | `xlsx.mini.min.js` | File | `application/javascript` |
 
 **3 — Add a Page Template** in that same folder with the id **`ptCertificateTool`**, and
-paste in the contents of `embed/ptCertificateTool.html`. Then replace its two placeholders
-with real paths:
+paste in the contents of `embed/ptCertificateTool.html`. Nothing to fill in.
 
-| Placeholder | Replace with |
-|---|---|
-| `@@BASE@@` | `/OPP/certificate-tool` |
-| `@@CATALOG_URL@@` | `/OPP/certificate-tool/course-data.json` |
+It asks for its assets as `embed/semi-cert.css` and `embed/semi-cert.js` — relative, so it
+keeps working if the page and the folder are moved elsewhere together. That holds as long
+as the folder sits **beside the page** the block renders on. If you name the folder
+something other than `embed`, or want to pin it to one place, regenerate with:
 
-**Both must start with `/`** and must match wherever you actually put the folder. A path
-without a leading `/` is resolved against the *page's* address rather than the template's,
-which lands somewhere the files are not.
+```
+python3 build-embed.py --base certificate-tool      # a differently named sibling
+python3 build-embed.py --base /OPP/certificate-tool # pinned, moves break it
+```
+
+`course-data.json` is never named: the script looks for it beside itself, so it follows
+the folder automatically.
 
 **4 — Point the Wrap09 "Page Template Embed" block** at `ptCertificateTool`.
 
@@ -407,6 +410,17 @@ and banners the failure, so the symptom is stale data rather than an obvious bre
 resolved url is logged at startup to make it quick to confirm.
 
 The script tag is `defer`, so the block can sit anywhere on the page.
+
+Asset paths are relative on purpose, so the tool can be relocated without edits. That
+relies on two things, both checked against the live site: `/…/certificate/` **301s** to
+`/…/certificate`, so a trailing slash can't shift what relative urls resolve against, and
+the Wrap09 page carries **no `<base>` tag** that would redirect them elsewhere. If either
+ever changes, pin the path with `--base /full/path`.
+
+`course-data.json` is found from `document.currentScript.src` rather than configured,
+because a wrong catalog path fails *quietly* — the app falls back to its built-in snapshot
+and looks fine while serving stale data. Deriving it removes the setting that could be
+wrong. A broken css or js path, by contrast, fails loudly: the page renders unstyled.
 
 `ptCertificateTool` is a Page Template, so Zope parses its body. It is therefore kept
 XML-well-formed — void elements self-close, entities are numeric rather than named, and

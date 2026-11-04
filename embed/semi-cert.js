@@ -1233,19 +1233,28 @@ $('btn-generate').addEventListener('click', () => {
    never renders an empty catalog.
 ══════════════════════════════════════════════════════════════ */
 const SCHEMA_VERSION = 2;
-/* Where the published catalog lives. A bare relative name resolves against the
-   PAGE's url, not this file's, so once the app is embedded in a CMS page it
-   depends on whether that page is served with a trailing slash — two different
-   paths, neither of them where the file was uploaded. A miss is quiet, because
-   the app just falls back to the embedded snapshot and looks fine while serving
-   stale data. So the host sets the path explicitly:
+/* Where the published catalog lives.
 
-     <div id="sc-app" data-catalog-url="/OPP/.../course-data.json">
+   Written as a bare relative name it would resolve against the PAGE's url, not
+   this file's — so embedded in a CMS page it would land somewhere the file is
+   not, and a miss here is quiet: the app falls back to its built-in snapshot and
+   looks perfectly fine while serving stale data.
 
-   Use a path starting with "/" — it is then independent of the page's url. The
-   relative default is only for opening this file on its own. */
-const CATALOG_URL =
-  document.getElementById('sc-app')?.dataset.catalogUrl?.trim() || 'course-data.json';
+   So it is derived from this script's own url instead. The catalog is uploaded
+   beside semi-cert.js, which means the path is right wherever the folder is moved
+   to and there is nothing to configure or forget. currentScript is readable while
+   the script is executing, which is where this runs, and is empty for the inline
+   script in the standalone file — hence the relative fallback.
+
+   A host that keeps the catalog somewhere else can still override it:
+
+     <div id="sc-app" data-catalog-url="/some/other/place/course-data.json"> */
+const CATALOG_URL = (() => {
+  const explicit = document.getElementById('sc-app')?.dataset.catalogUrl?.trim();
+  if (explicit) return explicit;
+  const self = document.currentScript?.src;
+  return self ? new URL('course-data.json', self).href : 'course-data.json';
+})();
 
 const isStr = v => typeof v === 'string';
 const isInt = v => Number.isInteger(v);

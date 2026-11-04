@@ -12,17 +12,25 @@ converter's instructions point at, and what gets edited. This regenerates
 embed/ from it. Run it after any change to index.html and upload whichever
 pieces changed.
 
-    python3 build-embed.py            write embed/
-    python3 build-embed.py --check    exit 1 if embed/ is out of date
+    python3 build-embed.py              write embed/
+    python3 build-embed.py --base x/y   point the asset urls at folder x/y
+    python3 build-embed.py --check      exit 1 if embed/ is out of date
+
+--base is the folder holding semi-cert.css and semi-cert.js, as the rendered page
+should ask for it. It defaults to "embed", relative, which is correct whenever that
+folder sits beside the page the block renders on -- and keeps working if the pair is
+moved elsewhere together. Give it a path starting with "/" to pin it absolutely.
 """
 import io, os, re, sys, difflib
 
 SRC, OUT = 'index.html', 'embed'
+DEFAULT_BASE = 'embed'
 BANNER = ('GENERATED FROM index.html BY build-embed.py — DO NOT EDIT BY HAND.\n'
           'Edit index.html, re-run the script, re-upload what changed.')
 
-def build():
+def build(base=DEFAULT_BASE):
     h = io.open(SRC, encoding='utf-8').read()
+    base = base.rstrip('/')
 
     css = re.search(r'<style[^>]*>(.*?)</style>', h, re.S).group(1)
     b = h.find('<body>') + len('<body>')
@@ -30,22 +38,17 @@ def build():
     markup = h[b:s].strip()
     js = h[s + len('<script>'):h.rfind('</script>')].strip()
 
-    # the block owns the root element, so the data- attribute that points at the
-    # published catalog is set here rather than buried in the script
-    markup = markup.replace(
-        '<div id="sc-app">',
-        '<div id="sc-app"\n     data-catalog-url="@@CATALOG_URL@@">', 1)
-
     block = (
         '<!-- Semiconductors and Microelectronics Certificate builder.\n'
         '     %s\n\n'
-        '     Set data-catalog-url below to the published path of course-data.json,\n'
-        '     starting with "/" so it does not depend on this page\'s url.\n'
+        '     Assets are loaded from "%s/", relative to the page this renders on.\n'
+        '     course-data.json is not named here: semi-cert.js looks for it beside\n'
+        '     itself, so it follows the folder wherever it moves.\n'
         '-->\n'
-        '<link rel="stylesheet" href="@@BASE@@/semi-cert.css" />\n\n'
+        '<link rel="stylesheet" href="%s/semi-cert.css" />\n\n'
         '%s\n\n'
-        '<script src="@@BASE@@/semi-cert.js" defer="defer"></script>\n'
-    ) % (BANNER.replace('\n', '\n     '), markup)
+        '<script src="%s/semi-cert.js" defer="defer"></script>\n'
+    ) % (BANNER.replace('\n', '\n     '), base, base, markup, base)
 
     return {
         'semi-cert.css': '/* %s */\n%s' % (BANNER.replace('\n', ' '), css),
@@ -54,7 +57,13 @@ def build():
     }
 
 def main():
-    files = build()
+    base = DEFAULT_BASE
+    if '--base' in sys.argv:
+        i = sys.argv.index('--base')
+        if i + 1 >= len(sys.argv):
+            print('--base needs a value, e.g. --base embed'); return 2
+        base = sys.argv[i + 1]
+    files = build(base)
     check = '--check' in sys.argv
     os.makedirs(OUT, exist_ok=True)
     stale = []
@@ -78,9 +87,8 @@ def main():
         print('\nembed/ is stale — run: python3 build-embed.py')
         return 1
     if not check:
-        print('\nPlaceholders left for the deployer:')
-        print('  @@BASE@@         folder holding semi-cert.css / semi-cert.js')
-        print('  @@CATALOG_URL@@  published path of course-data.json')
+        print('\nAssets referenced as: %s/semi-cert.{css,js}' % base)
+        print('course-data.json is found by the script, beside itself — nothing to set.')
     return 0
 
 if __name__ == '__main__':
