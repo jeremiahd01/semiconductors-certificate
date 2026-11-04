@@ -8,13 +8,66 @@ tracker shows how close they are to meeting every certificate requirement.
 
 | File | Role |
 |---|---|
-| `index.html` | The student-facing builder |
+| `index.html` | The student-facing builder — the source of truth, and runs standalone |
 | `admin.html` | Converts the semester spreadsheet into `course-data.json` |
+| `xlsx.mini.min.js` | The spreadsheet parser `admin.html` uses |
 | `course-data.json` | The published course catalog the builder reads |
+| `embed/` | `index.html` split into the pieces the Wrap09 block needs — generated |
+| `build-embed.py` | Generates `embed/` |
 | `semiconductors_course_data_2026_10_30.xlsx` | Source spreadsheet, maintained by the program |
 
-All four are static files. There is no build step and no server-side code — they can be
-uploaded to a Zope folder as File objects and served directly.
+Everything served is a static file: no build step on the server, no server-side code, and
+nothing loaded from a CDN. Only `embed/` is generated, and only from `index.html`.
+
+## Installing
+
+One-time setup.
+
+**1 — Generate the embed files**
+
+```
+python3 build-embed.py
+```
+
+**2 — Upload to one folder in the ZMI**, for example `/OPP/semi-cert/`
+
+| Upload | Content type |
+|---|---|
+| `embed/semi-cert.css` | `text/css` |
+| `embed/semi-cert.js` | `application/javascript` |
+| `course-data.json` | anything — the builder reads it as text |
+| `admin.html` | `text/html` |
+| `xlsx.mini.min.js` | `application/javascript` |
+
+**3 — Paste `embed/block.html` into the page template block**, then replace its two
+placeholders with real paths:
+
+| Placeholder | Replace with |
+|---|---|
+| `@@BASE@@` | `/OPP/semi-cert` |
+| `@@CATALOG_URL@@` | `/OPP/semi-cert/course-data.json` |
+
+**Both must start with `/`.** A path without one is resolved against the *page's* address
+rather than the block's, which lands somewhere the files are not.
+
+**4 — Check it**
+
+Load the page. You should see the course list, and a footer reading *"Course catalog
+updated …"*. Open the browser console and confirm it logs the path you set:
+
+```
+[certificate] loading catalog from /OPP/semi-cert/course-data.json
+```
+
+If a banner appears above the course list reading *"Showing a saved course list …
+the current catalog could not be loaded"*, then `@@CATALOG_URL@@` is wrong. The page
+still works — it falls back to a snapshot built into the app — so this is easy to miss.
+Check for it.
+
+Don't link `admin.html` from the public page; it is a staff tool.
+
+Only re-run step 1 and re-upload `semi-cert.*` when `index.html` itself changes. Updating
+the course list each semester is just a `course-data.json` swap — see below.
 
 ## Certificate requirements
 
@@ -52,31 +105,25 @@ is considered equivalent to the full 6 credit hours.
 
 ## For the administrator
 
-Each semester:
+Each semester. Nothing here touches the app itself — only `course-data.json` changes.
 
-1. Edit the course workbook as usual — the **`Updated`** tab holds the course rows and the **`Data`** tab holds the catalog addresses
-2. Open **`admin.html`** in a browser and drop the spreadsheet onto it
+1. Edit the course workbook as usual — the **`Updated`** tab holds the course rows, the
+   **`Data`** tab holds the catalog addresses
+2. Open **`admin.html`** and drop the spreadsheet onto it
 3. Read the report. Warnings are informational; **errors block publishing** until fixed
 4. Click **Download course-data.json**
-5. In the ZMI, open the folder containing `index.html`
+5. In the ZMI, open the folder you installed into (`/OPP/semi-cert/`)
 6. **Rename** the existing `course-data.json` to e.g. `course-data-2026-fall.json` —
-   this is the rollback, don't skip it
+   this is your rollback, don't skip it
 7. Upload the new `course-data.json` into that same folder
-8. Load the builder and confirm the footer shows today's date
+8. Reload the certificate page and check the footer shows today's date
 
-Nothing is uploaded anywhere during steps 2–4. The spreadsheet is parsed inside the
-browser; the server never sees it — and since SheetJS is served from the same folder
-rather than a CDN, the converter needs no outbound internet access at all.
-
-The parser is the SheetJS **mini** build (279,523 bytes,
-`sha384-NG/W3xvO3ynQEcDQYIOcZTXRtwUs83cLv1FIl9PuqWPDuNhsMRF6wutlNLFwlb71`). It drops the
-legacy `.xls` and `.ods` readers, which are unreachable here because `handleFile()`
-rejects anything that is not `.xlsx` before the parser sees it. Checked against the full
-build on the real workbook: byte-identical output and an identical report.
-
-If a bad file does get published, the builder falls back to a snapshot bundled inside
-`index.html` and keeps working — so a mistake degrades the page rather than breaking it.
 To roll back, rename the archived file back to `course-data.json`.
+
+Steps 2–4 happen entirely in your browser — the spreadsheet is never uploaded, and the
+converter needs no internet access. If a bad file does get published, the builder falls
+back to a snapshot built into the app and keeps working, so a mistake degrades the page
+rather than breaking it.
 
 ## Architecture
 
@@ -270,10 +317,11 @@ sweep that axe cannot do on its own:
 Re-run the audit after any visual change: contrast and focus are the two things that
 regress silently.
 
-### Embedding in the Wrap09 template
+### How the embedding is scoped
 
-The app ships as one component that shares a document with the site theme, so it is
-scoped in both directions.
+*Reference — the install steps are under [Installing](#installing).*
+
+The app shares a document with the site theme, so it is scoped in both directions.
 
 - **One root.** Everything lives inside `<div id="sc-app">` and *every* CSS rule is
   prefixed with `#sc-app`. There are no bare `html`, `body` or `*` rules, so nothing
@@ -333,56 +381,36 @@ edge, which drops the button in its line box. `#sc-app :has(> .sc-icon)` sets
 `vertical-align: middle` to keep icons out of that calculation; it is inert on anything
 that is not inline-level.
 
-### Deploying into the Wrap09 page template block
+### Why the app is split into three files
 
-`index.html` is the source of truth and still runs standalone. `build-embed.py`
-splits it into the three pieces the block needs:
+*Reference — the install steps are under [Installing](#installing).*
 
-```
-python3 build-embed.py          # writes embed/
-python3 build-embed.py --check  # non-zero exit if embed/ is stale
-```
+`index.html` is the source of truth and still runs standalone. `build-embed.py` splits it
+into a stylesheet, a script and the block markup; `--check` exits non-zero if `embed/` has
+drifted from `index.html`.
 
-| Generated | Goes into the ZMI as | Content type |
-|---|---|---|
-| `embed/semi-cert.css` | File object | `text/css` |
-| `embed/semi-cert.js`  | File object | `application/javascript` |
-| `course-data.json`    | File object | anything — the app reads it as text |
-| `embed/block.html`    | pasted into the page template block | — |
+The split exists so the JavaScript never passes through a template parser. A Zope Page
+Template treats its body as markup, and this script is full of `<`, `&&` and `${...}`.
+Served as its own File object it is handled as an opaque static asset instead.
 
-The converter is a separate, standalone page — it is not embedded in a template:
-
-| File | Goes into the ZMI as | Content type |
-|---|---|---|
-| `admin.html` | File object | `text/html` |
-| `xlsx.mini.min.js` | File object, **same folder as admin.html** | `application/javascript` |
-
-`admin.html` references the parser as a plain relative `xlsx.mini.min.js`, which is
-safe here because it is served as its own page rather than inside someone else's url.
-Keep the two together. The converter is for staff — don't link it from the public page.
-
-The split exists so the JavaScript never passes through a template parser. A Zope
-Page Template treats its body as markup, and this script contains `<`, `&&` and
-`${...}`; served as its own File object it is handled as an opaque static asset.
-
-`block.html` carries two placeholders to fill in before pasting:
-
-- `@@BASE@@` — the folder holding the two `semi-cert.*` files, e.g. `/OPP/semi-cert`
-- `@@CATALOG_URL@@` — the published path of `course-data.json`
-
-**Both must start with `/`.** A relative path is resolved against the *page's* url,
-not the block's, so `course-data.json` becomes `.../certificate/course-data.json` or
-`.../semiconductors-and-microelectronics/course-data.json` depending on whether Zope
-serves that page with a trailing slash. Neither is where the file was uploaded. The
-app does not fail hard on a miss — it falls back to the embedded snapshot and shows a
-banner saying the catalog could not be loaded — so the symptom is quietly stale data
-rather than a broken page. The resolved url is logged to the console at startup
-(`[certificate] loading catalog from …`) to make that quick to confirm.
+`block.html`'s `@@CATALOG_URL@@` must be an absolute path because a relative one resolves
+against the *page's* url, not the block's: `course-data.json` would become
+`.../certificate/course-data.json` or `.../semiconductors-and-microelectronics/course-data.json`
+depending on whether Zope serves that page with a trailing slash — neither being where the
+file was uploaded. A miss is not fatal, since the app falls back to its built-in snapshot
+and banners the failure, so the symptom is stale data rather than an obvious break. The
+resolved url is logged at startup to make it quick to confirm.
 
 The script tag is `defer`, so the block can sit anywhere on the page.
 
-After deploying, check in the browser console that the catalog url logged is the one
-you intended, and that no "could not be loaded" banner is showing.
+`admin.html` is not embedded — it is served as its own page, so it can reference
+`xlsx.mini.min.js` as a plain relative path. Keep the two together in one folder.
+
+The parser is the SheetJS **mini** build (279,523 bytes,
+`sha384-NG/W3xvO3ynQEcDQYIOcZTXRtwUs83cLv1FIl9PuqWPDuNhsMRF6wutlNLFwlb71`). It drops the
+legacy `.xls` and `.ods` readers, which are unreachable here because `handleFile()` rejects
+anything that is not `.xlsx` before the parser sees it. Checked against the full build on
+the real workbook: byte-identical output and an identical report.
 
 ### Zope notes
 
