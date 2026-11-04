@@ -1,0 +1,327 @@
+<!-- Semiconductors & Microelectronics Certificate builder.
+     GENERATED FROM index.html BY build-embed.py — DO NOT EDIT BY HAND.
+     Edit index.html, re-run the script, re-upload what changed.
+
+     Set data-catalog-url below to the published path of course-data.json,
+     starting with "/" so it does not depend on this page's url.
+-->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<link rel="stylesheet" href="@@BASE@@/semi-cert.css">
+
+<!-- Single root. Every CSS rule in this file is scoped to it, so the app cannot
+     restyle the host page and host rules cannot reach in and restyle the app. -->
+<div id="sc-app"
+     data-catalog-url="@@CATALOG_URL@@">
+
+
+<!-- ══════════════════════════════════════════════════════════
+     PRINT SUMMARY SHEET
+══════════════════════════════════════════════════════════ -->
+<div id="sc-print-sheet">
+  <div class="ps-header">
+    <div class="ps-institution">Purdue University · College of Engineering</div>
+    <div class="ps-program">Semiconductors and Microelectronics<br><span>Certificate Program</span></div>
+    <div class="ps-doc-meta">
+      <span>Student Plan of Study</span>
+      <span id="sc-ps-date"></span>
+    </div>
+  </div>
+
+  <!-- Headings are filled from the page's own section titles at generate time, so
+       renaming a section on the page cannot leave the printed plan behind. -->
+  <div class="ps-section">
+    <div class="ps-section-title"><span id="sc-ps-title-required"></span></div>
+    <table class="ps-table"><tbody id="sc-ps-required"></tbody></table>
+  </div>
+
+  <div class="ps-section">
+    <div class="ps-section-title"><span id="sc-ps-title-technical"></span><span class="ps-req" id="sc-ps-req-technical"></span></div>
+    <table class="ps-table"><tbody id="sc-ps-technical"></tbody></table>
+  </div>
+
+  <div class="ps-section">
+    <div class="ps-section-title"><span id="sc-ps-title-experience"></span></div>
+    <table class="ps-table"><tbody id="sc-ps-experience"></tbody></table>
+  </div>
+
+  <div class="ps-totals">
+    <div class="ps-total-label">Total Certificate Credits</div>
+    <div>
+      <span class="ps-total-val" id="sc-ps-total">0</span>
+      <span class="ps-total-req">&nbsp;/ 16 required</span>
+    </div>
+  </div>
+  <div class="ps-status" id="sc-ps-status"></div>
+
+  <div class="ps-skills">
+    <div class="ps-skills-title">Skills Represented in This Plan</div>
+    <div id="sc-ps-skills-list"></div>
+  </div>
+
+  <div class="ps-footer">
+    <span>Purdue University · Semiconductors and Microelectronics Certificate</span>
+    <span>Planning tool output — not an official advising document.</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     APP
+══════════════════════════════════════════════════════════ -->
+<div class="app-outer">
+<div class="page-wrapper">
+
+  <div class="data-banner" id="sc-data-banner" hidden>
+    <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
+    <div>
+      <strong>Showing a saved course list.</strong>
+      <span id="sc-data-banner-detail"></span>
+    </div>
+  </div>
+
+  <div class="page-header">
+    <div class="overline">Purdue University · College of Engineering</div>
+    <h1 class="page-title">Semiconductors &amp; Microelectronics<br><span>Certificate Program</span></h1>
+    <p class="page-subtitle is-clamped" id="sc-page-subtitle">
+      The Certificate in Semiconductors and Microelectronics is open to students in all
+      undergraduate majors interested in careers in the field of semiconductors and
+      microelectronics. This certificate gives undergraduate students broad technical
+      exposure to topics in the areas of semiconductors and microelectronics and is
+      designed to supplement the baccalaureate plans of studies in different majors,
+      including (but not limited to) engineering, computer science, physics, chemistry,
+      technology, and business. The U.S. semiconductor and microelectronics industry is
+      facing an overwhelming and rapidly growing crunch for trained talent. The broad
+      scope of the semiconductors and microelectronics industry - from materials and
+      processing to device and integrated circuit/system design, to manufacturing, supply
+      chains, and data analytics, to testing, qualification, packaging, and thermal
+      management - provides exciting career opportunities for students from a wide range
+      of disciplines.
+    </p>
+    <button class="subtitle-toggle" id="sc-subtitle-toggle" aria-expanded="false" aria-controls="sc-page-subtitle">
+      <span id="sc-subtitle-toggle-text">Read more</span><i class="bi bi-chevron-down" aria-hidden="true"></i>
+    </button>
+    <div class="requirement-pills">
+      <div class="req-pill"><strong>1</strong> required seminar course</div>
+      <div class="req-pill"><strong>9</strong> technical area credits</div>
+      <div class="req-pill"><strong>Hands-on</strong> semiconductor experience</div>
+    </div>
+  </div>
+
+  <!-- ─── SECTION 1: REQUIRED COURSE ────────────────────── -->
+  <div class="course-section" id="sc-section-required">
+    <div class="section-header">
+      <span class="section-index">01</span>
+      <h2 class="section-title">Required Course (1 credit)</h2>
+    </div>
+    <hr class="section-rule" />
+    <div class="section-notes">
+      <p><span class="note-lead">Required:</span> <span class="target">1 credit hour</span> — every
+        certificate student must complete this course.</p>
+    </div>
+    <div id="sc-required-list"></div>
+  </div>
+
+  <!-- ─── SECTION 2: TECHNICAL AREAS ────────────────────── -->
+  <div class="course-section" id="sc-section-technical">
+    <div class="section-header">
+      <span class="section-index">02</span>
+      <h2 class="section-title">Technical Courses (9 credits)</h2>
+    </div>
+    <hr class="section-rule" />
+    <div class="section-notes">
+      <p><span class="note-lead">Requirements:</span> Take at least
+        <span class="target">9 credit hours</span> of courses in
+        <span class="target">at least two out of the five technical areas</span> listed below.</p>
+      <p><span class="note-lead">Instructions:</span> Use the search box and filter options to
+        identify and select 9 credits of courses that you would like to take. The Technical Areas
+        tracker on the right-side or top of your screen will update as you select the courses to
+        indicate if your plan meets the requirements.</p>
+      <p><span class="note-lead">Note:</span> Special Topics Courses (like ECE 595, ME 597, etc.)
+        vary in credit hours by topic. Use the dropdown box to indicate the correct number of
+        credit hours for the course you select.</p>
+    </div>
+
+    <div class="filter-bar">
+      <div class="filter-row">
+        <div class="filter-search">
+          <i class="bi bi-search" aria-hidden="true"></i>
+          <input type="text" id="sc-search-input" placeholder="Search by course number, title, or skill…" autocomplete="off" />
+        </div>
+        <button class="btn-filter" id="sc-btn-skill-panel">
+          <i class="bi bi-tags" aria-hidden="true"></i> Filter by skill
+          <span class="cnt" id="sc-skill-filter-count" style="display:none">0</span>
+        </button>
+        <button class="btn-filter" id="sc-btn-selected-only">
+          <i class="bi bi-check2-square" aria-hidden="true"></i> Selected only
+        </button>
+      </div>
+
+      <div class="filter-row filter-row-secondary">
+        <label class="filter-select">
+          <span>Subject</span>
+          <select id="sc-major-filter"><option value="">All subjects</option></select>
+        </label>
+        <label class="filter-select">
+          <span>Level</span>
+          <select id="sc-level-filter"><option value="">All levels</option></select>
+        </label>
+        <button class="btn-filter btn-filter-clear" id="sc-btn-clear-all" disabled>
+          <i class="bi bi-x-circle" aria-hidden="true"></i> Clear filters
+        </button>
+      </div>
+
+      <div class="skill-panel" id="sc-skill-panel">
+        <div class="skill-panel-head">
+          <span class="skill-panel-label">Select target skills</span>
+          <div class="skill-mode">
+            <button id="sc-mode-any" class="on">Match any</button>
+            <button id="sc-mode-all">Match all</button>
+          </div>
+        </div>
+        <div class="skill-cloud" id="sc-skill-cloud"></div>
+      </div>
+
+      <div class="filter-summary">
+        <span id="sc-filter-summary-text"></span>
+      </div>
+    </div>
+
+    <div id="sc-area-groups"></div>
+    <div class="no-results" id="sc-no-results" style="display:none">
+      <i class="bi bi-search" aria-hidden="true"></i> No courses match your filters.
+    </div>
+  </div>
+
+  <!-- ─── SECTION 3: EXPERIENCE ─────────────────────────── -->
+  <div class="course-section" id="sc-section-experience">
+    <div class="section-header">
+      <span class="section-index">03</span>
+      <h2 class="section-title">Semiconductor Experience for Undergraduates (6 credits)</h2>
+    </div>
+    <hr class="section-rule" />
+    <div class="section-notes">
+      <p><span class="note-lead">Requirements:</span> Students are required to complete the equivalent
+        of <span class="target">6 credit hours</span> of experiential learning or internships/co-ops
+        relevant to technical areas of semiconductors and microelectronics. Experiential learning
+        opportunities include research courses (such as independent study research with a faculty
+        member, Vertically Integrated Projects (VIP) courses, or the Summer Undergraduate Research
+        Fellowship (SURF) program). Full-time (40 hr/week) summer internships, semester-long of
+        full-time (40 hr/week) internship or co-ops, or completing the SURF program are considered
+        equivalent to 6 credit hours.</p>
+      <p><span class="note-lead">Instructions:</span> Add each experience separately (e.g., if taking
+        2 semesters of VIP, include the details for each). If you are completing this for your planning
+        purposes, you may leave unknown information blank. If you are preparing this to submit for
+        approval of the certificate because you&rsquo;ve completed all the requirements, please fill in
+        all details, download, and email to the Certificate Coordinator.</p>
+      <p><span class="note-lead">Note:</span> VIP Intro to SoCET (first semester) and VIP Introduction
+        to Semiconductors count towards the technical area courses above.</p>
+    </div>
+
+    <div class="exp-preset" id="sc-exp-presets"></div>
+    <div id="sc-exp-list"></div>
+    <div class="exp-footer">
+      <span class="exp-subtotal">Subtotal: <span class="val" id="sc-exp-subtotal">0</span> of 6 credits</span>
+    </div>
+  </div>
+
+</div><!-- /page-wrapper -->
+
+<!-- ─── TRACKER ─────────────────────────────────────────── -->
+<div class="tracker-column">
+  <!-- Selecting a course changes the tracker, which sits outside the reading order a
+       screen-reader user is in. One polite live region carries a short summary of the
+       whole plan so the change is announced once, instead of four cards announcing
+       separately and talking over each other. -->
+  <p id="sc-plan-announce" class="vis-hidden" role="status" aria-live="polite" aria-atomic="true"></p>
+
+  <div id="sc-tracker">
+    <div class="tracker-header"><span class="dot"></span>Certificate Progress</div>
+
+    <div class="tracker-cards">
+      <div class="tracker-card" id="sc-card-required">
+        <div class="complete-icon"><i class="bi bi-check-lg" aria-hidden="true"></i></div>
+        <div class="tracker-card-label">Required Course</div>
+        <div class="tracker-tally">
+          <span class="tally-current" id="sc-tally-required">0</span>
+          <span class="tally-sep">/</span>
+          <span class="tally-target">1 credit</span>
+        </div>
+        <div class="tracker-progress"><div class="tracker-bar" id="sc-bar-required"></div></div>
+        <div class="tracker-status-text" id="sc-status-required">Not yet selected</div>
+      </div>
+
+      <div class="tracker-card" id="sc-card-technical">
+        <div class="complete-icon"><i class="bi bi-check-lg" aria-hidden="true"></i></div>
+        <div class="tracker-card-label">Technical Areas</div>
+        <div class="tracker-tally">
+          <span class="tally-current" id="sc-tally-technical">0</span>
+          <span class="tally-sep">/</span>
+          <span class="tally-target">9 credits</span>
+        </div>
+        <div class="tracker-progress"><div class="tracker-bar" id="sc-bar-technical"></div></div>
+        <div class="tracker-status-text" id="sc-status-technical">9 credits required</div>
+        <div class="breadth-block" id="sc-breadth-block">
+          <div class="breadth-label" id="sc-breadth-label">
+            <span>Area breadth</span><span><b id="sc-breadth-count">0</b> of 2 min</span>
+          </div>
+          <div class="breadth-dots" id="sc-breadth-dots"></div>
+        </div>
+        <div class="tracker-courses" id="sc-courses-technical"></div>
+      </div>
+
+      <div class="tracker-card" id="sc-card-experience">
+        <div class="complete-icon"><i class="bi bi-check-lg" aria-hidden="true"></i></div>
+        <div class="tracker-card-label">Semiconductor Experience</div>
+        <div class="tracker-tally">
+          <span class="tally-current" id="sc-tally-experience">0</span>
+          <span class="tally-sep">/</span>
+          <span class="tally-target">6 credits</span>
+        </div>
+        <div class="tracker-progress"><div class="tracker-bar" id="sc-bar-experience"></div></div>
+        <div class="tracker-status-text" id="sc-status-experience">6 credits required</div>
+        <div class="tracker-courses" id="sc-courses-experience"></div>
+      </div>
+
+      <div class="tracker-card" id="sc-card-total">
+        <div class="complete-icon"><i class="bi bi-check-lg" aria-hidden="true"></i></div>
+        <div class="tracker-card-label">Total Credits</div>
+        <div class="tracker-tally">
+          <span class="tally-current" id="sc-tally-total">0</span>
+          <span class="tally-sep">/</span>
+          <span class="tally-target">16 credits</span>
+        </div>
+        <div class="tracker-progress"><div class="tracker-bar" id="sc-bar-total"></div></div>
+        <div class="tracker-status-text" id="sc-status-total">Complete all three requirements</div>
+      </div>
+    </div>
+
+    <div class="skills-card">
+      <div class="skills-card-head">
+        <span class="skills-card-label">Skills You'll Gain</span>
+        <span class="skills-card-count" id="sc-skills-count">0</span>
+      </div>
+      <div class="skills-card-list" id="sc-skills-list">
+        <span class="skills-card-empty">Select courses to build your skill profile.</span>
+      </div>
+    </div>
+  </div>
+</div><!-- /tracker-column -->
+
+<!-- Sits outside .page-wrapper so the grid can drop the tracker between the
+     course sections and these buttons once the layout goes single-column. -->
+<div class="action-block">
+  <div class="action-row">
+    <button class="btn-generate" id="sc-btn-generate" disabled>
+      <i class="bi bi-file-earmark-text" aria-hidden="true"></i> Generate plan of study
+    </button>
+    <button class="btn-reset" id="sc-btn-reset"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i> Reset</button>
+    <span class="save-note" id="sc-save-note"></span>
+  </div>
+
+  <div class="data-stamp" id="sc-data-stamp"></div>
+</div><!-- /action-block -->
+
+</div><!-- /app-outer -->
+
+</div><!-- /sc-app -->
+
+<script src="@@BASE@@/semi-cert.js" defer></script>

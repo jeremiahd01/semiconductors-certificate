@@ -314,6 +314,46 @@ Fonts come from the host: Purdue's Adobe Fonts kit registers Acumin as `acumin-p
 `acumin-pro-condensed`, not `Acumin Pro`, so the stacks list the Typekit names first.
 Nothing needs adding to the host page.
 
+### Deploying into the Wrap09 page template block
+
+`index.html` is the source of truth and still runs standalone. `build-embed.py`
+splits it into the three pieces the block needs:
+
+```
+python3 build-embed.py          # writes embed/
+python3 build-embed.py --check  # non-zero exit if embed/ is stale
+```
+
+| Generated | Goes into the ZMI as | Content type |
+|---|---|---|
+| `embed/semi-cert.css` | File object | `text/css` |
+| `embed/semi-cert.js`  | File object | `application/javascript` |
+| `course-data.json`    | File object | anything — the app reads it as text |
+| `embed/block.html`    | pasted into the page template block | — |
+
+The split exists so the JavaScript never passes through a template parser. A Zope
+Page Template treats its body as markup, and this script contains `<`, `&&` and
+`${...}`; served as its own File object it is handled as an opaque static asset.
+
+`block.html` carries two placeholders to fill in before pasting:
+
+- `@@BASE@@` — the folder holding the two `semi-cert.*` files, e.g. `/OPP/semi-cert`
+- `@@CATALOG_URL@@` — the published path of `course-data.json`
+
+**Both must start with `/`.** A relative path is resolved against the *page's* url,
+not the block's, so `course-data.json` becomes `.../certificate/course-data.json` or
+`.../semiconductors-and-microelectronics/course-data.json` depending on whether Zope
+serves that page with a trailing slash. Neither is where the file was uploaded. The
+app does not fail hard on a miss — it falls back to the embedded snapshot and shows a
+banner saying the catalog could not be loaded — so the symptom is quietly stale data
+rather than a broken page. The resolved url is logged to the console at startup
+(`[certificate] loading catalog from …`) to make that quick to confirm.
+
+The script tag is `defer`, so the block can sit anywhere on the page.
+
+After deploying, check in the browser console that the catalog url logged is the one
+you intended, and that no "could not be loaded" banner is showing.
+
 ### Zope notes
 
 - **Content type** doesn't matter. The builder parses `res.text()` rather than

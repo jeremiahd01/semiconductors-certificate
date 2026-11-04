@@ -1,0 +1,1343 @@
+/* GENERATED FROM index.html BY build-embed.py — DO NOT EDIT BY HAND. Edit index.html, re-run the script, re-upload what changed. */
+/* ══════════════════════════════════════════════════════════════
+   DATA — generated from the course workbook › "Updated" tab
+══════════════════════════════════════════════════════════════ */
+/* Last-known-good snapshot. Used when the published course-data.json cannot be
+   loaded or fails validation, so the builder never renders an empty catalog.
+   Refreshed by hand whenever the app itself is updated. */
+const FALLBACK_CATALOG = {
+ schemaVersion:2,
+ generatedAt:"2026-11-02T14:48:31Z",
+ source:"semiconductors_course_data_2026_10_30.xlsx (embedded snapshot)",
+ sheet:"Updated",
+ counts:{"courses":120,"vip":0,"skills":51,"areas":5},
+ skills:["Advanced Packaging","Artificial Intelligence & Machine Learning","AI Acceleration (Hardware)","Analog IC Design","ASIC RTL Design","Characterization & Metrology","Custom Digital IC Design","Data Analysis","Data Center Infrastructure","Design for Sustainability","Design, EDA, and Digital Twins","Device and Circuit Concepts","Digital Design","Embedded Systems","Fabrication Concepts","Facilities Design","FPGA Prototyping","Functional verification of ASiC/SoC","Interconnects & Re-Distribution Layers","Lithography","Manufacturing & Control Strategies","Material Properties","Memory design","Micro-Electro-Mechanical Systems (MEMS)","Mixed Signal IC Design","Nanoscale Materials, Systems, & Devices","Optics and Photonics","Physical layout and verification of ICs","Power Delivery","Power Electronics","Process Analysis & Scheduling","Process Development & Assembly","Processor Design","Quality Control","Quantum Computing","Quantum Mechanics & Solid State Physics","Radiation Hardening","Reliability & Failure Analysis","RF IC design","Health & Safety","Semiconductor Fundamentals & Device Theory","Sensors and Actuators","Statistical Analysis","Statistical Process Control","Substrates, Materials, and Encapsulation","Supply Chain Management","System on Chip Architecture","Thermal Management","Timing Analysis","Uncertainty Analysis","VLSI Design"],
+ areas:[{"id":"dev","label":"Semiconductor and Microelectronic Devices","short":"Semiconductor and Microelectronic Devices"},{"id":"mat","label":"Semiconductor Materials, Characterization, and Processing","short":"Semiconductor Materials, Characterization, and Processing"},{"id":"ic","label":"Integrated Circuit & System Design, Electronic Design Automation","short":"Integrated Circuit & System Design, Electronic Design Automation"},{"id":"pkg","label":"Electronics Packaging, Heterogeneous Integration, and Thermal Management","short":"Electronics Packaging, Heterogeneous Integration, and Thermal Management"},{"id":"mfg","label":"Semiconductor Manufacturing and Global Supply Chain Management","short":"Semiconductor Manufacturing and Global Supply Chain Management"}],
+ courses:[
+  {"a":4,"a2":null,"n":"CHE 32000","t":"Statistical Modeling And Quality Enhancement","c":3,"s":[1,7,20,33,37,42,49],"d":"Statistical modeling methods, design of experiments, error analysis, curve fitting and regression, analysis of variance, confidence intervals, quality control and enhancement: emphasizes preparation for designing chemical engineering laboratory experiments and analyzing data","p":"CHE 20500 or ABE 20100) and MA 26100 [concurrent ok] and (CHM 26100 or CHM 25500 [concurrent ok] or CHM 25700 [concurrent ok]) and (MA 26200 [concurrent ok] or MATH 26200 or MA 26500 [concurrent ok] or MA 35100 [concurrent ok]","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=CHE&filter%5B29%5D=32000&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":0},
+  {"a":1,"a2":null,"n":"CHE 37800","t":"Heat And Mass Transfer","c":4,"s":[8,47],"d":"Macroscopic and differential energy balances. Heat transfer coefficients for free and forced convection and phase change. Conductive and radiative heat transfer. Applications to heat transfer equipment design and compressible fluid flow. Macroscopic and differential species balances. Mass transfer coefficients and analogies. Mass transfer with and without chemical reaction. Mass transfer equipment design","p":"CHE 21100 and CHE 37700","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=CHE&filter%5B29%5D=37800&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":1},
+  {"a":1,"a2":null,"n":"CHE 42000","t":"Process Safety Management And Analysis","c":3,"s":[20,31,37,47],"d":"Develop knowledge of process safety management and analysis in the process industries, including hazard identification, hazard analysis and risk management","p":"CHE 34800 [concurrent ok] and CHE 37800 [concurrent ok]","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=CHE&filter%5B29%5D=42000&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":2},
+  {"a":1,"a2":null,"n":"CHE 45600","t":"Process Dynamics And Control","c":3,"s":[10,20,37,43],"d":"Dynamic response and control of chemical processing equipment, such as heat exchangers, chemical reactors, and absorption towers. Use is made of fundamental techniques of servomechanism theory, such as block diagrams, transfer functions, and frequency response. Introduction to advanced control techniques","p":"CHE 37700 and CHE 34800 [concurrent ok] and CHE 37800 [concurrent ok]","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=CHE&filter%5B29%5D=45600&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":3},
+  {"a":1,"a2":null,"n":"CHE 54000","t":"Transport Penomena","c":3,"s":[8,20,47],"d":"Continuation of CHE 37700 and 37800. Topics in fluid mechanics, heat transfer and mass transfer including unsteady state transport problems, stream functions, potential flow, hydrodynamic and thermal layers, turbulence, and multicomponent diffusion","p":"CHE 37800","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=CHE&filter%5B29%5D=54000&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":4},
+  {"a":1,"a2":null,"n":"CHE 54400","t":"Struct & Behav of Polymer Sys","c":3,"s":[5,9,20,21,44],"d":"Statistical mechanics of chain molecules, thermodynamics of polymer solutions, phase separations, experimental methods of molecular weight determination, crystallization of polymers, polymer physics, rubber elasticity, viscoelasticity","p":"CHM 26200 or CHM 37000","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=CHE&filter%5B29%5D=54400&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":5},
+  {"a":1,"a2":null,"n":"CHM 34200","t":"Inorganic Chemistry","c":3,"s":[9,44],"d":"Interpretation and correlation of the reactions and properties of inorganic compounds in terms of their electronic and molecular structures. A survey of the preparations and reactivities of important compounds of the representative elements, with an emphasis on group trends. The elementary chemistry of the transition metals, including magnetic and spectral properties of coordination compounds","p":"CHM 25600 or CHM 26200 or CHM 26605 or MCMP 20500 or PHSC 20500","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=CHM&filter%5B29%5D=34200&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":6},
+  {"a":1,"a2":null,"n":"CHM 49000","t":"Chemistry of the Smartphone","c":3,"s":[44],"d":"Have you ever wondered about the materials in your smartphone and how chemistry was used to shape them? If you want to dive into the relationship between chemistry and technology, then this is the course for you! Over the semester we will discuss the role of solid-state chemistry in the design of the materials that make your phone function. This course explores the underlying chemistry that makes the touchscreen, light display, battery, and central processing unit function.The total cost of the raw elements in a smart phone is <$2, but the average cost of a new smart phone is ~$300-1000! In a smart phone weighing only ~130 grams, over 80% of its total weight is owed to just six elements: aluminum, carbon, oxygen, iron, silicon, and copper. Yet mining the elements required to make the smart phone in your pocket requires the extraction of >34,000 grams of complex ore, the use of >100 liters of reverse osmosis purified water, and ~20.5 grams of potassium cyanide, (among many other acids, etc.). This course uses the “smart phone” and it’s design as a vehicle to discuss (1) inorganic chemistry in the context of solid state materials (2) how chemistry can be applied to design materials for specific function, (3) how that function emerges not just from combinations of specific elements, but also how specific elements are arranged in crystalline lattices, and (4) how we should consider the impact of materials design and technological development on the environment, a globally interconnected society, and the sustainability of our current consumption of critical elemental resources.","p":"","r":"","u":"","i":7},
+  {"a":0,"a2":null,"n":"ECE 30500","t":"Semiconductor Devices","c":3,"s":[11,40],"d":"Introduces and explains terminology, models, properties, and concepts associated with semiconductor devices. Provides detailed insight into the internal workings of the \"building-block\" device structures such as the pn-junction diode, Schottky diode, BJT, and MOSFET. Presents information about a wide variety of other devices including solar cells, LEDs, HBTs, and modern field-effect devices. Systematically develops the analytical tools needed to solve practical device problems","p":"ECE 20002 or ECE 25500) and (PHYS 27200 or PHYS 24100 or PHYS 26100 or PHYS 25100) and (MA 26600 or MA 26200 or MA 36600","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=30500&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":8},
+  {"a":2,"a2":null,"n":"ECE 33700","t":"ASIC Design Laboratory","c":2,"s":[0,4,17,40,46,48],"d":"Introduction to standard cell design of Application Specific Integrated Circuits (ASICs) using modern hardware description languages (HDLs). Emphasis on how to write HDL code that will map readily to hardware. Laboratory experiments using commercial grade computer-aided design (CAD) tools for HDL based design, logic simulation, automatic placement and routing, timing analysis and verification","p":"ECE 27000","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=33700&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":9},
+  {"a":2,"a2":null,"n":"ECE 36200","t":"Microprocessor Systems And Interfacing","c":4,"s":[0,40,46],"d":"An introduction to basic computer organization, microprocessor instruction sets, assembly language programming, and microcontroller peripherals","p":"ECE 27000 and (ENGR 11700 or CS 15900","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=36200&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":10},
+  {"a":1,"a2":null,"n":"ECE 39595","t":"Semiconductor Manufacturing Unit Process","c":1,"s":[13,17,18,19,20],"d":"This course introduces the principles and practices of modern semiconductor manufacturing. The course is organized into three modules covering semiconductor unit processes, process integration, and statistical process control (SPC). In the first module, students learn the fundamentals of key fabrication processes such as oxidation, lithography, etching, deposition, doping, and interconnect formation. Each module is offered as a one-credit course, and students may take individual modules or complete all three modules for a total of three credit hours. The goal of the course is to develop a systems-level understanding of semiconductor fabrication and to provide the background needed for work in semiconductor research and industry.","p":"Check course registration information","r":"","u":"https://selfservice.mypurdue.purdue.edu/prod/bwckctlg.p_disp_course_detail?cat_term_in=202710&subj_code_in=ECE&crse_numb_in=39595","i":11},
+  {"a":1,"a2":null,"n":"ECE 39595","t":"Semiconductor Manufacturing Process Integration","c":1,"s":[13,20],"d":"This course introduces the principles and practices of modern semiconductor manufacturing. The course is organized into three modules covering semiconductor unit processes, process integration, and statistical process control (SPC). In the second module, students examine process integration and learn how individual unit processes are combined to realize a complete CMOS fabrication flow. Each module is offered as a one-credit course, and students may take individual modules or complete all three modules for a total of three credit hours. The goal of the course is to develop a systems-level understanding of semiconductor fabrication and to provide the background needed for work in semiconductor research and industry.","p":"ECE 39595 Semiconductor Manufacturing Unit Process","r":"","u":"https://selfservice.mypurdue.purdue.edu/prod/bwckctlg.p_disp_course_detail?cat_term_in=202710&subj_code_in=ECE&crse_numb_in=39595","i":12},
+  {"a":1,"a2":null,"n":"ECE 39595","t":"Statistical Process Control in Semiconductor Manufacturing","c":1,"s":[42,43],"d":"This course introduces the principles and practices of modern semiconductor manufacturing. The course is organized into three modules covering semiconductor unit processes, process integration, and statistical process control (SPC). In the third module, students are introduced to statistical process control and manufacturing variability, with emphasis on process monitoring, data analysis, and yield improvement. Each module is offered as a one-credit course, and students may take individual modules or complete all three modules for a total of three credit hours. The goal of the course is to develop a systems-level understanding of semiconductor fabrication and to provide the background needed for work in semiconductor research and industry.","p":"ECE 39595 Semiconductor Manufacturing Process Integration","r":"","u":"https://selfservice.mypurdue.purdue.edu/prod/bwckctlg.p_disp_course_detail?cat_term_in=202710&subj_code_in=ECE&crse_numb_in=39595","i":13},
+  {"a":2,"a2":null,"n":"ECE 40655","t":"Digital Integrated Circuit Analysis and Design","c":3,"s":[6,11,40],"d":"As applied to digital integrated circuits, the MDs transistor is studied in depth-from its fabrication to its electrical characteristics. Combinational, sequential, and dynamic logic circuits are considered. While the focus of the course is on CMOS technology, bipolar, nMOS, and BiCMOS circuits are introduced as well. SPICE is used as both an analysis and design tool. Semiconductor memory circuits are also discussed","p":"ECE 20002 and ECE 30500 [concurrent ok]","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=40655&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","x":"digitalintegra","i":14},
+  {"a":2,"a2":null,"n":"ECE 40656","t":"CMOS Analog and Mixed Signal Integrated Circuits","c":3,"s":[3,11,40],"d":"This course is a review of technology and modeling of CMOS transistors; Analysis, and design of CMOS monolithic integrated circuits for analog and mixed-signal applications. Consideration of amplifier circuit design, and fabrication techniques with circuit simulation using Cadence. Simple and advanced CMOS operational amplifiers, comparators, sample and hold circuits, switch capacitor circuits and data converters; Design of analog and mixed-signal circuit building blocks","p":"ECE 20002","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=40656&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":15},
+  {"a":0,"a2":null,"n":"ECE 43700","t":"Computer Design and Prototyping","c":4,"s":[4,16,17,32,40],"d":"An introduction to computer organization and design, including instruction set selection, arithmetic logic unit design, data path design, control strategies, pipelining, memory hierarchy, and I/O interface design","p":"ECE 33700 and ECE 36200","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=43700&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":16},
+  {"a":0,"a2":null,"n":"ECE 45300","t":"Fundamentals Of Nanoelectronics","c":3,"s":[25,40],"d":"Nanoelectronic devices are an integral part of our life, including the billion-plus transistors in every smartphone, each of which has an active region that is only a few hundred atoms long. This course is designed to convey the key concepts developed in the last 25 years which constitute the fundamentals of nanoelectronics and mesoscopic physics, assuming a minimal set of prerequisites. Topics covered include the new Ohm's law, conductance quantization, the nanotransistor, spin valves, thermoelectricity, quantum systems and the non-equilibrium Green's function (NEGF) method","p":"MA 26600 and MA 26500) or MA 26200","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=45300&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":17},
+  {"a":2,"a2":null,"n":"ECE 45500","t":"Integrated Circuit Engineering","c":3,"s":[3,11,40],"d":"Analysis, design, and fabrication of silicon bipolar and MOSFET monolithic integrated circuits. Consideration of amplifier circuit design and fabrication techniques with circuit simulation using Spice-2. Integrated operational amplifiers with difference amplifiers, current sources, active loads, and voltage references. Design of IC analog circuit building blocks","p":"ECE 20002 or (ECE 20200 and ECE 25500) and ECE 30500 [concurrent ok]","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=45500&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":18},
+  {"a":2,"a2":null,"n":"ECE 45600","t":"Digital Integrated Circuit Analysis And Design","c":3,"s":[6,11,40],"d":"As applied to digital integrated circuits, the MDs transistor is studied in depth-from its fabrication to its electrical characteristics. Combinational, sequential, and dynamic logic circuits are considered. While the focus of the course is on CMOS technology, bipolar, nMOS, and BiCMOS circuits are introduced as well. SPICE is used as both an analysis and design tool. Semiconductor memory circuits are also discussed","p":"ECE 20002 or (ECE 20200 and ECE 25500) and ECE 27000 and ECE 30500","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=45600&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","x":"digitalintegra","i":19},
+  {"a":0,"a2":null,"n":"ECE 50616","t":"Physics And Manufacturing Of Solar Cells","c":3,"s":[11,14,40],"d":"This course introduces the electronic, optical and material properties and the manufacturing of photovoltaic devices. Topics include electronic charge separation, transportation and recombination; optical concentration, trapping and confinement; material preparations in photovoltaic systems; bulk crystal, thin-film and organic photovoltaic device configurations; energy storage; as well as emerging concepts in photovoltaics. Discussions also involve the process and equipment for the manufacturing of various photovoltaic modules, with special emphasis on driving down the cost of photovoltaic systems","p":"ECE 30500 or MSE 37000 or ME 31500 or ME 36300 or CHE 37800 or PHYS 33000 or CHM 37000","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=50616&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":20},
+  {"a":0,"a2":null,"n":"ECE 50631","t":"Fundamentals Of Current Flow","c":1,"s":[11,40],"d":"Traditional description of electronic motion through a solid is based on diffusive transport which means that the electron takes a random walk from the source to the drain. However, modern nanoelectronic devices often have channel lengths comparable to a mean free path so that electrons travel ballistically, or \"like a bullet.\" This course provides a unified conceptual framework for ballistic and diffusive transport of both electrons and phonons, that is very different from what is taught in standard courses, but indispensable to understanding nanolectronic devices","p":"Junior status and above","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=50631&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":21},
+  {"a":0,"a2":null,"n":"ECE 50632","t":"Introduction to Quantum Transport","c":1,"s":[11,35],"d":"This course introduces the Schrodinger equation, uses the tight-binding method to discuss the concept of band structure and E(k) relations, along with simple quantum transport problems. No prior background in quantum mechanics or statistical mechanics is assumed","p":"Junior status and above","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=50632&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":22},
+  {"a":0,"a2":null,"n":"ECE 50633","t":"Boltzmann Law: Physics to Machine Learning","c":1,"s":[1,11,20,25,35],"d":"This course introduces the key concepts of equilibrium statistical mechanics leading to the celebrated Boltzmann law and how it leads to Boltzmann machines and related concepts in modern machine learning. No prior background in statistical mechanics is assumed","p":"Junior status and above","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=50633&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":23},
+  {"a":0,"a2":null,"n":"ECE 50641","t":"Semiconductor Fundamentals","c":1,"s":[11,40],"d":"This course about semiconductors is designed to provide a foundation to understand the operation of devices such as transistors, diodes, solar cells, light-emitting devices, etc. The course does not discuss devices - it prepares students to understand the operation of semiconductor devices. The treatment is physical and intuitive, and not heavily mathematical. Technology users will gain an understanding of the semiconductor physics that is the basis for devices. Semiconductor technology developers may find it a useful starting point for diving deeper into condensed matter physics, statistical mechanics, thermodynamics, and materials science. The course presents an electrical engineering perspective on semiconductors, but those in other fields may find it a useful introduction to the approach that has guided the development of semiconductor technology for the past 50+ years. Topics include semiconductor fundamentals such as energy bands, bandgaps, effective masses, electrons and holes, and elements of quantum mechanics. The Fermi function, doping, and carrier densities are then discussed. Carrier transport and generation-recombination are examined along with the important concept of quasi-Fermi levels. The course concludes with the \"semiconductor equations,\" which provide a complete, mathematical description of electrons and holes in semiconductors (subject to some important simplifying assumptions) and ends with a discussion of how energy band diagrams provide a qualitative solution to these equations","p":"CHM 11500 or PHYS 24100 or PHYS 27200 or MA 26200 or MA 26600","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=50641&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","x":"semiconductorf","i":24},
+  {"a":0,"a2":null,"n":"ECE 50642","t":"Fundamentals of Transistors","c":1,"s":[11,40],"d":"This course is designed for anyone seeking a sound, physical, intuitive understanding of how modern transistors operate. Important technology considerations and applications of transistors are also discussed. The focus is on MOSFETs for digital logic, but other types of transistors are briefly considered. The course is broadly accessible to students with only a very basic knowledge of semiconductor physics and electronic circuits and should be useful for advanced undergraduates, beginning graduate students, as well as practicing engineers and scientists. Topics include device metrics for digital and analog circuits, traditional MOSFET theory, the virtual source model, 1D and 2D electrostatics, Landauer/transmission approach to nanotransistors, the limits of MOSFETs, as well as a quick look at HEMTs, bipolar transistors, and compact circuit models","p":"ECE 30500 or ECE 50641","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=50642&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":25},
+  {"a":2,"a2":null,"n":"ECE 51214","t":"CMOS Analog IC Design","c":3,"s":[3,27],"d":"The course covers general topics in CMOS analog IC design; biasing, noise, single stage amplifiers, differential amplifiers, OP-Amp, OTA, frequency domain analysis, and active filters. While the focus of the course is on CMOS IC design, design in bipolar andBi CMOS technologies are introduced as well. A design project is a key component of the course. The students conduct group or individual design projects. Process Design Kit and EDA tools are provided for the design projects","p":"ECE 25500","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=51214&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","x":"cmosanalogicde","i":26},
+  {"a":2,"a2":null,"n":"ECE 51220","t":"Applied Algorithms","c":3,"s":[50],"d":"Solving large-scale problems typically rely on many clever data structures and algorithms. This course aims to cover many such useful algorithms for solving large-scale problems. These algorithms include greedy algorithms, dynamic programming and more advanced graph algorithms. The course also aims to demonstrate how such algorithms can be applied to solve optimization problems encountered in engineering applications. In particular, applications in the design of VLSI (very large scale integration) at circuit, layout, or system level will be used to demonstrate how an engineering problem can be formulated as a tree/graph problem and solved using established tree/graph algorithms","p":"ECE 36800","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=51220&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":27},
+  {"a":2,"a2":null,"n":"ECE 55900","t":"MOS VLSI Design","c":3,"s":[6,22,27,40,48],"d":"An introduction to most aspects of large-scale MOS integrated circuit design including: device fabrication and modeling; inverter characteristics; designing CMOS combinational and sequential circuits; designing arithmetic building blocks and memory structures; interconnect and timing issues; testing and verification; and system design considerations. Term projects involve the complete design of a functional logic block or system using CAD tools","p":"ECE 30500 or ECE 43700","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=55900&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":28},
+  {"a":2,"a2":null,"n":"ECE 56800","t":"Embedded Systems","c":3,"s":[0,40],"d":"This course provides an introduction to the design of embedded and ubiquitous computing systems including their hardware and software architectures, design methodologies and tools, and communication protocols. The lectures are organized into three parts namely, (a) basic design principles including specification and modeling, hardware components and platforms, software organization, embedded and real-time operating systems, interfacing with external environments using sensors and actuators, and communication in distributed embedded systems, (b) advanced topics such as energy management, safety and reliability, and security, and (c) case-studies of real-world systems from a variety of embedded application domains such as biomedical devices, smart cards and RFID, networked sensors, personal computing devices, home appliances and electronics, mobile robotics, etc. In addition to hands-on programming assignments using off-the-shelf embedded system development kits, the course will feature a comprehensive project where students will design, implement, and evaluate a prototype embedded system","p":"ECE 43700","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=56800&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":29},
+  {"a":3,"a2":null,"n":"ECE 59500","t":"Introduction to Electronics Packaging and Heterogeneous Integration","c":3,"s":[5,7,36,37,44,47],"d":"This course provides a broad, hands-on introduction to principles and practices of electronics packaging. The course is broadly divided into four major modules as well as other smaller modules. The major modules provide a practical background (as it relates to electronic packaging) electrical, thermal, mechanical and materials characterization. Design considerations as well as materials selection in the above topics will also be addressed. The minor modules include package fabrication and assembly, radiation hardening, and statistical modeling and data analysis. The class will be primarily a lab-oriented with 1 lecture and 4 hours of hands-on lab each week.","p":"Junior-level standing in an ABET accredited engineering curriculum or permission of course instructor","r":"May only take one of the 3 cross-listed courses (ME 59700, ECE 59500, or MSE 49700) or ME 597 Fundamentals of Microsystems Packaging","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=59500&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","x":"introductionto","i":30},
+  {"a":2,"a2":null,"n":"ECE 59500","t":"Computer Vision for Embedded Systems","c":3,"s":[13],"d":"This course provides an overview of running computer vision (OpenCV and PyTorch) on an embedded system (Raspberry Pi). The course emphasizes on the resource constraints imposed by embedded systems and examines methods (such as quantization and pruning) to reduce resource requirements. This course will have programming assignments and projects proposed by the students.","p":"ECE 20875","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=59500&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":31},
+  {"a":1,"a2":null,"n":"ECE 59500","t":"MEMS II: Fundamentals of MEMS Design","c":3,"s":[11,23,50],"d":"This course is the second 1-credit module in a 3-module series. This module introduces the fundamentals of MEMS design. We begin with the design and analysis of micromechanical springs most commonly used in successful MEMS devices. Next, we investigate popular transduction mechanisms, which allow the needed conversion of energy between electrical signals and mechanical motion (and vice versa). This is a critical component of all MEMS actuators and sensors. The course focuses primarily on electrostatic and piezoelectric transduction. Modeling of MEMS devices is then considered, with focus on linearized models and electromechanical resonance.","p":"PHYS 27200 or equivalent","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=59500&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":32},
+  {"a":0,"a2":null,"n":"ECE 59500","t":"MEMS III: Applications in MEMS","c":3,"s":[11,23,50],"d":"This module surveys both established and emergent applications of MEMS. With the growing demand for cheap, microscale, low power sensors, the first part of this course will cover MEMS sensor applications including inertial, chemical, field, and IR sensor devices. We will discuss limits of sensitivity, design, fabrication, and system-level integration. Other topics will include microrobotics, optical MEMS, BioMEMS and Lab on a Chip, and quantum computing with MEMS/NEMS.","p":"ECE 59500 MEMS II","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=59500&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":33},
+  {"a":1,"a2":null,"n":"ECE 59500","t":"Microfabrication Fundamentals","c":3,"s":[14,50],"d":"Introduction to principles of microfabrication, including lithography, deposition, etching and planarization. This course provides a framework for understanding processes used in manufacturing of semiconductor devices, integrated circuits, microphotonic and micro-electromechanical systems (MEMS) components.","p":"MA 26600 and [PHYS 27200 or PHYS 24100] and CHM 11500","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=59500&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":34},
+  {"a":0,"a2":null,"n":"ECE 59500","t":"Primer on Semiconductors","c":3,"s":[11,40],"d":"This course about semiconductors is designed to provide a foundation to understand the operation of devices such as transistors, diodes, solar cells, light-emitting devices, etc. The course does not discuss devices ??? it prepares students to understand the operation of semiconductor devices. The treatment is physical and intuitive, and not heavily mathematical. Technology users will gain an understanding of the semiconductor physics that is the basis for devices. Semiconductor technology developers may find it a useful starting point for diving deeper into condensed matter physics, statistical mechanics, thermodynamics, and materials science. The course presents an electrical engineering perspective on semiconductors, but those in other fields may find it a useful introduction to the approach that has guided the development of semiconductor technology for the past 50+ years. Topics include semiconductor fundamentals such as energy bands, bandgaps, effective masses, electrons and holes, and elements of quantum mechanics. The Fermi function, doping, and carrier densities are then discussed. Carrier transport and generation-recombination are examined along with the important concept of quasi-Fermi levels. The course concludes with the ???semiconductor equations,??? which provide a complete, mathematical description of electrons and holes in semiconductors (subject to some important simplifying assumptions) and ends with a discussion of how energy band diagrams provide a qualitative solution to these equations.","p":"(ECE 20002 or ECE 25500) and (PHYS 27200 or PHYS 24100 or PHYS 26100 or PHYS 25100) and (MA 26600 or MA 26200 or MA 3660)","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=59500&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":35},
+  {"a":0,"a2":null,"n":"ECE 59500","t":"Semiconductor Fundamentals","c":3,"s":[11,40],"d":"Check course registration information","p":"Check course registration information","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=59500&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","x":"semiconductorf","i":36},
+  {"a":0,"a2":null,"n":"ECE 59500","t":"Semiconductor Manufacturing","c":3,"s":[11,14],"d":"Introduction to manufacturing processes suitable for CMOS and CMOS-compatible integrated devices. Unit processes for multi-level metal interconnects, including physical deposition, plasma enhanced chemical vapor deposition, copper plating, chemical mechanical polishing of dielectrics and metals. Process development of Si/Ge, low-k dielectrics, metal gates, 3D NANDs and photonic devices, etc.","p":"[MA 26200 or MA 26600] and [PHYS 27200 or PHYS 24100] and CHM 11500 and [ECE 59500 Microfabrication Fundamentals or (ECE 59500 MEMS I: Microfabrication and Materials for MEMS)","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=59500&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":37},
+  {"a":0,"a2":null,"n":"ECE 59500","t":"Theory & Practice of Solar Cells: A Cell to System Perspec","c":3,"s":[0,11,14,46],"d":"This course is designed for students from all disciplines in engineering and science seeking to learn about how solar cells function, how they are connected into modules, how modules are assembled into panels, and how panels are fielded in solar farms. The basics of solar farms are covered as well as the reliability of solar cells. The course is at the advanced undergraduate / beginning graduate student level.","p":"ECE 30500 or ECE 60600 or ECE 69500A (Primer on Semiconductor Fundamentals) or equivalent","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=59500&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":38},
+  {"a":0,"a2":null,"n":"ECE 59500","t":"Integrated Circuit/MEMS Fabrication","c":3,"s":[14,23,40],"d":"This course is an updated version of ECE 55700 and will provide students state-of-the-art knowledge in the area of Micro and Nanofabrication Technology. Course topics include substrate, oxidation, lithography, etching (dry and wet), thin film deposition (physical vapor deposition, chemical vapor deposition, atomic layer deposition, epitaxy), diffusion and ion implantation, chemical mechanical polishing, metallization, packaging and integration. The course will include both lectures and hands-on training through VFabLab.","p":"ECE 30500","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=59500IC&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":39},
+  {"a":2,"a2":null,"n":"ECE 59500","t":"CMOS Analog IC Design","c":3,"s":[11,40],"d":"A significant portion of a modern signal processing system handles digital signals. But front- and back-end interfaces have to involve analog signal conditioning. Typically the front- and back- end analog conditioning circuits handle the highest frequency signal in the system and are key blocks affecting the overall system performance. RF IC for wireless digital communications, high-speed clock and data recovery for wireline serial interface, and high sensitivity sensor interface are a few of them. The advance and prosperity of CMOS technology enabled high-speed/performance analog IC design. The course will discuss the broad topics in CMOS analog IC design including current/voltage biasing, noise analysis, OP-Amp design and compensation, integrated active filter, PLL, and ADC/DAC. State- of-the-art designs and current research topics will be introduced. A design project will be a key component of the course. The students will conduct group design project, and obtain practical design knowledge and skills. Process Design Kit (PDK) and EDA tools like Cadence Schematic Editor, Layout Editor, and Simulator (Hspice or SpectreRF) will be provided for the design project.","p":"None Listed","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=59500&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","x":"cmosanalogicde","i":40},
+  {"a":2,"a2":null,"n":"ECE 59500","t":"Digital Logic Systems: Design Automation","c":3,"s":[11,40],"d":"This course will provide an introduction to the tools used to design and analyze circuits at the logic level of abstraction (where circuits are composed of gates and flip-flops). Most digital chips used in computing and electronic systems (including microprocessors, graphics processors, chips used in network routers, cell phones, digital audio/video appliances, automotive electronics) are entirely or largely designed using EDA tools. ECE595Z will focus on the foundations of logic-level EDA tools, including the design of exact and heuristic algorithms that form the basis for VLSI Computer-Aided Design. Topics covered include an overview of the IC design flow and levels of abstraction, synthesis of two-level (AND-OR / PLA) circuits, multi-level logic synthesis and technology mapping, sequential circuit synthesis, Logic-level verification using Boolean Satisfiability and BDDs, Timing Analysis, Power analysis and Reduction, and design techniques for emerging nanoscale technologies.","p":"None Listed","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=59500&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":41},
+  {"a":1,"a2":null,"n":"ECE 59500","t":"Advanced Lithography","c":3,"s":[0,14,19,46,50],"d":"Principles and methods of lithographic techniques used in semiconductor manufacturing as well as prototyping and production of nanometer-scale devices. Fundamental aspects of optical resolution, proximity effect, and resolution enhancement techniques.","p":"[MA 26200 or MA 26600] and [PHYS 27200 or PHYS 24100] and CHM 11500 and [ECE 59500 Microfabrication Fundamentals or (ECE 59500 MEMS I: Microfabrication and Materials for MEMS)","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=59500&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":42},
+  {"a":0,"a2":null,"n":"ECE 59500","t":"Essentials of Transistors","c":3,"s":[11,40],"d":"This course is designed for anyone seeking a sound, physical, intuitive understanding of how modern transistors operate. Important technology considerations and applications of transistors are also discussed. The focus is on MOSFETs for digital logic, but other types of transistors are briefly considered. The course is broadly accessible to students with only a very basic knowledge of semiconductor physics and electronic circuits and should be useful for advanced undergraduates, beginning graduate students, as well as practicing engineers and scientists.","p":"ECE 30500 (grade of B or better) or ECE 60600 or ECE 59500 Semiconductor Fundamentals","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=59500&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":43},
+  {"a":2,"a2":null,"n":"ECE 59500","t":"Application-Oriented Computational Nanotechnology","c":3,"s":[9,11,25,35],"d":"The application oriented computational nanotechnology course sequence aims to train semiconductor engineers in how to model nanodevices with state-of-the-art quantum transport simulation tools. The emphasis lies here on acquiring the understanding which of the commonly available electronic models is appropriate for which device type, how to interpret typically available simulation results and how to reliably distinguish numerical artifacts from physically meaning device features. With the downscaling of modern semiconductor devices to the nanometer and atomistic lengthscales, semiconductor engineers have to interpret device behavior in a regime often considered unintuitive. Simulations are the most important tools to help them understand the device performance and identify ways to improve it in that nanoscale regime. Usage of those tools requires, however, sufficient understanding of their control parameters, their underlying methods and most importantly common pitfalls that open when the tools are used with the wrong settings. This class sequence trains students by guiding them to implement their own quantum transport simulation tool and connect it to Purdue's quantum code library. This way the students get hands-on experience in how to validate quantum transport tools, how to interpret simulation results and how to run state-of-the-art professional simulation engines. Part 1 of the class sequence covers basic concepts such as how to utilize transmission and density of states to validate simulation setups, how to ensure reliable convergence and numerical efficiency for nanodevices with few or many resonant states (such as nanosheets and nanowire transistors, FinFETs, quantum dots and quantum sensors).","p":"ECE 20002 and ECE 20875 and (PHYS 27200 or (PHYS 24100 and PHYS 25200)) and (MA 26600 or MA 26200 or MA 36600); Recommended: ECE 50631, 50632, 50633","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=59500&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":44},
+  {"a":1,"a2":null,"n":"ECE 59500","t":"MEMS I: Microfabrication and Materials for MEMS","c":3,"s":[11,14,23,50],"d":"This course introduces the fundamentals of microfabrication used for wafer-scale manufacturing of Microelectromechanical Systems (MEMS). Borrowing some techniques from the integrated circuit (IC) fabrication and engineering new techniques to solve MEMS-specific challenges, MEMS microfabrication boasts an extensive toolbox employed both in research-level prototyping and in mass production in MEMS industry. The course reviews key methods for deposition, patterning, release, and packaging of MEMS devices. Considerations for benefits and levels of integration of MEMS and ICs are discussed. Micro-fabrication case studies of several MEMS devices are reviewed.","p":"(ECE 20002 or ECE 25500) and (PHYS 27200 or PHYS 24100 or PHYS 26100 or PHYS 25100) and (MA 26600 or MA 26200 or MA 36600)","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=59500&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":45},
+  {"a":1,"a2":null,"n":"ECE 59500","t":"Computational Lithography","c":3,"s":[14,19,26],"d":"This course is the third in a series of three 1-credit courses on semiconductor lithography. This course covers the specific aspects of computational lithography, including physics of sub-wavelength image formation; Fourier imaging at the diffraction limit; forward model for patterning simulations; and applications in manufacturing.","p":"ECE 59500, Intro to Nanolithography and ECE 59500, EUV Lithography","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECE&filter%5B29%5D=59500&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":46},
+  {"a":0,"a2":null,"n":"ECET 22700","t":"DC and Pulse Electronics","c":3,"s":[3],"d":"Capacitors, inductors, oscillators, rectifiers, bipolar and MOSFET power switches, switching power supplies, half-and full-H bridges, switching audio power amplifiers, and linear regulators are studied. Computer-aided analysis of circuits is utilized","p":"ECET 17700 or ECET 22400 or ECE 20001 and ECE 20007) and (MA 16010 or MA 22700 or MA 22300 or MA 22100 or MA 16100 or MA 16300 or MA 16500 or MA 16700 or MA 21900 or MA 22500 or MA 22900 or MATH M1190 or MATH M2080 or MATH M2150 or MATH 16300","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECET&filter%5B29%5D=22700&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":47},
+  {"a":0,"a2":null,"n":"ECET 22900","t":"Concurrent Digital Systems","c":3,"s":[10,12,16],"d":"This course establishes a foundation for concurrent digital systems. Common methods of describing digital circuit operation are studied along with the techniques for translation between any two methods. Basic building blocks of digital systems are defined and applied. Analysis techniques for combinational and sequential logic circuits or subsystems are covered. Computer-based development tools, programmable logic devices, and technical reference sources are used to build, test, and evaluate digital systems","p":"ENGT 18000 and ENGT 18100) or ENGT 18200 or ECET 12000 or ECET 22400 or (ECE 20001 and ECE 20007","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECET&filter%5B29%5D=22900&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":48},
+  {"a":2,"a2":null,"n":"ECET 32900","t":"Advanced embedded systems","c":3,"s":[0,13],"d":"This course focuses on the study and application of real-time embedded systems. Real-time operating systems (RTOS) are introduced and applied. Students learn and use programming and scripting languages to discover the advantages and limitations of RTOS application in the lab","p":"ECET 27900","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECET&filter%5B29%5D=32900&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":49},
+  {"a":0,"a2":3,"n":"ECET 33300","t":"Power Electronic Energy Systems","c":3,"s":[28,29],"d":"A study of the fundamentals and applications of switch-mode DC-DC and DC-AC power electronic converters, with emphasis on controller and power stage design tailored to specific applications such as grid-interactive inverter-based resources and electric vehicles","p":"ECET 22700 and ECET 37600","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECET&filter%5B29%5D=33300&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":50},
+  {"a":0,"a2":null,"n":"ECET 34900","t":"Advanced Digital Systems","c":3,"s":[16,28],"d":"This course investigates complex digital systems that are implemented with field programmable gate arrays (FPGAs) using concurrent and sequential digital design techniques. Applications will include serial communications, digital signal processing, memory systems and video generation","p":"ECET 17900 and ECET 22900","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECET&filter%5B29%5D=34900&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":51},
+  {"a":4,"a2":null,"n":"ECET 36900","t":"Applied computer vision for sensing and automation","c":3,"s":[0,13],"d":"This course provides fundamental knowledge of integrated computer imaging or vision systems for sensing, quality control and automation applications. Fundamental basis of optics, illumination, camera types with associated technologies, and image acquisition to develop a customized computer imaging or vision systems will be covered. Algorithms for image processing, image analysis and pattern recognition will also be covered. Emerging technologies-based integrated computer vision or imaging system for sensor system, inspection, quality control and automation in different sectors (medical, manufacturing, security, construction etc.) will be examined. Parallel laboratory hands-on experience will allow the students to apply and validate the concepts learned in the lecture","p":"CS 18000 or CS 17700 or CS 15900 or CNIT 10500 or CNIT 15501) and (ECET 22400 or ECET 17700 or (ECE 20001 and ECE 20007) or (ECE 20100 and ECE 20700","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECET&filter%5B29%5D=36900&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":52},
+  {"a":0,"a2":null,"n":"ECET 37300","t":"Applied Electronic Drives","c":3,"s":[3],"d":"This course covers operational principles and application development consideration of all subsystems that make up electric drives: electric machines, power-electric based converters, mechanical system requirements, feedback controller design, and the interaction of drives with the utility grid. State of the art motor drive design and testing tools are introduced through hands-on activities","p":"ECET 27900 [concurrent ok] and ECET 37600","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECET&filter%5B29%5D=37300&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":53},
+  {"a":0,"a2":null,"n":"ECET 38800","t":"Analog IC Applications","c":3,"s":[10,16],"d":"This course is a study of the applications of analog integrated circuits. Topics include linear amplifiers, IC specifications, linear regulators, linear and switched-capacitor active filters, and nonlinear circuit applications. Computer aided analysis of these circuits is also presented","p":"ECET 27700 [concurrent ok] or ECET 33700 [concurrent ok]","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECET&filter%5B29%5D=38800&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":54},
+  {"a":2,"a2":null,"n":"ECET 41500","t":"Digital Hardware Modeling Using HDL","c":3,"s":[12,16,28],"d":"This course introduces students to various contemporary Hardware Description Languages (HDL) for modern digital logic systems. The course will emphasize on Verilog HDL. It covers logic-synthesis and high-level-synthesis in the context of HDL coding constructs for platform-independent and dependent technologies applicable to modern semiconductor industry testing. Students are also exposed to the subset of HDL that may be used for synthesis of custom logic for edge devices. HDL simulation and synthesis labs and projects are performed using commercial and/or academic VLSI CAD tools","p":"ECET 22900 and ECET 34900","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECET&filter%5B29%5D=41500&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":55},
+  {"a":0,"a2":null,"n":"ECET 49900","t":"Computing with FPGAs","c":null,"s":[2,16,40],"d":"Check course registration information","p":"Check course registration information","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ECET&filter%5B29%5D=49900&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":56},
+  {"a":1,"a2":null,"n":"IE 37000","t":"Manufacturing Processes I","c":3,"s":[7,12,19,38],"d":"Principal manufacturing processes; metal cutting, grinding and metal forming operations, machine tools, and tools and tooling. Nontraditional machining and welding. Introduction to computer-aided manufacturing and computer-aided graphics and design, N/C programming, robots, and flexible manufacturing systems. Classroom and laboratory demonstrations included. Not open to students with credit in ME 36300","p":"ME 27000 or AAE 20300) and (NUCL 27300 [concurrent ok] or AAE 20400 [concurrent ok] or ME 32300 [concurrent ok]","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=IE&filter%5B29%5D=37000&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":57},
+  {"a":1,"a2":null,"n":"IE 38300","t":"Integrated Production Systems I","c":3,"s":[12,19,31,38],"d":"Basic concepts in the design and operational control of integrated production systems. Includes topics on facility layout and material handling, material flow and information flow, resource and capacity planning, and shop floor control and scheduling","p":"IE 33500","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=IE&filter%5B29%5D=38300&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":58},
+  {"a":4,"a2":null,"n":"IE 38600","t":"Work Analysis And Design I","c":3,"s":[7,12],"d":"Fundamentals of work methods and measurement. Applications of engineering, psychological, and physiological principles to the analysis and design of human work systems","p":"IE 33000 or STAT 51100","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=IE&filter%5B29%5D=38600&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":59},
+  {"a":1,"a2":null,"n":"IE 47000","t":"Manufacturing Processes II","c":3,"s":[7,12,19,38],"d":"The interrelations of materials, processes, and design with various aspects of manufacturing","p":"IE 37000","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=IE&filter%5B29%5D=47000&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":60},
+  {"a":4,"a2":null,"n":"IE 48400","t":"Integrated Production Systems II","c":3,"s":[7,12],"d":"Extensions of topics on the design and operational control of integrated production systems. Includes production databases, facility layout, material handling, advanced control and scheduling, and physical distribution. Case studies, lab assignments, and projects","p":"IE 38300","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=IE&filter%5B29%5D=48400&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":61},
+  {"a":4,"a2":null,"n":"IE 48600","t":"Work Analysis And Design II","c":3,"s":[7,12],"d":"Continuation of IE 38600. Applications of engineering, computer sciences, information sciences, and psychological principles and methods to the analysis and design of human work systems","p":"IE 38600","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=IE&filter%5B29%5D=48600&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":62},
+  {"a":4,"a2":null,"n":"IE 49000","t":"Semiconductor Manufacturing and Supply Chain","c":null,"s":[20,45],"d":"Check course registration information","p":"Check course registration information","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=IE&filter%5B29%5D=49000&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":63},
+  {"a":4,"a2":null,"n":"IE 49000","t":"Supply Chain Engineering","c":null,"s":[7,12,37],"d":"Check course registration information","p":"Check course registration information","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=IE&filter%5B29%5D=49000&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":64},
+  {"a":4,"a2":null,"n":"IE 53200","t":"Reliability","c":3,"s":[7,12,37,47],"d":"Reliability of components and multi-component systems. Application of quantitative methods to the design and evaluation of engineering and industrial systems and processes for assuring reliability of performance. Economic and manufacturing control activities related to product engineering aspects of reliability. Principles of maintainability. Product failure and legal liability","p":"IE 33000 or IE 33600","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=IE&filter%5B29%5D=53200&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":65},
+  {"a":4,"a2":null,"n":"IE 53300","t":"Industrial Applications Of Statistics","c":3,"s":[12,19,42],"d":"The application of statistics to the effective design and analysis of industrial studies relating to manufacturing and human factors engineering in order to optimize the utilization of equipment and resources. Emphasis on conducting these studies at the least cost","p":"IE 33000 or STAT 51100 or STAT 35000","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=IE&filter%5B29%5D=53300&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":66},
+  {"a":4,"a2":null,"n":"IE 55800","t":"Safety Engineering","c":3,"s":[12,19,39,47],"d":"Application of human factors and engineering practice in accident prevention and the reduction of health hazards are presented. The objective of this course is to provide an understanding of the safety and health practices which fall within the responsibilities of the engineer in industry. Special attention is devoted to the detection and correction of hazards and to contemporary laws and enforcement on occupational safety and health","p":"IE 38600","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=IE&filter%5B29%5D=55800&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":67},
+  {"a":4,"a2":null,"n":"IE 56600","t":"Production Management Control","c":3,"s":[7,12,19,30,37,42,47],"d":"Background and development of production management, plus current concepts and controls applicable to production management functions. Not open to Industrial Engineering students with a minor in management","p":"IE 38300","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=IE&filter%5B29%5D=56600&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":68},
+  {"a":1,"a2":null,"n":"IE 57000","t":"Manufacturing Process Engineering","c":3,"s":[7,12,19,30,42],"d":"Theories and applications of materials forming and removal processes in manufacturing, including product properties, process capabilities, processing equipment design, and economics. A systems approach to all aspects of manufacturing process engineering","p":"IE 37000","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=IE&filter%5B29%5D=57000&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":69},
+  {"a":1,"a2":null,"n":"IE 57900","t":"Design And Control Of Production And Manufacturing Systems","c":3,"s":[7,12,30,42],"d":"Design and control of discrete part manufacturing systems in contemporary production environments, with emphasis on flexible, demand-driven, product-based manufacturing. Currently used planning and control methodologies, such as MRP, OPT, and JIT are reviewed and integrated with appropriate facility design methodologies, including cellular design algorithms. Introduction to Computer Integrated Manufacturing (CIM) architecture and reference models and relevant control procedures, including basis approaches to appropriate data management methodologies","p":"IE 38300","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=IE&filter%5B29%5D=57900&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":70},
+  {"a":4,"a2":null,"n":"IE 58200","t":"Advanced Facilities Design","c":3,"s":[7,8,12,15,37,47],"d":"Study of the theoretical and applied aspects of manufacturing systems layout. Emphasis on contemporary manufacturing, including the layout of cellular systems, automated material handling systems, and storage systems","p":"IE 48400","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=IE&filter%5B29%5D=58200&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":71},
+  {"a":1,"a2":null,"n":"IE 58300","t":"Design And Evaluation Of Material Handling Systems","c":3,"s":[7,12,15,42],"d":"Analysis for design and evaluation of material handling systems with emphasis on material flow control and storage. Analytic models and simulation used. Economic justification models for material handling systems","p":"IE 48400","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=IE&filter%5B29%5D=58300&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":72},
+  {"a":1,"a2":null,"n":"ME 36300","t":"Principles And Practices Of Manufacturing Processes","c":3,"s":[42],"d":"Manufacturing processes for engineering materials, both metallic and non-metallic. Fundamentals of manufacturing processes with a \"hands-on\" laboratory sequence. Analysis and design of processes for various engineering materials and their link to engineering design. Hands-on experiences through laboratory experiments and demonstrations. Not open to students with credit in IE 37000","p":"Junior status and above","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ME&filter%5B29%5D=36300&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":73},
+  {"a":3,"a2":null,"n":"ME 50300","t":"Micro-and-Nano Scale Energy Transfer Process","c":3,"s":[25,35,47],"d":"Transport of energy in natural and fabricated micro- and nano-scale structures. Physical nature of energy transport by three carriers-electrons, phonons, and photons. Bulk material properties (e.g., thermal/electrical conductivity) are derived from statistical particle transport theories. Effects of spatial confinement on bulk properties are quantified. Contemporary interdisciplinary engineering applications","p":"ME 31500","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ME&filter%5B29%5D=50300&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":74},
+  {"a":3,"a2":null,"n":"ME 51100","t":"Heat Transfer in Electronics Packaging","c":3,"s":[31,47],"d":"This course covers both traditional and more innovative methods for heat extraction in electronic systems and the effectiveness and applicability of these methods over a wide range of scales. Special emphasis is given to industry-related applications with experts often attending and presenting material as part of class instruction","p":"ME 31500","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ME&filter%5B29%5D=51100&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":75},
+  {"a":1,"a2":null,"n":"ME 55700","t":"Design for Manufacturing","c":3,"s":[20,33],"d":"Introduction to manufacturing concerns, such as efficient design, producibility, and quality, which must be considered early in the engineering design process. Topics include the product development cycle, manufacturing process selection, tolerancing, quality function deployment (QFD), design for assembly (DFA), quality control techniques, Taguchi's robust design methodology, life cycle engineering, and reliability. Laboratory projects in the area of tolerancing, assembly, and manufacturability are included along with a project from industry in which the students can disassemble, analyze, and redesign a product while obtaining feedback from industry concerning manufacturability","p":"Junior status and above","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ME&filter%5B29%5D=55700&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":76},
+  {"a":3,"a2":null,"n":"ME 59700","t":"Introduction to Electronics Packaging and Heterogeneous Integration","c":3,"s":[5,7,36,37,44,47],"d":"This course provides a broad, hands-on introduction to principles and practices of electronics packaging. The course is broadly divided into four major modules as well as other smaller modules. The major modules provide a practical background (as it relates to electronic packaging) electrical, thermal, mechanical and materials characterization. Design considerations as well as materials selection in the above topics will also be addressed. The minor modules include package fabrication and assembly, radiation hardening, and statistical modeling and data analysis. The class will be primarily a lab-oriented with 1 lecture and 4 hours of hands-on lab each week.","p":"Junior-level standing in an ABET accredited engineering curriculum or permission of course instructor","r":"May only take one of the 3 cross-listed courses (ME 59700, ECE 59500, or MSE 49700) or ME 597 Fundamentals of Microsystems Packaging","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ME&filter%5B29%5D=59700&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","x":"introductionto","i":77},
+  {"a":3,"a2":null,"n":"ME 59700","t":"Fundamentals of Microsystems Packaging","c":3,"s":[5,7,36,37,44,47],"d":"Check course registration information","p":"Check course registration information","r":"May only take one of the 3 cross-listed courses (ME 59700, ECE 59500, or MSE 49700) or ME 597 Fundamentals of Microsystems Packaging","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=ME&filter%5B29%5D=59700&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":78},
+  {"a":4,"a2":null,"n":"MFET 34100","t":"Process And Continuous Control Applications","c":3,"s":[20],"d":"This course explores the devices, algorithms, architectures, and standards that support advanced process control in smart manufacturing. Core topics include the role of control systems in managing continuous processes, loop modeling, transfer functions, and the design, implementation, and tuning of proportional-integral-derivative (PID) controllers. Students also examine the integration of modern approaches, including machine learning and artificial intelligence, to enhance control strategies and optimize system performance. Laboratory activities provide hands-on experience in applying and tuning control methods with industry-grade hardware, bridging traditional process control with data-driven approaches","p":"MET 28400 or ECET 30201","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=MFET&filter%5B29%5D=34100&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":79},
+  {"a":4,"a2":null,"n":"MFET 35000","t":"Smart Manufacturing Systems Modeling & Simulation","c":3,"s":[20],"d":"This course addresses the application of the industrial internet of things (IIoT) for modeling and simulation of smart manufacturing assets, processes, and operations. Emphasis is placed on synchronizing modeling, simulation, and visualization with augmented reality (AR) and mixed reality (MR) using real-time data to develop innovative services, enhance efficiencies, and improve productivity in smart factories","p":"MFET 23000 and MFET 25000","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=MFET&filter%5B29%5D=35000&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":80},
+  {"a":4,"a2":null,"n":"MFET 35200","t":"Smart Manufacturing Production Information Systems","c":3,"s":[20],"d":"An examination of smart manufacturing information systems with particular focus on applications for horizontal- and vertically-integrated manufacturing organizations. Topics include cloud-based integrated information systems to provide connectivity, visibility, and analytics of production and shop-floor execution systems and integrating manufacturing execution, manufacturing operations management, and enterprise resource planning (ERP) systems","p":"MFET 25000 and STAT 30100","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=MFET&filter%5B29%5D=35200&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":81},
+  {"a":4,"a2":null,"n":"MFET 36100","t":"Machine Learning and Manufacturing Analytics","c":3,"s":[1,20],"d":"Machine learning (ML) algorithms are used to extract and analyze large amounts of manufacturing data. This course introduces fundamental ML analytic techniques and commonly used ML algorithms, with an emphasis on manufacturing applications. Students will learn to create, train, and deploy ML models on a cloud platform to develop enterprise-ready artificial intelligence (AI) solutions for smart manufacturing","p":"CNIT 15501 or CS 17700) and (MA 16020 or MA 16200 or MA 16600) and STAT 30100","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=MFET&filter%5B29%5D=36100&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":82},
+  {"a":4,"a2":null,"n":"MFET 36300","t":"Intelligent Manufacturing Systems I","c":3,"s":[1,20],"d":"This course investigates how artificial intelligence, industrial IoT, and big data are used to enable predictive analytics with machine learning. Emphasis is on optimizing production processes, improving productivity, quality, efficiency, and integrating predictive maintenance applications in smart manufacturing operations","p":"MFET 23000 and MFET 36100","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=MFET&filter%5B29%5D=36300&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":83},
+  {"a":4,"a2":null,"n":"MFET 36400","t":"Intelligent Manufacturing Systems II","c":3,"s":[1,20],"d":"Artificial intelligence (AI), machine learning (ML), industrial IoT (IIoT), and big data are applied to enable predictive analytics with machine learning for optimizing processes and operation in a horizontally-integrated smart manufacturing value-chain network","p":"MFET 35200 and MFET 36100 and IET 21400","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=MFET&filter%5B29%5D=36400&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":84},
+  {"a":4,"a2":null,"n":"MFET 37400","t":"Manufacturing Integration I","c":3,"s":[20],"d":"This course examines the fundamentals of industrial networks and system integration as the foundation of smart manufacturing systems. Emphasis is placed on communication among computers, PLCs, robots, automatic identification equipment, and IoT-enabled devices. Database technology is introduced as an integration tool, alongside operational technology cybersecurity principles that protect connected infrastructures. The course also explores flexible and cloud-based architectures that support scalable, data-driven operations. Attention is given to developing data foundations that enable applications of machine learning and artificial intelligence, equipping students to extend existing industrial systems into intelligent, connected manufacturing environments","p":"MET 28400 or ECET 30201","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=MFET&filter%5B29%5D=37400&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":85},
+  {"a":4,"a2":null,"n":"MIS 47900","t":"Data Visualization","c":null,"s":[7,42],"d":"This course is an introduction to the techniques and algorithms for creating effective data visualization. Visualizations are graphical depictions of data that can improve comprehension, communication, and decision making. This course emphasizes application in business settings where visual representation methods that are covered in this course will improve our understanding of complex data and models. We focus in particular on pattern identification, difference and trends in data sets across categories, space, and time. In addition to participating in in-class discussions, students will have sufficient hands-on experience with the tools and techniques covered in this course. Students will be expected to complete several short programming and data analysis assignments. Students will also have an opportunity to work as groups on a final project. Permission of department required","p":"MGMT 38200 and (MGMT 28800 or CNIT 17500 or CS 17600 or CS 17700 or CS 18000 or ENGR 13300 or MGMT 38800","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=MIS&filter%5B29%5D=47900&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":86},
+  {"a":1,"a2":null,"n":"MSE 23000","t":"Structure & Properties of Materials","c":3,"s":[5,20,44],"d":"The relationship between the structure of materials and the resulting mechanical, thermal, electrical, and optical properties. Atomic structure, bonding, atomic arrangement; crystal symmetry, crystal structure, habit, lattices, defects, and the use of X-ray diffraction. Phase equilibria and microstructural development. Applications to design","p":"CHM 11500 or (CHM 11510 and CHM 11520 or CHM 11530) or (CHM 11100 and CHM 11200) or CHM 13500 or CHM 12300 or CHM 12500 or (CHEM C1050 and CHEM C1250) or (CHEM C1010 and CHEM C1210) and (MA 16500 or MA 16300 or MA 16100 or MATH 16300","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=MSE&filter%5B29%5D=23000&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":87},
+  {"a":1,"a2":null,"n":"MSE 27000","t":"Atomistic Materials Science","c":3,"s":[20,25,35,44],"d":"Introductory course with an atomistic view point on material properties. Three primary class sections: bonding crystallography and statistical mechanics. Bonding topics include introduction to quantum mechanics, emphasis on understanding of metallic, ionic and covalent bonding. Crystallography topics include crystal descriptions and symmetry principles. Statistical mechanics development with application to electronic and thermodynamic properties","p":"MA 26100 [concurrent ok] or MATH 26100 [concurrent ok] or MA 17200 [concurrent ok] or MA 17400 [concurrent ok] or MA 18200 [concurrent ok] or MA 26300 [concurrent ok] or MA 27100 [concurrent ok]) and (MA 26500 [concurrent ok] or MA 35100 [concurrent ok]) or (MA 26200 [concurrent ok] or MATH 26200 [concurrent ok] or MA 36300 [concurrent ok]) and MSE 23000 [concurrent ok]","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=MSE&filter%5B29%5D=27000&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":88},
+  {"a":1,"a2":null,"n":"MSE 33000","t":"Processing And Properties Of Materials","c":3,"s":[19,21,44],"d":"An introduction to the relationships between the processing of materials and their properties. Heat treating, forming, casting, consolidation, and other more material-specific manufacturing processes. Elucidation of the role of phenomena such as heat flow, mass diffusion, nucleation, interfacial tension, elastic and plastic deformation, precipitation, grain growth","p":"MSE 23000","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=MSE&filter%5B29%5D=33000&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":89},
+  {"a":1,"a2":null,"n":"MSE 36700","t":"Materials Processing Laboratory","c":3,"s":[44],"d":"This laboratory is intended as an intensive experience in processing techniques used for ceramics, metals, and polymers. Sintering of a ceramic, casting and post-processing (work hardening, heat treatment, etc.) of a metal, and preparation and extrusion of a polymer are the suggested processes. The measurements (e.g., powder size, compaction force, temperature, grain size, molecular weight) applicable to the successful processing of the material and the final properties (e.g., hardness, ductility, strength, stiffness) will be emphasized","p":"MSE 23500","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=MSE&filter%5B29%5D=36700&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":90},
+  {"a":1,"a2":null,"n":"MSE 37000","t":"Electrical, Optical, And Magnetic Properties Of Materials","c":3,"s":[25,44],"d":"An introductory course to provide basic background on the behavior of materials; electronic band structure, electronic and ionic conduction, electronic processes in semiconductors, dielectric, optical, and magnetic properties, and superconductivity; emphasis is on the relation between the properties and the structural aspects of materials","p":"MSE 23000 and MSE 27000 and (PHYS 24100 or PHYS 27200 or PHYS 26100 or PHYS 25100 or PHYS 27100","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=MSE&filter%5B29%5D=37000&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":91},
+  {"a":1,"a2":null,"n":"MSE 49700","t":"Electronics Packaging and Heterogeneous Integration","c":3,"s":[5,7,36,37,44,47],"d":"This course provides a broad, hands-on introduction to principles and practices of electronics packaging. The course is broadly divided into four major modules as well as other smaller modules. The major modules provide a practical background (as it relates to electronic packaging) electrical, thermal, mechanical and materials characterization. Design considerations as well as materials selection in the above topics will also be addressed. The minor modules include package fabrication and assembly, radiation hardening, and statistical modeling and data analysis. The class will be primarily a lab-oriented with 1 lecture and 4 hours of hands-on lab each week.","p":"Check course registration information","r":"May only take one of the 3 cross-listed courses (ME 59700, ECE 59500, or MSE 49700) or ME 597 Fundamentals of Microsystems Packaging","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=MSE&filter%5B29%5D=49700&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":92},
+  {"a":1,"a2":null,"n":"MSE 50200","t":"Defects in Solids","c":3,"s":[44],"d":"Structures and interactions of point, line, and planar defects in solids, with emphasis on properties of defects. Generic basis of defect energies and interactions, with reference to specific materials and material classes as examples. Types of point defects found in crystals, their origins, interactions, and motion. Overview of dislocation theory and point-defect/dislocation interactions. Structural aspects of surfaces and interfaces, including point and line defect interactions","p":"Senior status and above","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=MSE&filter%5B29%5D=50200&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":93},
+  {"a":1,"a2":null,"n":"MSE 51000","t":"Microstructural Characterization Techniques","c":3,"s":[5,7,25,44],"d":"A broad variety of analytical tools will be presented. The intent is to allow the student to make an educated selection of characterization techniques, or critical analysis of published data, for materials and defect analysis. The techniques will be assessed in terms of the probe type and material response, of what device and specimen requirements are typical, and of what data can or cannot be derived from each type of analysis","p":"Senior status and above","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=MSE&filter%5B29%5D=51000&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":94},
+  {"a":1,"a2":null,"n":"MSE 52300","t":"Physical Ceramics","c":3,"s":[20,44],"d":"Physical and chemical processes responsible for microstructure development in modern ceramic materials, and the relationship between microstructures and physical properties. The material covered is divided into three parts: solid state processes, including structural defects, diffusion, sintering and grain growth, reaction rates, nucleation and growth, and microstructure development; mechanical and thermal behavior, including deformation, strength, thermal properties, and thermal and compositional stresses; and electrical and magnetic behavior, including electrical conductivity, dielectric properties, and magnetic properties. Offered in alternate years","p":"Senior status and above","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=MSE&filter%5B29%5D=52300&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":95},
+  {"a":1,"a2":null,"n":"MSE 54700","t":"Introduction To Surface Science","c":3,"s":[44],"d":"Classical thermodynamics of surfaces: surface tension, surface excess properties, and surface segregation. Atomic structure of surfaces and surface reconstruction. Electronic structure of surfaces, surface states, and the electronic structure/properties of interfaces. Adsorption, surface diffusion, and clustering of adsorbates. Chemical reactions at surfaces. Offered in alternate years","p":"Senior status and above","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=MSE&filter%5B29%5D=54700&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":96},
+  {"a":1,"a2":null,"n":"MSE 54800","t":"Deposition Processing Of Thin Films And Coatings","c":3,"s":[19,44],"d":"Processing and microstructural development of thin films and layered structures. Includes vapor, liquid, and reactive processing, as well as layer modification by annealing and beam techniques. Offered in alternate years","p":"MSE 33000","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=MSE&filter%5B29%5D=54800&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":97},
+  {"a":1,"a2":null,"n":"MSE 58500","t":"Magnetic Materials: Physical Properties and Applications","c":3,"s":[21,44],"d":"This course provides an introduction of the basic physical and structural properties that determine the functionality of magnetic materials and devices. Starting from basic concepts on the physics of magnetism, materials synthesis and device fabrication, the functional requirements of magnetic materials for diverse applications will be discussed. Magnetic material properties depend on the electronic structure of the constituent elements and their electronic interactions. These interactions are controlled by their atomic arrangement, microstructure, defects, and strain fields that distort the local atomic order. Furthermore, the role of reduced dimensionality on the physical and functional properties of nanoscale materials will be discussed.","p":"(Student Attribute: GR; May not be taken concurrently. ) or ( Course or Test: MSE 33000. Minimum Grade of D-. May not be taken concurrently and Course or Test: MSE 37000. Minimum Grade of D-. May not be taken concurrently. )","r":"","u":"https://selfservice.mypurdue.purdue.edu/prod/bwckctlg.p_disp_course_detail?cat_term_in=202710&subj_code_in=MSE&crse_numb_in=58500","i":98},
+  {"a":1,"a2":null,"n":"MSE 59700","t":"Modeling & Simulation for Materials","c":3,"s":[10,44],"d":"The primary goal of this course is to introduce students to advanced materials simulation techniques and their use to characterize a wide range of phenomena from electronic and atomic structure to macroscopic behavior.","p":"Check course registration information","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=MSE&filter%5B29%5D=59700&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":99},
+  {"a":1,"a2":null,"n":"MSE 59700","t":"Materials and Devices for Solid-State Energy Conversion","c":3,"s":[21,25,44],"d":"Principles of solid-state conversion of energy between electrical and light (photovoltaics and light-emitting diodes), thermal and electrical (thermoelectric and solid-state thermionic), thermodynamic limits, materials figures-of-merit, device design issues; challenges in materials engineering; potential advantages of nanocomposites; prospects for technology replacement; societal impact assessment.","p":"Check course registration information","r":"Cross-listed with ECE 59500","u":"","i":100},
+  {"a":1,"a2":null,"n":"NUCL 42001","t":"Radiation Interaction With Materials And Applications","c":3,"s":[26,36],"d":"Fundamental of radiation interaction with materials and applications, types of radiation and radiation sources, physical mechanisms of radiation interaction with solids, radiation damage, ion mixing, applications in nuclear fission and fusion reactors, applications in materials synthesis","p":"NUCL 32000","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=NUCL&filter%5B29%5D=42001&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":101},
+  {"a":1,"a2":null,"n":"NUCL 52000","t":"Radiation Effects And Reactor Materials","c":3,"s":[36],"d":"Introduction to radiation effects in solids and a survey of nuclear reactor materials. Radiation interaction mechanisms and effects on properties. Reactor material characteristics, selection criteria, testing, and economic considerations","p":"Junior status and above","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=NUCL&filter%5B29%5D=52000&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":102},
+  {"a":1,"a2":null,"n":"NUCL 55300","t":"Nano-Macro Scale Applications Of Nuclear Technology","c":3,"s":[25,36],"d":"Introduction of the principles of nuclear science and engineering for addressing industrial and scientific issues ranging from sub-nano-to-macro scales. Areas to be covered include: propulsion, high-energy density materials, supercooling, medical applications, sonoluminescence, novel detection systems for special nuclear and contraband materials, and advanced nuclear fusion power systems","p":"Senior status and above","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=NUCL&filter%5B29%5D=55300&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":103},
+  {"a":0,"a2":null,"n":"PHYS 32200","t":"Intermediate Optics","c":3,"s":[26],"d":"Wave optics and properties of light, including reflection, refraction interference. Fraunhofer and Fresnel diffraction dispersion, polarization, double refraction, introduction to lasers and holography","p":"PHYS 24100 or PHYS 25100 or PHYS 26100 or PHYS 27200","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=PHYS&filter%5B29%5D=32200&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":104},
+  {"a":0,"a2":null,"n":"PHYS 34900","t":"Introduction to Quantum Computing","c":3,"s":[34,40],"d":"This is a first course in quantum information and quantum computing, for students who have already had an introduction to quantum science. Linear algebra and some probability theory will be presented and used throughout this course. The basic postulates of quantum mechanics will motivate the applications to qubits, cryptography, quantum computation, algorithms, error correction, and other current topics","p":"PHYS 34202 or PHYS 34400","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=PHYS&filter%5B29%5D=34900&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":105},
+  {"a":0,"a2":null,"n":"PHYS 44500","t":"Introduction to Semiconductor Phyiscs","c":3,"s":[40],"d":"This course bridges fundamental quantum mechanics and modern microelectronics by exploring the core physics of semiconductor materials and devices. Students will investigate how the microscopic behavior of electrons determines the macroscopic electrical and optical properties of these essential materials. By connecting theoretical principles to real-world technologies, the course prepares students for advanced research and careers in the rapidly growing semiconductor industry","p":"PHYS 36000 or PHYS 55000) and (PHYS 41600 or PHYS 41610 or PHYS 51500 [concurrent ok]","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=PHYS&filter%5B29%5D=44500&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":106},
+  {"a":0,"a2":null,"n":"PHYS 45000","t":"PHYS450: Optics Laboratory I","c":2,"s":[26],"d":"Laboratory primarily intended for junior year physics majors. Assorted experiments in optics and other fields using lasers, photodiodes, computers, and other modern technology","p":"PHYS 42200 [concurrent ok] or PHYS 32200 [concurrent ok]","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=PHYS&filter%5B29%5D=45000&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":107},
+  {"a":0,"a2":null,"n":"PHYS 52600","t":"Physics Of Quantum Computing And Quantum Information","c":3,"s":[34,35],"d":"An introduction to the physics of quantum information science. Starting with the concepts of quantum superposition, it defines and describes qubits (quantum bits) and their manipulation by quantum logic gates. The topics of quantum entanglement and the EPR paradox are introduced, and their importance for quantum teleportation, communication, and quantum cryptography are covered. Quantum computing is described in terms of quantum circuits of logic gates, and also in terms of quantum algorithms, such as Deutsch's algorithm, the quantum Fourier transform, Shor's prime factoring algorithm, and Grover's search algorithm. The final topic is quantum decoherence and the limits it places on practical implementations of quantum computing","p":"PHYS 36000 or PHYS 46000 or PHYS 55000","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=PHYS&filter%5B29%5D=52600&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":108},
+  {"a":3,"a2":null,"n":"PHYS 53600","t":"Electronic Techniques for Research","c":4,"s":[5],"d":"A summary of principles of modern electronics currently used in research. Coursework will include broad coverage of the field and selected topics in electronics instrumentation","p":"PHYS 27200","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=PHYS&filter%5B29%5D=53600&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":109},
+  {"a":0,"a2":null,"n":"PHYS 54500","t":"Solid State Physics","c":3,"s":[40],"d":"Crystal structure; lattice vibrations and electronic band structure of crystals; electrical, optical, and thermal properties of solids; transport and other nonequilibrium phenomena in uniform and nonuniform materials","p":"PHYS 36000 or PHYS 46000 or PHYS 55000 or PHYS 41600 or PHYS 41610 or PHYS 51500","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=PHYS&filter%5B29%5D=54500&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":110},
+  {"a":1,"a2":null,"n":"PHYS 570P","t":"Physics and Material Science of Semiconductor Nanostructures","c":3,"s":[40,44],"d":"This course will explore the basic physics and material properties of modern semiconductor nanostructures. Particular emphasis will be placed on fabrication techniques for semiconducting quantum wells, wires, and dots. Fundamental and practical aspects of molecular beam epitaxy and chemical vapor deposition will be covered. State-of-the-art nanomaterial structural characterization techniques will be reviewed. The impact of reduced dimensionality on the electrical and optical properties of nanostructures will be studied. The close connection between fundamental physics and the implementation of new device concepts will be illustrated in some detail with examples from photonic devices.","p":"This course is designed for MS & PhD students doing semiconductor research (including Engineering students, who are welcome!). A knowledge of elementary quantum mechanics & elementary statistical physics is assumed. Some knowledge of elementary solid state physics would be helpful, but isn't essential. It would be helpful (but it isn't vital) to have had a solid state physics course similar to our Physics 545.","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=PHYS&filter%5B29%5D=570P&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":111},
+  {"a":4,"a2":null,"n":"QM 40500","t":"Six Sigma And Quality Analytics","c":3,"s":[7,20,42,45],"d":"The course is an undergraduate elective offered as part of the Center for Manufacturing Management Enterprises (CMME) quality initiatives. Provides an overview of various tools and methods for total quality management","p":"ECON 26000 or ECON 36000 or ECON E2700 or MGMT 30500 or STAT 35000","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=QM&filter%5B29%5D=40500&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":112},
+  {"a":4,"a2":null,"n":"QM 47300","t":"Data Mining","c":3,"s":[7],"d":"Students follow a structured analytical process using popular industry tools (e.g., RStudio, Tableau, SQL) to identify, visualize, and summarize relationships within large data sets to support business problems. More focus is on descriptive analytics which includes business segmentation and clustering methods, but also introduces two predictive analytic methods, decision trees, and neural networks","p":"ECON 26000 or ECON 36000 or MGMT 30500 or STAT 35000 or STAT 41600 or STAT 50100 or STAT 51100","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=QM&filter%5B29%5D=47300&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":113},
+  {"a":4,"a2":null,"n":"QM 47400","t":"Predictive Analytics","c":3,"s":[7,42],"d":"Students build and evaluate predictive models to support regression-type and classification-type business problems using popular industry tools (e.g., RStudio, SAS Enterprise Miner). Methods covered include multiple linear regression, ridge regression, lasso, CART, logistic regression, LDA/QDA, SVM, and ensemble methods such as random forests","p":"ECON 26000 or ECON 36000 or MGMT 30500 or STAT 35000 or STAT 50100 or STAT 51100","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=QM&filter%5B29%5D=47400&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":114},
+  {"a":4,"a2":null,"n":"SCOM 26100","t":"Introduction To Supply Chain Management","c":3,"s":[45],"d":"This course introduces general concepts in supply chain management, including procurement, supply planning, demand planning, and logistics, using state-of-the-art tools in predictive analytics, artificial intelligence, and optimization. This course is designed around a corporate partnership to provide students with the opportunity to work on a real-world case presented by the corporate partner, a complex problem broken down into several learning areas throughout the semester","p":"Junior status and above","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=SCOM&filter%5B29%5D=26100&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":115},
+  {"a":4,"a2":null,"n":"SCOM 46200","t":"Advanced Manufacturing Planning And Control Systems","c":3,"s":[20,30],"d":"The course examines key concepts in the planning, control, and improvement of processes in manufacturing and service operations. Specific topics covered in the course include: (i) Product/service characteristics that provide value to customers and competitive priorities, (ii) Role of processes and key operations choices to support the competitive priorities, (iii) Process analysis and scheduling, (iv) Throughput principles to deal with adverse impacts of process uncertainties and bottlenecks, (v) Managing capacity and lead times, (vi) Throughput principles to deal with wastes and errors, including the Toyota Production System and Lean Operations, and (vii) Coordinating material/order flows in supply chain - MRP, and Resources and Production Planning - Aggregate Production Planning. The class uses a combination of lectures, cases, simulations, outside speakers, experiential exercises, and student presentations. An important component of the course is a hands-on exercise where students in teams of seven or eight design and run a production process to meet demand for a quality-conscious customer. The teams then present the lessons learned to the class","p":"MGMT 36100","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=SCOM&filter%5B29%5D=46200&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":116},
+  {"a":4,"a2":null,"n":"SCOM 46300","t":"Supply Chain Analytics","c":3,"s":[45],"d":"This course focuses on data-driven and rigorous decision-making in supply chain management. It is a complete problem-solving and decision-making process, and integrates a broad set of analytical methodologies (data analysis, optimization, and simulation). Students will implement these methodologies in both Excel and in Python, and they will learn how to use AI to augment and support their coding abilities. MGMT 30600 is highly recommended but not required. Basic Calculus, Statistics, and Excel literacy are required","p":"MGMT 36100 [concurrent ok]","r":"","u":"https://catalog.purdue.edu/content.php?filter%5B27%5D=SCOM&filter%5B29%5D=46300&filter%5Bexact_match%5D=1&cur_cat_oid=19&navoid=25468&search_database=Filter","i":117},
+  {"a":2,"a2":null,"n":"VIP","t":"STARS: Introduction to SoCET 1","c":null,"s":[0,1,2,3,4,5,6,10,11,12,13,16,17,18,22,24,29,40,46,48,50],"d":"The primary objective of the SoCET team is to provide students with a comprehensive System on Chip design, fabrication and test experience that is as similar to industry practice as possible","p":"Check course registration information","r":"Semester 1 of SoCET","u":"","i":118},
+  {"a":4,"a2":null,"n":"VIP","t":"Intro to Semiconductor","c":null,"s":[14,19,20,31,42,44],"d":"This VIP course provides hands-on exposure to the fundamental processes used in modern semiconductor manufacturing, linking device physics to integrated circuit fabrication. The course introduces the overall semiconductor manufacturing process flow and emphasizes the role of cleanroom practices, safety and process control. Through guided experiments, students gain practical experience with core fabrication and characterization techniques including photolithography, thin-film deposition, chemical vapor deposition (CVD) and etching processes. Statistical Process Control (SPC) methods are introduced and applied to real process data to assess variability, yield and process capability.","p":"Check course registration information","r":"","u":"","i":119},
+ ],
+ vip:[]
+};
+
+/* Populated by applyCatalog() once the live file is fetched (or the fallback taken) */
+let SKILLS = [], AREAS = [], COURSES = [];
+
+/* The required course is not in the workbook — it is the one fixed requirement
+   rather than catalog data, so it is defined here. Every other place on the page
+   reads these fields; nothing about it is written out a second time. */
+const REQUIRED_COURSE = {
+  code: 'OPP 10100',
+  name: 'Changing the World with Chips',
+  credits: 1,
+  url: 'https://catalog.purdue.edu/preview_course_nopop.php?catoid=18&coid=224111',
+  syllabus: 'https://purdue.simplesyllabus.com/en-US/doc/ltwhivj01/WL-Fall-2026-OPP-%28WL%29-10100-008-Changing-The-World-With-Chips',
+  desc: 'On a weekly basis, students will be exposed to semiconductor industry professionals representing some of the largest companies in the world. Students will learn about new technologies, semiconductor products and applications, and career opportunities relevant to a variety of academic disciplines. This course is a requirement for the Semiconductor and Microelectronics certificate and serves as a gateway to a variety of research and internship opportunities relevant to the semiconductor industry.'
+};
+
+/* Catalog links now travel with the course data: the workbook carries an address
+   per course, so nothing is derived from the course number and no term code has
+   to be maintained here. Courses without an address simply show no link. */
+
+const TARGET_REQUIRED   = 1;
+const TARGET_TECHNICAL  = 9;
+const TARGET_EXPERIENCE = 6;
+const TARGET_TOTAL      = 16;
+const MIN_AREAS         = 2;
+const CHIPS_COLLAPSED   = 3;
+const STORAGE_KEY       = 'purdue-semi-cert-v1';
+
+/* ══════════════════════════════════════════════════════════════
+   STATE
+══════════════════════════════════════════════════════════════ */
+const state = {
+  requiredDone: false,
+  selected: {},          // courseIndex -> true
+  credits: {},           // courseIndex -> chosen credits (variable-credit courses)
+  experience: [],        // { id, name, credits, skills }
+  filterSkills: [],      // skill indices
+  filterMode: 'any',
+  filterMajor: '',       // subject prefix, e.g. "ECE"
+  filterLevel: '',       // "200".."500", matched on the leading digit
+  search: '',
+  selectedOnly: false,
+  collapsed: {},         // areaIndex -> bool; absent means "use the default for the current filter state"
+  expanded: {},          // courseIndex -> true (skill chips expanded)
+  details: {}            // courseIndex -> true (description panel open)
+};
+let expSeq = 1;
+
+/* ══════════════════════════════════════════════════════════════
+   HELPERS
+══════════════════════════════════════════════════════════════ */
+/* Every id in this app is namespaced so it cannot collide with an id on the host
+   page. The prefix lives here alone -- call sites still pass the short name. */
+const ID_PREFIX = 'sc-';
+/* True only when #sc-app is the document's sole content: no host chrome around it. */
+(() => {
+  const own = el => el.id === 'sc-app' || /^(SCRIPT|STYLE|LINK|NOSCRIPT|TEMPLATE)$/.test(el.tagName);
+  if ([...document.body.children].every(own)) document.body.classList.add('sc-standalone');
+})();
+const $ = id => document.getElementById(ID_PREFIX + id);
+const esc = s => String(s).replace(/[&<>"']/g, c =>
+  ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+
+function courseCredits(c) {
+  if (c.c != null) return c.c;
+  return state.credits[c.i] != null ? state.credits[c.i] : 0;
+}
+function isSelected(i) { return state.selected[i] === true; }
+
+/* Variable-credit courses start at 0 — the student has to say what they took.
+   Anything selected but still unset is surfaced rather than silently under-counted. */
+function needsCredits() {
+  return COURSES.filter(c => isSelected(c.i) && c.c == null && !state.credits[c.i]);
+}
+
+function technicalCredits() {
+  return COURSES.reduce((sum, c) => isSelected(c.i) ? sum + courseCredits(c) : sum, 0);
+}
+function selectedAreas() {
+  const set = new Set();
+  COURSES.forEach(c => { if (isSelected(c.i)) set.add(c.a); });
+  return set;
+}
+function experienceCredits() {
+  return state.experience.reduce((s, e) => expType(e.type) ? s + (Number(e.credits) || 0) : s, 0);
+}
+function requiredCredits() { return state.requiredDone ? TARGET_REQUIRED : 0; }
+
+function countedTotal() {
+  return requiredCredits()
+    + Math.min(technicalCredits(), TARGET_TECHNICAL)
+    + Math.min(experienceCredits(), TARGET_EXPERIENCE);
+}
+
+function selectedSkillSet() {
+  const set = new Set();
+  COURSES.forEach(c => { if (isSelected(c.i)) c.s.forEach(s => set.add(s)); });
+  state.experience.forEach(e => (e.skills || []).forEach(s => set.add(s)));
+  return set;
+}
+
+/* Cross-listed / equivalent-course conflicts */
+function conflictsFor(course) {
+  if (!course.x) return [];
+  return COURSES.filter(o => o.x === course.x && o.i !== course.i && isSelected(o.i));
+}
+
+/* ══════════════════════════════════════════════════════════════
+   FILTERING
+══════════════════════════════════════════════════════════════ */
+/* "ECE 30500" -> { subject:"ECE", level:"300" }. Suffixed numbers such as
+   PHYS 570P still resolve, since only the leading digits are read. */
+function courseParts(n) {
+  /* Digits are optional: VIP rows are numbered just "VIP", so they still belong to a
+     subject but have no level and are correctly excluded by a level filter. */
+  const m = /^([A-Za-z]{2,4})\s*(\d*)/.exec(String(n || ''));
+  if (!m || !m[1]) return null;
+  return { subject: m[1].toUpperCase(), level: m[2].length >= 3 ? m[2][0] + '00' : '' };
+}
+
+function filtersActive() {
+  return !!(state.search || state.filterSkills.length || state.selectedOnly ||
+            state.filterMajor || state.filterLevel);
+}
+
+/* Area groups sit closed by default, but open themselves while a filter is
+   running so matches aren't buried. Changing a filter drops any manual
+   open/close the student made under the previous filter. */
+function resetAreaCollapse() { state.collapsed = {}; }
+
+function matchesFilters(c) {
+  if (state.selectedOnly && !isSelected(c.i)) return false;
+
+  if (state.filterMajor || state.filterLevel) {
+    const parts = courseParts(c.n);
+    if (!parts) return false;
+    if (state.filterMajor && parts.subject !== state.filterMajor) return false;
+    if (state.filterLevel && parts.level !== state.filterLevel) return false;
+  }
+
+  if (state.search) {
+    const q = state.search.toLowerCase();
+    const hay = (c.n + ' ' + c.t + ' ' + c.s.map(s => SKILLS[s]).join(' ')).toLowerCase();
+    if (!hay.includes(q)) return false;
+  }
+
+  if (state.filterSkills.length) {
+    const has = s => c.s.includes(s);
+    if (state.filterMode === 'all') { if (!state.filterSkills.every(has)) return false; }
+    else if (!state.filterSkills.some(has)) return false;
+  }
+  return true;
+}
+
+/* How many courses carry each skill, within the current search/selected scope */
+function skillAvailability() {
+  const counts = new Array(SKILLS.length).fill(0);
+  COURSES.forEach(c => {
+    if (state.selectedOnly && !isSelected(c.i)) return;
+    if (state.filterMajor || state.filterLevel) {
+      const parts = courseParts(c.n);
+      if (!parts) return;
+      if (state.filterMajor && parts.subject !== state.filterMajor) return;
+      if (state.filterLevel && parts.level !== state.filterLevel) return;
+    }
+    if (state.search) {
+      const q = state.search.toLowerCase();
+      const hay = (c.n + ' ' + c.t).toLowerCase();
+      if (!hay.includes(q)) return;
+    }
+    c.s.forEach(s => counts[s]++);
+  });
+  return counts;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   RENDER — required course
+══════════════════════════════════════════════════════════════ */
+function renderRequired() {
+  const r = REQUIRED_COURSE;
+  $('required-list').innerHTML = `
+    <div class="course-row${state.requiredDone ? ' selected' : ''}" id="sc-required-row">
+      <input type="checkbox" class="course-check" id="sc-required-check"
+             ${state.requiredDone ? 'checked' : ''} aria-label="Select ${esc(r.code)}" />
+      <div class="course-body">
+        <div class="course-line1">
+          <span class="course-code">${esc(r.code)}</span>
+          <span class="course-name">${esc(r.name)}</span>
+          ${catalogLinkHTML({ n: r.code, u: r.url })}
+          ${externalLinkHTML(r.syllabus, 'Syllabus', `View the ${r.code} syllabus`)}
+        </div>
+        <div class="course-desc">${esc(r.desc)}</div>
+      </div>
+      <span class="course-credits-badge">${r.credits} CR</span>
+    </div>`;
+  $('required-check').addEventListener('change', function () {
+    state.requiredDone = this.checked;
+    $('required-row').classList.toggle('selected', this.checked);
+    update();
+  });
+}
+
+/* ══════════════════════════════════════════════════════════════
+   RENDER — technical area groups
+══════════════════════════════════════════════════════════════ */
+function externalLinkHTML(url, label, ariaLabel) {
+  if (!url || !isHttpUrl(url)) return '';
+  return `<a class="catalog-link" href="${esc(url)}" target="_blank" rel="noopener noreferrer"
+             aria-label="${esc(ariaLabel)} (opens in a new tab)"
+          >${esc(label)}<i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a>`;
+}
+
+function catalogLinkHTML(c) {
+  return externalLinkHTML(c && c.u, 'Catalog',
+    `View ${c && c.n ? c.n : 'this course'} in the Purdue course catalog`);
+}
+
+/* Description, prerequisites and restrictions are long — descriptions alone average
+   ~465 characters across 100 courses. Printing them inline would bury the list the
+   page is built around, so they live behind a per-row disclosure. */
+function hasDetails(c) { return !!(c && (c.d || c.p || c.r)); }
+
+function detailsHTML(c) {
+  if (!hasDetails(c)) return '';
+  const open = !!state.details[c.i];
+  const part = (label, text, cls) => text
+    ? `<div class="detail-part ${cls}"><span class="detail-label">${label}</span><p>${esc(text)}</p></div>` : '';
+  return `
+    <button class="details-toggle" data-details="${c.i}" aria-expanded="${open}">
+      <i class="bi bi-chevron-right" aria-hidden="true"></i>${open ? 'Hide details' : 'Details'}
+    </button>
+    ${open ? `<div class="detail-panel">
+      ${part('Description', c.d, 'is-desc')}
+      ${part('Prerequisites', c.p, 'is-prereq')}
+      ${part('Other restrictions &amp; notes', c.r, 'is-notes')}
+    </div>` : ''}`;
+}
+
+function courseRowHTML(c) {
+  const sel = isSelected(c.i);
+  const expanded = state.expanded[c.i];
+  const filterSet = new Set(state.filterSkills);
+
+  /* Matched skills float to the front so a filtered-for skill is always visible */
+  const ordered = c.s.slice().sort((a, b) => (filterSet.has(b) ? 1 : 0) - (filterSet.has(a) ? 1 : 0));
+  const shown = expanded ? ordered : ordered.slice(0, CHIPS_COLLAPSED);
+  const hidden = ordered.length - shown.length;
+
+  let chips = shown.map(s =>
+    `<span class="skill-chip${filterSet.has(s) ? ' match' : ''}">${esc(SKILLS[s])}</span>`).join('');
+  if (hidden > 0) chips += `<button class="skill-more" data-more="${c.i}">+${hidden} more</button>`;
+  else if (expanded && ordered.length > CHIPS_COLLAPSED) chips += `<button class="skill-more" data-more="${c.i}">show less</button>`;
+  if (!ordered.length) chips = `<span class="skill-none">No skill tags recorded</span>`;
+
+  const unset = c.c == null && !state.credits[c.i];
+  const creditControl = c.c != null
+    ? `<span class="course-credits-badge">${c.c} CR</span>`
+    : `<select class="credit-picker${unset ? ' unset' : ''}${unset && sel ? ' needed' : ''}"
+               data-credit="${c.i}" aria-label="Credit hours for ${esc(c.n)}"
+               title="This course carries variable credit — choose the number of hours you took.">
+         <option value="0"${unset ? ' selected' : ''}>Set CR</option>
+         ${[1,2,3,4].map(v => `<option value="${v}"${courseCredits(c) === v ? ' selected' : ''}>${v} CR</option>`).join('')}
+       </select>`;
+
+  const creditHint = unset && sel
+    ? `<div class="credit-hint"><i class="bi bi-arrow-right-short" aria-hidden="true"></i>
+         <span>Variable-credit course — set your credit hours to count it.</span></div>` : '';
+
+  const conf = conflictsFor(c);
+  const flag = c.x
+    ? `<div class="xlist-flag${sel && conf.length ? ' visible' : ''}">
+         <i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>
+         <span>Equivalent to ${conf.map(o => esc(o.n)).join(', ') || 'another listed course'} — these likely cannot both count. Confirm with your advisor.</span>
+       </div>` : '';
+
+  return `
+    <div class="course-row${sel ? ' selected' : ''}" data-row="${c.i}">
+      <input type="checkbox" class="course-check" data-check="${c.i}"
+             ${sel ? 'checked' : ''} aria-label="Select ${esc(c.n)} ${esc(c.t)}" />
+      <div class="course-body">
+        <div class="course-line1">
+          <span class="course-code">${esc(c.n)}</span>
+          <span class="course-name">${esc(c.t)}</span>
+          ${catalogLinkHTML(c)}
+        </div>
+        <div class="skill-strip">${chips}</div>
+        ${creditHint}
+        ${flag}
+        ${detailsHTML(c)}
+      </div>
+      ${creditControl}
+    </div>`;
+}
+
+function renderAreas() {
+  const visible = COURSES.filter(matchesFilters);
+  const byArea = AREAS.map(() => []);
+  visible.forEach(c => byArea[c.a].push(c));
+
+  $('area-groups').innerHTML = AREAS.map((a, ai) => {
+    const list = byArea[ai];
+    const total = COURSES.filter(c => c.a === ai).length;
+    const selCount = COURSES.filter(c => c.a === ai && isSelected(c.i)).length;
+    const selCr = COURSES.reduce((s, c) => (c.a === ai && isSelected(c.i)) ? s + courseCredits(c) : s, 0);
+    const collapsed = list.length === 0 ? true
+      : state.collapsed[ai] !== undefined ? state.collapsed[ai]
+      : !filtersActive();
+
+    return `
+      <div class="area-group${collapsed ? ' collapsed' : ''}${selCount ? ' has-selected' : ''}" data-area="${ai}">
+        <button class="area-head" data-toggle-area="${ai}" aria-expanded="${!collapsed}">
+          <i class="bi bi-chevron-down area-caret" aria-hidden="true"></i>
+          <span class="area-head-text">
+            <span class="area-name">${esc(a.short)}</span>
+            <span class="area-tally">${list.length === total ? total : list.length + ' of ' + total} course${total === 1 ? '' : 's'}${selCount ? ` · <b>${selCr} cr selected</b>` : ''}</span>
+          </span>
+          <span class="area-count-badge${selCount ? '' : ' zero'}">${selCount}</span>
+        </button>
+        <div class="area-body">
+          ${list.length ? list.map(courseRowHTML).join('')
+                        : '<div class="area-empty">No courses in this area match your filters.</div>'}
+        </div>
+      </div>`;
+  }).join('');
+
+  $('no-results').style.display = visible.length ? 'none' : 'block';
+  $('area-groups').style.display = visible.length ? 'block' : 'none';
+}
+
+/* ══════════════════════════════════════════════════════════════
+   RENDER — skill filter cloud
+══════════════════════════════════════════════════════════════ */
+function renderSkillCloud() {
+  const counts = skillAvailability();
+  /* Skills with nothing left to match are dropped entirely — but an active
+     filter pill always stays put, or there'd be no way to switch it back off. */
+  const order = SKILLS.map((name, i) => ({ name, i, n: counts[i] }))
+    .filter(s => s.n > 0 || state.filterSkills.includes(s.i))
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+  $('skill-cloud').innerHTML = order.map(s => {
+    const on = state.filterSkills.includes(s.i);
+    return `<button class="skill-toggle${on ? ' on' : ''}" data-skill="${s.i}">
+              ${esc(s.name)} <span class="n">${s.n}</span>
+            </button>`;
+  }).join('') || '<span class="skills-card-empty">No skills match the current search.</span>';
+
+  const cnt = state.filterSkills.length;
+  const badge = $('skill-filter-count');
+  badge.style.display = cnt ? 'inline-block' : 'none';
+  badge.textContent = cnt;
+  $('btn-skill-panel').classList.toggle('active', cnt > 0);
+}
+
+/* Options come from the catalog, so a new subject or level appears on its own
+   and one that is not represented never shows as an empty choice. */
+function renderFilterOptions() {
+  const subjects = new Map(), levels = new Map();
+  COURSES.forEach(c => {
+    const p = courseParts(c.n);
+    if (!p) return;
+    subjects.set(p.subject, (subjects.get(p.subject) || 0) + 1);
+    if (p.level) levels.set(p.level, (levels.get(p.level) || 0) + 1);
+  });
+
+  const major = $('major-filter'), level = $('level-filter');
+  major.innerHTML = `<option value="">All subjects</option>` +
+    [...subjects.keys()].sort().map(k =>
+      `<option value="${esc(k)}"${state.filterMajor === k ? ' selected' : ''}>${esc(k)} (${subjects.get(k)})</option>`).join('');
+  level.innerHTML = `<option value="">All levels</option>` +
+    [...levels.keys()].sort().map(k =>
+      `<option value="${esc(k)}"${state.filterLevel === k ? ' selected' : ''}>${esc(k)}-level (${levels.get(k)})</option>`).join('');
+
+  major.classList.toggle('on', !!state.filterMajor);
+  level.classList.toggle('on', !!state.filterLevel);
+  $('btn-clear-all').disabled = !filtersActive();
+}
+
+function renderFilterSummary() {
+  const visible = COURSES.filter(matchesFilters).length;
+  $('filter-summary-text').innerHTML = filtersActive()
+    ? `Showing <b>${visible}</b> of ${COURSES.length} courses`
+    : `<b>${COURSES.length}</b> courses across ${AREAS.length} certificate areas`;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   RENDER — experience
+══════════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════════
+   EXPERIENCE TYPES
+
+   Each type declares the fields the Certificate Coordinator needs on a
+   submitted plan of study, plus the credits it normally carries. The
+   student can change the credits — the defaults are the usual case, not
+   a rule. Fields may be left blank while planning; the printed plan
+   shows whatever has been filled in.
+══════════════════════════════════════════════════════════════ */
+const TERM_YEARS = (() => {
+  const y = new Date().getFullYear();
+  return Array.from({ length: 11 }, (_, i) => y - 4 + i);
+})();
+const TERM_SEASONS = ['Fall', 'Spring', 'Summer'];
+const EXP_CREDIT_CHOICES = [1, 2, 3, 4, 5, 6];
+
+const VIP_FIELDS = [
+  { k: 'vip',  label: 'Course Number', kind: 'vip',  placeholder: 'e.g. 47920-017' },
+  { k: 'role', label: 'Your Project Role/Topic', kind: 'text' },
+  { k: 'term', label: 'Term', kind: 'term' }
+];
+
+const EXPERIENCE_TYPES = [
+  { id: 'intern', label: 'Internship or Co-Op', credits: 6,
+    note: 'Students completing an internship should enroll in OPP 30999-01. Students completing a co-op should work with the Office of Professional Practice (propractice@purdue.edu) to ensure they are enrolled in the appropriate co-op course(s).',
+    fields: [
+      { k: 'company', label: 'Company', kind: 'text' },
+      { k: 'topic',   label: 'Your Project Topic', kind: 'text' },
+      { k: 'dates',   label: 'Dates of Employment', kind: 'dates' },
+      { k: 'hours',   label: 'Hours per Week', kind: 'text', placeholder: 'e.g. 40' },
+      { k: 'course',  label: 'Course Number(s)', kind: 'text', placeholder: 'e.g. OPP 30999-01' }
+  ]},
+  { id: 'surf', label: 'SURF', credits: 6, fields: [
+      { k: 'mentor', label: 'Faculty Mentor', kind: 'text' },
+      { k: 'topic',  label: 'Your Research Topic', kind: 'text' },
+      { k: 'term',   label: 'Term', kind: 'summerYear' }
+  ]},
+  { id: 'indstudy', label: 'Independent Study Research', credits: 6, fields: [
+      { k: 'course', label: 'Course Number', kind: 'text', placeholder: 'e.g. ME 498' },
+      { k: 'mentor', label: 'Faculty Mentor', kind: 'text' },
+      { k: 'topic',  label: 'Your Research Topic', kind: 'text' },
+      { k: 'term',   label: 'Term', kind: 'term' }
+  ]},
+  { id: 'vipSocet', label: 'VIP SoCET (Semester 2 and beyond)', credits: 2, fields: VIP_FIELDS },
+  { id: 'vipSemi',  label: 'VIP Semiconductors@Birck',          credits: 2, fields: VIP_FIELDS },
+  { id: 'vipTwins', label: 'VIP Virtual Twins@Birck',           credits: 2, fields: VIP_FIELDS },
+  { id: 'vipOther', label: 'Other VIP Course', credits: 2, fields: [
+      { k: 'vip',  label: 'Course Number', kind: 'vip', placeholder: 'e.g. 47920-017' },
+      { k: 'name', label: 'Course Name', kind: 'text' },
+      { k: 'role', label: 'Your Project Role/Topic', kind: 'text' },
+      { k: 'term', label: 'Term', kind: 'term' }
+  ]}
+];
+
+const expType = id => EXPERIENCE_TYPES.find(t => t.id === id) || null;
+
+/* Term stored as two parts so the printed plan can render "Fall 2027" */
+function expTermText(f) {
+  const season = f.termSeason || '';
+  const year = f.termYear || '';
+  return (season && year) ? `${season} ${year}` : (season || year || '');
+}
+
+/* One-line summary for the tracker: the type, narrowed by whichever
+   identifying field the student has filled in so far. */
+function expTitle(e) {
+  const t = expType(e.type);
+  if (!t) return 'Experience';
+  const f = e.f || {};
+  let detail = '';
+  if (t.id === 'intern')        detail = f.company || '';
+  else if (t.id === 'surf')     detail = f.termYear ? `Summer ${f.termYear}` : '';
+  else if (t.id === 'indstudy') detail = f.course || expTermText(f);
+  else                          detail = (f.vip ? `VIP ${f.vip}` : '') || f.name || expTermText(f);
+  return detail ? `${t.label} — ${detail}` : t.label;
+}
+
+/* Everything the student filled in, for the printed plan of study */
+function expDetailText(e) {
+  const t = expType(e.type);
+  if (!t) return '';
+  const f = e.f || {};
+  const bits = [];
+  t.fields.forEach(fld => {
+    if (fld.kind === 'dates') {
+      const from = f.datesFrom || '', to = f.datesTo || '';
+      if (from || to) bits.push(`${fld.label}: ${from || '?'} to ${to || '?'}`);
+    } else if (fld.kind === 'term') {
+      const v = expTermText(f);
+      if (v) bits.push(`${fld.label}: ${v}`);
+    } else if (fld.kind === 'summerYear') {
+      if (f.termYear) bits.push(`${fld.label}: Summer ${f.termYear}`);
+    } else if (fld.kind === 'vip') {
+      if (f.vip) bits.push(`${fld.label}: VIP ${f.vip}`);
+    } else if (f[fld.k]) {
+      bits.push(`${fld.label}: ${f[fld.k]}`);
+    }
+  });
+  return bits.join(' · ');
+}
+
+/* ── field rendering ─────────────────────────────────────────── */
+function yearOptions(selected) {
+  return `<option value="">Year</option>` + TERM_YEARS.map(y =>
+    `<option value="${y}"${String(selected) === String(y) ? ' selected' : ''}>${y}</option>`).join('');
+}
+
+function expFieldHTML(id, f, fld) {
+  const name = `${fld.label}`;
+  const ph = fld.placeholder ? ` placeholder="${esc(fld.placeholder)}"` : '';
+  let control;
+
+  switch (fld.kind) {
+    case 'dates':
+      control = `<span class="exp-inline">
+          <input type="date" data-exp-field="${id}:datesFrom" value="${esc(f.datesFrom || '')}"
+                 aria-label="${esc(name)} — start" />
+          <span class="exp-sep">to</span>
+          <input type="date" data-exp-field="${id}:datesTo" value="${esc(f.datesTo || '')}"
+                 aria-label="${esc(name)} — end" />
+        </span>`;
+      break;
+    case 'term':
+      control = `<span class="exp-inline">
+          <select data-exp-field="${id}:termSeason" aria-label="${esc(name)} — season">
+            <option value="">Term</option>
+            ${TERM_SEASONS.map(sn => `<option value="${sn}"${f.termSeason === sn ? ' selected' : ''}>${sn}</option>`).join('')}
+          </select>
+          <select data-exp-field="${id}:termYear" aria-label="${esc(name)} — year">${yearOptions(f.termYear)}</select>
+        </span>`;
+      break;
+    case 'summerYear':
+      control = `<span class="exp-inline">
+          <span class="exp-fixed">Summer</span>
+          <select data-exp-field="${id}:termYear" aria-label="${esc(name)} — year">${yearOptions(f.termYear)}</select>
+        </span>`;
+      break;
+    case 'vip':
+      control = `<span class="exp-inline">
+          <span class="exp-fixed">VIP</span>
+          <input type="text" data-exp-field="${id}:vip" value="${esc(f.vip || '')}"${ph}
+                 aria-label="${esc(name)}" />
+        </span>`;
+      break;
+    default:
+      control = `<input type="text" data-exp-field="${id}:${fld.k}" value="${esc(f[fld.k] || '')}"${ph}
+                        aria-label="${esc(name)}" />`;
+  }
+  return `<div class="exp-field"><span class="exp-field-label">${esc(fld.label)}</span>${control}</div>`;
+}
+
+/* Optional per-type guidance shown under the fields. Static copy, but it is escaped
+   before the address is linkified so the pattern stays safe if the text ever moves
+   into data. */
+function expNoteHTML(t) {
+  if (!t.note) return '';
+  const html = esc(t.note).replace(/([\w.+-]+@[\w.-]+\.\w+)/g,
+    '<a href="mailto:$1">$1</a>');
+  return `<p class="exp-note">${html}</p>`;
+}
+
+function renderPresets() {
+  $('exp-presets').innerHTML = EXPERIENCE_TYPES.map(t =>
+    `<button class="btn-preset" data-exp-add="${esc(t.id)}"><i class="bi bi-plus" aria-hidden="true"></i> ${esc(t.label)}</button>`
+  ).join('');
+}
+
+function renderExperience() {
+  const list = $('exp-list');
+  if (!state.experience.length) {
+    list.innerHTML = `<div class="area-empty" style="border:1px dashed var(--border-rule);text-align:center">
+      No experience logged yet. Choose one of the options above to get started.</div>`;
+  } else {
+    list.innerHTML = state.experience.map(e => {
+      const t = expType(e.type);
+      if (!t) return '';
+      const f = e.f || {};
+      return `
+      <div class="exp-card" data-exp="${e.id}">
+        <div class="exp-card-head">
+          <span class="exp-card-type">${esc(t.label)}</span>
+          <span class="exp-card-credits">
+            <label for="sc-exp-cr-${e.id}">Credits</label>
+            <select id="sc-exp-cr-${e.id}" data-exp-credits="${e.id}">
+              ${EXP_CREDIT_CHOICES.map(v => `<option value="${v}"${Number(e.credits) === v ? ' selected' : ''}>${v}</option>`).join('')}
+            </select>
+          </span>
+          <button class="btn-remove-exp" data-exp-remove="${e.id}" aria-label="Remove ${esc(t.label)}">
+            <i class="bi bi-x-lg" aria-hidden="true"></i>
+          </button>
+        </div>
+        <div class="exp-fields">${t.fields.map(fld => expFieldHTML(e.id, f, fld)).join('')}</div>
+        ${expNoteHTML(t)}
+      </div>`;
+    }).join('');
+  }
+  $('exp-subtotal').textContent = experienceCredits();
+}
+
+/* ══════════════════════════════════════════════════════════════
+   TRACKER
+══════════════════════════════════════════════════════════════ */
+function setCard(key, current, target, statusText, done) {
+  const pct = target ? Math.min(100, (current / target) * 100) : 0;
+  $('tally-' + key).textContent = current;
+  const bar = $('bar-' + key);
+  bar.style.width = pct + '%';
+  bar.className = 'tracker-bar' + (done ? ' green' : pct > 0 ? ' yellow' : '');
+  $('card-' + key).className = 'tracker-card' + (done ? ' status-green' : pct > 0 ? ' status-yellow' : '');
+  $('status-' + key).textContent = statusText;
+}
+
+function trackerList(el, items) {
+  el.innerHTML = items.map(it =>
+    `<div class="tracker-course-item"><span class="cc">${esc(it.code)}</span><span class="cn">${esc(it.name)}</span></div>`
+  ).join('');
+}
+
+const plural = n => n === 1 ? '' : 's';
+
+function updateTracker() {
+  /* Required */
+  setCard('required', requiredCredits(), TARGET_REQUIRED,
+    `${REQUIRED_COURSE.code} ${state.requiredDone ? 'complete' : 'not yet selected'}`,
+    state.requiredDone);
+
+  /* Technical */
+  const tc = technicalCredits();
+  const areas = selectedAreas();
+  const unsetCr = needsCredits();
+  const areasMet = areas.size >= MIN_AREAS;
+  const crMet = tc >= TARGET_TECHNICAL;
+  const techDone = crMet && areasMet && unsetCr.length === 0;
+
+  let techStatus;
+  if (unsetCr.length) techStatus = `${unsetCr.length} course${plural(unsetCr.length)} still need${unsetCr.length === 1 ? 's' : ''} credit hours`;
+  else if (techDone) techStatus = `Requirement met · ${areas.size} area${plural(areas.size)}`;
+  else if (crMet) techStatus = 'Credits met — add a course from a second area';
+  else techStatus = `${TARGET_TECHNICAL - tc} more credit${plural(TARGET_TECHNICAL - tc)} needed`;
+
+  setCard('technical', tc, TARGET_TECHNICAL, techStatus, techDone);
+
+  $('breadth-count').textContent = areas.size;
+  $('breadth-label').classList.toggle('ok', areasMet);
+  $('breadth-block').classList.toggle('met', areasMet);
+  $('breadth-dots').innerHTML = AREAS.map((a, i) =>
+    `<span class="breadth-dot${areas.has(i) ? ' on' : ''}" title="${esc(a.short)}"></span>`).join('');
+
+  trackerList($('courses-technical'),
+    COURSES.filter(c => isSelected(c.i)).map(c => ({ code: c.n, name: c.t })));
+
+  /* Experience */
+  const ec = experienceCredits();
+  const expDone = ec >= TARGET_EXPERIENCE;
+  setCard('experience', ec, TARGET_EXPERIENCE,
+    expDone ? 'Requirement met' : `${TARGET_EXPERIENCE - ec} more credit${plural(TARGET_EXPERIENCE - ec)} needed`,
+    expDone);
+  trackerList($('courses-experience'),
+    state.experience.map(e => ({ code: e.credits + ' CR', name: expTitle(e) })));
+
+  /* Total */
+  const total = countedTotal();
+  const allDone = state.requiredDone && techDone && expDone;
+  setCard('total', total, TARGET_TOTAL,
+    allDone ? 'All certificate requirements met'
+            : `${TARGET_TOTAL - total} credit${plural(TARGET_TOTAL - total)} remaining`,
+    allDone);
+
+  /* Skills */
+  const skills = [...selectedSkillSet()].map(i => SKILLS[i]).sort();
+  $('skills-count').textContent = skills.length;
+  $('skills-list').innerHTML = skills.length
+    ? skills.map(s => `<span class="skill-chip">${esc(s)}</span>`).join('')
+    : `<span class="skills-card-empty">Select courses to build your skill profile.</span>`;
+
+  announcePlan({ tc, areas: areas.size, ec, total, allDone, unset: unsetCr.length });
+
+  $('btn-generate').disabled = !allDone;
+  $('btn-generate').innerHTML = allDone
+    ? '<i class="bi bi-file-earmark-text" aria-hidden="true"></i> Generate plan of study'
+    : unsetCr.length
+      ? '<i class="bi bi-lock" aria-hidden="true"></i> Set credit hours to generate'
+      : '<i class="bi bi-lock" aria-hidden="true"></i> Complete all requirements to generate';
+}
+
+/* Announcements are debounced and de-duplicated: typing in a credit box fires
+   updateTracker() on every keystroke, and a live region that repeats itself is
+   worse than one that stays quiet. */
+let announceTimer = null, lastAnnounced = '';
+function announcePlan({ tc, areas, ec, total, allDone, unset }) {
+  const msg = allDone
+    ? `All certificate requirements met. ${total} of ${TARGET_TOTAL} credits.`
+    : [
+        `Technical ${tc} of ${TARGET_TECHNICAL} credits across ${areas} of ${MIN_AREAS} required areas.`,
+        `Experience ${ec} of ${TARGET_EXPERIENCE} credits.`,
+        `Total ${total} of ${TARGET_TOTAL}.`,
+        unset ? `${unset} course${plural(unset)} still need credit hours.` : ''
+      ].join(' ').trim();
+  if (msg === lastAnnounced) return;
+  lastAnnounced = msg;
+  clearTimeout(announceTimer);
+  announceTimer = setTimeout(() => { $('plan-announce').textContent = msg; }, 600);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   UPDATE + PERSIST
+══════════════════════════════════════════════════════════════ */
+let saveTimer = null;
+let lastSaved = null;   /* browsers replay form state on reload — a no-op save shouldn't overwrite the restore note */
+
+function update({ rerenderAreas = false, rerenderSkills = false, rerenderOptions = false } = {}) {
+  if (rerenderAreas) renderAreas();
+  if (rerenderSkills) renderSkillCloud();
+  if (rerenderOptions) renderFilterOptions();
+  $('btn-clear-all').disabled = !filtersActive();
+  renderFilterSummary();
+  updateTracker();
+  save();
+}
+
+/* A saved plan must survive the catalog changing under it. COURSES[].i is the
+   course's position in the published file, so persisting that would silently
+   re-point a student's selections at different courses the moment a row is
+   inserted mid-list. Selections are therefore stored by the course's own
+   identity — its number and title — and resolved back to indices on load. */
+const KEY_SEP = '\u241F';
+const courseKey = c => `${c.n}${KEY_SEP}${c.t}`;
+const courseByIndex = () => new Map(COURSES.map(c => [c.i, c]));
+const courseByKey = () => new Map(COURSES.map(c => [courseKey(c), c]));
+
+const STORAGE_FORMAT = 2;
+
+function save() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    const idx = courseByIndex();
+    const keyOf = i => { const c = idx.get(Number(i)); return c ? courseKey(c) : null; };
+
+    const selected = Object.keys(state.selected)
+      .filter(i => state.selected[i]).map(keyOf).filter(Boolean);
+    const credits = {};
+    Object.keys(state.credits).forEach(i => {
+      const k = keyOf(i);
+      if (k) credits[k] = state.credits[i];
+    });
+
+    const payload = JSON.stringify({
+      v: STORAGE_FORMAT,
+      requiredDone: state.requiredDone,
+      selected, credits,
+      experience: state.experience
+    });
+    if (payload === lastSaved) return;   /* nothing actually changed */
+    lastSaved = payload;
+    try {
+      localStorage.setItem(STORAGE_KEY, payload);
+      $('save-note').textContent = 'Saved locally at ' +
+        new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+    } catch (e) { /* storage unavailable — non-fatal */ }
+  }, 250);
+}
+
+function load() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    lastSaved = raw;
+    const d = JSON.parse(raw);
+    state.requiredDone = !!d.requiredDone;
+
+    let missingCourses = 0;
+
+    if (Array.isArray(d.selected)) {
+      /* Current format: keyed by course identity. Anything no longer in the
+         catalog is dropped and counted rather than quietly ignored. */
+      const byKey = courseByKey();
+      d.selected.forEach(k => {
+        const c = byKey.get(k);
+        if (c) state.selected[c.i] = true; else missingCourses++;
+      });
+      Object.keys(d.credits || {}).forEach(k => {
+        const c = byKey.get(k);
+        if (c) state.credits[c.i] = d.credits[k];
+      });
+    } else {
+      /* Plans saved before this change stored positional indices. Resolve them
+         against the catalog as it stands now; the next save rewrites them as keys. */
+      const byIndex = courseByIndex();
+      Object.keys(d.selected || {}).forEach(i => {
+        if (!d.selected[i]) return;
+        const c = byIndex.get(Number(i));
+        if (c) state.selected[c.i] = true; else missingCourses++;
+      });
+      Object.keys(d.credits || {}).forEach(i => {
+        const c = byIndex.get(Number(i));
+        if (c) state.credits[c.i] = d.credits[i];
+      });
+    }
+
+    /* Experience entries used to be a free-text name plus credits. Those predate
+       the typed forms and cannot be mapped onto one, so drop them and say so
+       rather than restoring a plan that silently lost part of itself. */
+    const saved = Array.isArray(d.experience) ? d.experience : [];
+    state.experience = saved.filter(e => e && expType(e.type));
+    const droppedExp = saved.length - state.experience.length;
+    expSeq = state.experience.reduce((m, e) => Math.max(m, e.id + 1), 1);
+
+    if (state.requiredDone || state.experience.length || Object.keys(state.selected).length ||
+        droppedExp || missingCourses) {
+      const notes = [];
+      if (missingCourses) notes.push(`${missingCourses} course${missingCourses === 1 ? ' is' : 's are'} no longer offered`);
+      if (droppedExp) notes.push(`${droppedExp} older experience ${droppedExp === 1 ? 'entry needs' : 'entries need'} re-entering`);
+      $('save-note').textContent = notes.length
+        ? `Restored your saved plan — ${notes.join('; ')}`
+        : 'Restored your saved plan';
+    }
+  } catch (e) { /* corrupt state — start fresh */ }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   EVENTS
+══════════════════════════════════════════════════════════════ */
+$('area-groups').addEventListener('change', e => {
+  const chk = e.target.closest('[data-check]');
+  if (chk) {
+    const i = Number(chk.dataset.check);
+    if (chk.checked) state.selected[i] = true; else delete state.selected[i];
+    update({ rerenderAreas: true });
+    return;
+  }
+  const sel = e.target.closest('[data-credit]');
+  if (sel) {
+    state.credits[Number(sel.dataset.credit)] = Number(sel.value);
+    update({ rerenderAreas: true });
+  }
+});
+
+$('area-groups').addEventListener('click', e => {
+  const head = e.target.closest('[data-toggle-area]');
+  if (head) {
+    const ai = Number(head.dataset.toggleArea);
+    const isOpen = head.getAttribute('aria-expanded') === 'true';
+    state.collapsed[ai] = isOpen;   /* invert whatever is on screen right now */
+    renderAreas();
+    return;
+  }
+  const more = e.target.closest('[data-more]');
+  if (more) {
+    const i = Number(more.dataset.more);
+    state.expanded[i] = !state.expanded[i];
+    renderAreas();
+    return;
+  }
+  const det = e.target.closest('[data-details]');
+  if (det) {
+    const i = Number(det.dataset.details);
+    state.details[i] = !state.details[i];
+    renderAreas();
+    /* keep the row the student clicked under the cursor after the re-render */
+    const again = document.querySelector(`[data-details="${i}"]`);
+    if (again) again.focus({ preventScroll: true });
+  }
+});
+
+/* ── Page subtitle "read more" ─────────────────────────────────
+   The control is hidden when the copy already fits in three lines, so
+   shortening the text later doesn't leave a toggle that does nothing. */
+(function () {
+  const para = $('page-subtitle');
+  const btn = $('subtitle-toggle');
+  const label = $('subtitle-toggle-text');
+  if (!para || !btn) return;
+
+  function syncVisibility() {
+    if (!para.classList.contains('is-clamped')) return;   /* expanded — keep the control */
+    btn.hidden = para.scrollHeight <= para.clientHeight + 1;
+  }
+
+  btn.addEventListener('click', () => {
+    const clamped = para.classList.toggle('is-clamped');
+    btn.setAttribute('aria-expanded', String(!clamped));
+    label.textContent = clamped ? 'Read more' : 'Show less';
+  });
+
+  syncVisibility();
+  /* a webfont swapping in changes the line count, so re-measure once it lands */
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncVisibility);
+  window.addEventListener('resize', syncVisibility);
+})();
+
+$('search-input').addEventListener('input', function () {
+  state.search = this.value.trim();
+  resetAreaCollapse();
+  update({ rerenderAreas: true, rerenderSkills: true });
+});
+
+$('btn-skill-panel').addEventListener('click', () => {
+  $('skill-panel').classList.toggle('open');
+});
+
+$('skill-cloud').addEventListener('click', e => {
+  const b = e.target.closest('[data-skill]');
+  if (!b) return;
+  const i = Number(b.dataset.skill);
+  const at = state.filterSkills.indexOf(i);
+  if (at >= 0) state.filterSkills.splice(at, 1); else state.filterSkills.push(i);
+  resetAreaCollapse();
+  update({ rerenderAreas: true, rerenderSkills: true });
+});
+
+$('major-filter').addEventListener('change', function () {
+  state.filterMajor = this.value;
+  resetAreaCollapse();
+  update({ rerenderAreas: true, rerenderSkills: true, rerenderOptions: true });
+});
+
+$('level-filter').addEventListener('change', function () {
+  state.filterLevel = this.value;
+  resetAreaCollapse();
+  update({ rerenderAreas: true, rerenderSkills: true, rerenderOptions: true });
+});
+
+$('btn-clear-all').addEventListener('click', clearAllFilters);
+
+$('mode-any').addEventListener('click', () => setMode('any'));
+$('mode-all').addEventListener('click', () => setMode('all'));
+function setMode(m) {
+  state.filterMode = m;
+  $('mode-any').classList.toggle('on', m === 'any');
+  $('mode-all').classList.toggle('on', m === 'all');
+  resetAreaCollapse();
+  update({ rerenderAreas: true });
+}
+
+$('btn-selected-only').addEventListener('click', function () {
+  state.selectedOnly = !state.selectedOnly;
+  this.classList.toggle('active', state.selectedOnly);
+  resetAreaCollapse();
+  update({ rerenderAreas: true, rerenderSkills: true });
+});
+
+function clearAllFilters() {
+  state.search = '';
+  state.filterSkills = [];
+  state.selectedOnly = false;
+  state.filterMajor = '';
+  state.filterLevel = '';
+  $('search-input').value = '';
+  $('btn-selected-only').classList.remove('active');
+  resetAreaCollapse();
+  update({ rerenderAreas: true, rerenderSkills: true, rerenderOptions: true });
+}
+
+/* Experience */
+$('exp-presets').addEventListener('click', e => {
+  const btn = e.target.closest('[data-exp-add]');
+  if (!btn) return;
+  const t = expType(btn.dataset.expAdd);
+  if (!t) return;
+  const id = expSeq++;
+  state.experience.push({ id, type: t.id, credits: t.credits, f: {} });
+  renderExperience();
+  update();
+  /* land the cursor in the new card's first field */
+  const first = $('exp-list').querySelector(`.exp-card[data-exp="${id}"] [data-exp-field]`);
+  if (first) first.focus();
+});
+
+/* Text and date fields: record the keystroke without re-rendering the card,
+   or the field being typed into would lose focus. */
+function setExpField(target) {
+  const [rawId, key] = String(target.dataset.expField || '').split(':');
+  const rec = state.experience.find(x => x.id === Number(rawId));
+  if (!rec || !key) return;
+  rec.f = rec.f || {};
+  rec.f[key] = target.value;
+  update();
+}
+
+$('exp-list').addEventListener('input', e => {
+  if (e.target.closest('[data-exp-field]')) setExpField(e.target);
+});
+
+$('exp-list').addEventListener('change', e => {
+  const field = e.target.closest('[data-exp-field]');
+  if (field) { setExpField(field); return; }
+  const c = e.target.closest('[data-exp-credits]');
+  if (!c) return;
+  const rec = state.experience.find(x => x.id === Number(c.dataset.expCredits));
+  if (rec) {
+    rec.credits = Number(c.value);
+    $('exp-subtotal').textContent = experienceCredits();
+    update();
+  }
+});
+
+$('exp-list').addEventListener('click', e => {
+  const b = e.target.closest('[data-exp-remove]');
+  if (!b) return;
+  const id = Number(b.dataset.expRemove);
+  state.experience = state.experience.filter(x => x.id !== id);
+  renderExperience();
+  update();
+});
+
+$('btn-reset').addEventListener('click', () => {
+  if (!confirm('Clear your entire plan and start over?')) return;
+  state.requiredDone = false;
+  state.selected = {};
+  state.credits = {};
+  state.experience = [];
+  state.filterSkills = [];
+  state.search = '';
+  state.selectedOnly = false;
+  state.filterMajor = '';
+  state.filterLevel = '';
+  state.expanded = {};
+  $('search-input').value = '';
+  $('btn-selected-only').classList.remove('active');
+  lastSaved = null;
+  try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+  renderRequired();
+  renderExperience();
+  renderAreas();
+  renderSkillCloud();
+  renderFilterOptions();
+  renderFilterSummary();
+  updateTracker();
+  $('save-note').textContent = '';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+/* ══════════════════════════════════════════════════════════════
+   PLAN OF STUDY / PRINT
+══════════════════════════════════════════════════════════════ */
+const PS_COLS = 3;
+
+function psRow(code, name, area, cr) {
+  return `<tr><td class="ps-code">${esc(code)}</td>` +
+         `<td>${esc(name)}${area ? `<span class="ps-area">${esc(area)}</span>` : ''}</td>` +
+         `<td class="ps-cr">${esc(cr)}</td></tr>`;
+}
+
+/* The page markup is the only copy of each section's name; the printed plan reads it
+   back rather than restating it. The area rule is derived from the same constants the
+   tracker enforces. */
+function syncPrintHeadings() {
+  [['required', 1], ['technical', 2], ['experience', 3]].forEach(([id, n]) => {
+    const h = $(`section-${id}`)?.querySelector('.section-title');
+    $(`ps-title-${id}`).textContent = `${n} · ${h ? h.textContent.trim() : ''}`;
+  });
+  $('ps-req-technical').textContent =
+    `at least ${MIN_AREAS} of ${AREAS.length} certificate areas`;
+}
+
+$('btn-generate').addEventListener('click', () => {
+  syncPrintHeadings();
+  $('ps-date').textContent = 'Generated ' + new Date().toLocaleDateString('en-US',
+    { year: 'numeric', month: 'long', day: 'numeric' });
+
+  $('ps-required').innerHTML = psRow(REQUIRED_COURSE.code, REQUIRED_COURSE.name, '',
+                                     `${REQUIRED_COURSE.credits} cr`);
+
+  const tech = COURSES.filter(c => isSelected(c.i));
+  $('ps-technical').innerHTML = tech.length
+    ? tech.map(c => psRow(c.n, c.t, AREAS[c.a].short, courseCredits(c) + ' cr')).join('')
+    : `<tr><td colspan="${PS_COLS}" class="ps-empty">None selected</td></tr>`;
+
+  const exp = state.experience.filter(e => expType(e.type));
+  $('ps-experience').innerHTML = exp.length
+    ? exp.map(e => psRow('—', expType(e.type).label, expDetailText(e), e.credits + ' cr')).join('')
+    : `<tr><td colspan="${PS_COLS}" class="ps-empty">None recorded</td></tr>`;
+
+  $('ps-total').textContent = countedTotal();
+
+  const areas = selectedAreas();
+  $('ps-status').innerHTML =
+    `<strong>Requirements satisfied.</strong> Required course (1 cr) · ` +
+    `Technical areas (${technicalCredits()} cr across ${areas.size} of ${AREAS.length} certificate areas) · ` +
+    `Semiconductor experience (${experienceCredits()} cr).`;
+
+  const skills = [...selectedSkillSet()].map(i => SKILLS[i]).sort();
+  $('ps-skills-list').textContent = skills.length ? skills.join(' · ') : 'None recorded';
+
+  /* The print stylesheet hides everything but the plan sheet. Inside the host
+     template that would blank the whole page, so it is gated on this class and
+     set only while this button is the one printing. */
+  document.body.classList.add('sc-printing');
+  const unflag = () => document.body.classList.remove('sc-printing');
+  window.addEventListener('afterprint', unflag, { once: true });
+  window.print();
+  setTimeout(unflag, 1000);   /* some browsers never fire afterprint */
+});
+
+/* ══════════════════════════════════════════════════════════════
+   CATALOG LOADING
+
+   course-data.json is produced by admin.html and uploaded via the ZMI.
+   It is treated as untrusted: every field is type-checked before use.
+   The renderer escapes all strings it prints, but numeric fields are
+   interpolated raw, so validate() is what keeps a hand-edited or
+   corrupted file from injecting markup through them.
+
+   Any failure at all — offline, 404, bad JSON, wrong schema version,
+   failed validation — falls back to the embedded snapshot. The page
+   never renders an empty catalog.
+══════════════════════════════════════════════════════════════ */
+const SCHEMA_VERSION = 2;
+/* Where the published catalog lives. A bare relative name resolves against the
+   PAGE's url, not this file's, so once the app is embedded in a CMS page it
+   depends on whether that page is served with a trailing slash — two different
+   paths, neither of them where the file was uploaded. A miss is quiet, because
+   the app just falls back to the embedded snapshot and looks fine while serving
+   stale data. So the host sets the path explicitly:
+
+     <div id="sc-app" data-catalog-url="/OPP/.../course-data.json">
+
+   Use a path starting with "/" — it is then independent of the page's url. The
+   relative default is only for opening this file on its own. */
+const CATALOG_URL =
+  document.getElementById('sc-app')?.dataset.catalogUrl?.trim() || 'course-data.json';
+
+const isStr = v => typeof v === 'string';
+const isInt = v => Number.isInteger(v);
+const isHttpUrl = v => /^https?:\/\//i.test(v);
+
+function validateCatalog(d) {
+  if (!d || typeof d !== 'object' || Array.isArray(d)) return 'not a JSON object';
+  if (d.schemaVersion !== SCHEMA_VERSION)
+    return `schemaVersion ${JSON.stringify(d.schemaVersion)}, this build reads ${SCHEMA_VERSION}`;
+
+  if (!Array.isArray(d.skills) || !d.skills.length || !d.skills.every(isStr)) return 'skills must be a non-empty array of strings';
+  if (!Array.isArray(d.areas)  || !d.areas.length) return 'areas must be a non-empty array';
+  if (!d.areas.every(a => a && isStr(a.id) && isStr(a.label) && isStr(a.short))) return 'every area needs id, label and short strings';
+  if (!Array.isArray(d.courses) || !d.courses.length) return 'courses must be a non-empty array';
+  /* Vestigial since VIP rows became ordinary courses; still shape-checked if present */
+  if (d.vip !== undefined && !Array.isArray(d.vip)) return 'vip must be an array';
+
+  const nSkills = d.skills.length, nAreas = d.areas.length;
+  const optStr = v => v === undefined || isStr(v);
+  for (const c of d.courses) {
+    if (!c || typeof c !== 'object') return 'a course entry is not an object';
+    if (!isInt(c.a) || c.a < 0 || c.a >= nAreas) return `course ${c.n || '?'} has area index ${c.a}, outside 0..${nAreas - 1}`;
+    if (!(c.a2 === null || c.a2 === undefined || (isInt(c.a2) && c.a2 >= 0 && c.a2 < nAreas)))
+      return `course ${c.n} has secondary area ${JSON.stringify(c.a2)}, outside 0..${nAreas - 1}`;
+    if (!isStr(c.n) || !isStr(c.t)) return `course ${c.n || '?'} is missing a number or title`;
+    if (!(c.c === null || (isInt(c.c) && c.c >= 0 && c.c <= 12))) return `course ${c.n} has credits ${JSON.stringify(c.c)} — must be null or 0-12`;
+    if (!isInt(c.i)) return `course ${c.n} is missing its index`;
+    if (c.x !== undefined && !isStr(c.x)) return `course ${c.n} has a non-string cross-list key`;
+    if (!Array.isArray(c.s) || !c.s.every(s => isInt(s) && s >= 0 && s < nSkills)) return `course ${c.n} has an out-of-range skill reference`;
+    if (!optStr(c.d) || !optStr(c.p) || !optStr(c.r)) return `course ${c.n} has non-text description, prerequisite or notes`;
+    /* The catalog address comes from the workbook and goes straight into an href,
+       so anything that is not plainly http(s) is rejected outright. */
+    if (!optStr(c.u)) return `course ${c.n} has a non-string catalog link`;
+    if (c.u && !isHttpUrl(c.u)) return `course ${c.n} has a catalog link that is not http(s)`;
+  }
+  for (const v of (d.vip || [])) {
+    if (!v || !isStr(v.t)) return 'a VIP entry is missing its title';
+    if (!Array.isArray(v.s) || !v.s.every(s => isInt(s) && s >= 0 && s < nSkills)) return 'a VIP entry has an out-of-range skill reference';
+    if (v.u && (!isStr(v.u) || !isHttpUrl(v.u))) return 'a VIP entry has a catalog link that is not http(s)';
+  }
+  return null;
+}
+
+function applyCatalog(d) {
+  SKILLS = d.skills; AREAS = d.areas; COURSES = d.courses;
+}
+
+function showProvenance(cat, live, reason) {
+  const when = cat.generatedAt
+    ? new Date(cat.generatedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+    : 'an unknown date';
+  $('data-stamp').textContent = `Course catalog updated ${when} · ${cat.counts?.courses ?? COURSES.length} courses`;
+
+  if (live) return;
+  $('data-banner').hidden = false;
+  $('data-banner-detail').textContent =
+    `This one dates from ${when}. The current catalog could not be loaded (${reason}), ` +
+    `so a few courses may be out of date. Your selections are unaffected.`;
+}
+
+async function loadCatalog() {
+  try {
+    /* no-store defeats the browser cache; the dated param defeats any proxy in front of Zope */
+    /* eslint-disable-next-line no-console */
+    console.info('[certificate] loading catalog from', CATALOG_URL);
+    const url = `${CATALOG_URL}?v=${new Date().toISOString().slice(0, 10)}`;
+    const res = await fetch(url, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    /* parse from text, not res.json(), so a wrong Content-Type from Zope doesn't matter */
+    const data = JSON.parse(await res.text());
+    const problem = validateCatalog(data);
+    if (problem) throw new Error(problem);
+    applyCatalog(data);
+    return { cat: data, live: true };
+  } catch (e) {
+    applyCatalog(FALLBACK_CATALOG);
+    return { cat: FALLBACK_CATALOG, live: false, reason: e.message || String(e) };
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   INIT
+══════════════════════════════════════════════════════════════ */
+loadCatalog().then(({ cat, live, reason }) => {
+  showProvenance(cat, live, reason);
+  load();
+  renderRequired();
+  renderPresets();
+  renderExperience();
+  renderAreas();
+  renderSkillCloud();
+  renderFilterOptions();
+  renderFilterSummary();
+  updateTracker();
+});

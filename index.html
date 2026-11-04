@@ -2682,7 +2682,19 @@ $('btn-generate').addEventListener('click', () => {
    never renders an empty catalog.
 ══════════════════════════════════════════════════════════════ */
 const SCHEMA_VERSION = 2;
-const CATALOG_URL = 'course-data.json';
+/* Where the published catalog lives. A bare relative name resolves against the
+   PAGE's url, not this file's, so once the app is embedded in a CMS page it
+   depends on whether that page is served with a trailing slash — two different
+   paths, neither of them where the file was uploaded. A miss is quiet, because
+   the app just falls back to the embedded snapshot and looks fine while serving
+   stale data. So the host sets the path explicitly:
+
+     <div id="sc-app" data-catalog-url="/OPP/.../course-data.json">
+
+   Use a path starting with "/" — it is then independent of the page's url. The
+   relative default is only for opening this file on its own. */
+const CATALOG_URL =
+  document.getElementById('sc-app')?.dataset.catalogUrl?.trim() || 'course-data.json';
 
 const isStr = v => typeof v === 'string';
 const isInt = v => Number.isInteger(v);
@@ -2746,6 +2758,8 @@ function showProvenance(cat, live, reason) {
 async function loadCatalog() {
   try {
     /* no-store defeats the browser cache; the dated param defeats any proxy in front of Zope */
+    /* eslint-disable-next-line no-console */
+    console.info('[certificate] loading catalog from', CATALOG_URL);
     const url = `${CATALOG_URL}?v=${new Date().toISOString().slice(0, 10)}`;
     const res = await fetch(url, { cache: 'no-store' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
