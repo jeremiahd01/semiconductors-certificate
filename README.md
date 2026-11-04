@@ -294,9 +294,25 @@ redefines every colliding token, sets `* { box-sizing: content-box }` and restyl
 old id names. Computed styles for all 2,186 app elements were identical to standalone,
 and the host's own styling was untouched.
 
-**Not yet verified against the real Wrap09 stylesheet.** The mock covers the patterns a
-legacy theme usually relies on, but if Wrap09 carries `!important` on bare element
-selectors, that beats scoping and would need a rule-by-rule answer.
+**Verified against the real Wrap09 cascade** — all 44 imported stylesheets plus the
+Bootstrap 5.3.2, Font Awesome, Typekit and Google Fonts the host page loads, with the
+app injected into a `body_copy` block's `.text-content` exactly as it will be deployed.
+Across all 2,186 app elements the only differences from standalone were `width` and
+`height`, which is Wrap09's `.container` being narrower. No typography, colour, border,
+spacing or decoration crossed the boundary in either direction.
+
+Two host rules do reach in, both harmlessly:
+
+- `a:focus-visible, button:focus-visible { outline: auto !important }` — `!important`
+  beats scoping by design. It replaces the app's gold ring on links and buttons with
+  Wrap09's black user-agent ring, which has *higher* contrast, so focus stays visible.
+  Checkboxes, selects and text inputs are untouched and keep the app's own ring.
+- The host loads Bootstrap 5.3.2 itself, so its reboot is on the page regardless. The
+  app's own reboot is scoped at `#sc-app` and outranks it.
+
+Fonts come from the host: Purdue's Adobe Fonts kit registers Acumin as `acumin-pro` and
+`acumin-pro-condensed`, not `Acumin Pro`, so the stacks list the Typekit names first.
+Nothing needs adding to the host page.
 
 ### Zope notes
 

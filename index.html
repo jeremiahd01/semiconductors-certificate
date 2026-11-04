@@ -7,10 +7,13 @@
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
   <!--
-    FONTS: Acumin Pro, Acumin Pro Condensed, and Source Serif Pro are Purdue-licensed
-    Adobe fonts. Load them via your institution's Adobe Fonts / Typekit embed code
-    on the host page before this component renders. PC substitutes (Franklin Gothic
-    Medium, Georgia) are included in every font-family stack as automatic fallbacks.
+    FONTS: Acumin Pro, Acumin Pro Condensed, and Source Serif Pro are Purdue-licensed.
+    The Wrap09 host page already loads them — Acumin via Purdue's Adobe Fonts kit
+    (use.typekit.net/hrz3oev.css) and Source Serif Pro from Google Fonts — so nothing
+    needs adding there. Typekit registers Acumin lowercase and hyphenated
+    (acumin-pro, acumin-pro-condensed); the font stacks below list those names first
+    and the desktop names second. Franklin Gothic Medium and Georgia remain as
+    fallbacks for a standalone page with no kit loaded.
   -->
 
   <style>    /* Served on its own, nothing else zeroes the user-agent's body margin. Set
@@ -64,8 +67,14 @@
       --pu-railway-gray: #9D9795;
       --pu-steam:        #C4BFC0;
 
-      --pu-font-sans:     'Acumin Pro', 'Franklin Gothic Medium', Arial, sans-serif;
-      --pu-font-sans-cd:  'Acumin Pro Condensed', 'Franklin Gothic Medium', Arial, sans-serif;
+      /* Typekit's family names come first — the host page loads Purdue's Adobe Fonts
+         kit, which registers them lowercase and hyphenated. The title-case names are
+         the locally installed desktop fonts, which only some machines have. Listing
+         the Typekit name second would leave the app in Franklin Gothic for every
+         visitor without Acumin installed, beside a host page using Acumin. This is
+         the same order Wrap09 uses. */
+      --pu-font-sans:     acumin-pro, 'Acumin Pro', 'Franklin Gothic Medium', Arial, sans-serif;
+      --pu-font-sans-cd:  acumin-pro-condensed, 'Acumin Pro Condensed', 'Franklin Gothic Medium', Arial, sans-serif;
       --pu-font-serif:    'Source Serif Pro', Georgia, serif;
 
       /* Surfaces */
@@ -765,7 +774,10 @@
     #sc-app .exp-card-credits select:focus { outline: none; border-color: var(--pu-aged); box-shadow: var(--focus-ring); }
     #sc-app .exp-fields {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      /* min() lets the track shrink below its ideal width instead of overflowing.
+         A bare minmax(260px, 1fr) keeps a 260px floor, which is wider than the
+         column this sits in once the host page's own gutters are applied. */
+      grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
       gap: 12px 18px;
       padding: 14px 12px;
     }
@@ -1038,7 +1050,7 @@
       #sc-app .action-block { grid-column: 1; grid-row: 3; }
       #sc-app #sc-tracker { position: static; }
       #sc-app .tracker-header { padding-top: 32px; }
-      #sc-app .tracker-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 11px; }
+      #sc-app .tracker-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(215px, 100%), 1fr)); gap: 11px; }
       #sc-app .tracker-card { margin-bottom: 0; }
       #sc-app .skills-card { margin-top: 11px; }
       #sc-app .page-header { padding-top: 24px; }
