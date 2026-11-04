@@ -65,7 +65,14 @@ Each semester:
 8. Load the builder and confirm the footer shows today's date
 
 Nothing is uploaded anywhere during steps 2–4. The spreadsheet is parsed inside the
-browser; the server never sees it.
+browser; the server never sees it — and since SheetJS is served from the same folder
+rather than a CDN, the converter needs no outbound internet access at all.
+
+The parser is the SheetJS **mini** build (279,523 bytes,
+`sha384-NG/W3xvO3ynQEcDQYIOcZTXRtwUs83cLv1FIl9PuqWPDuNhsMRF6wutlNLFwlb71`). It drops the
+legacy `.xls` and `.ods` readers, which are unreachable here because `handleFile()`
+rejects anything that is not `.xlsx` before the parser sees it. Checked against the full
+build on the real workbook: byte-identical output and an identical report.
 
 If a bad file does get published, the builder falls back to a snapshot bundled inside
 `index.html` and keeps working — so a mistake degrades the page rather than breaking it.
@@ -342,6 +349,17 @@ python3 build-embed.py --check  # non-zero exit if embed/ is stale
 | `embed/semi-cert.js`  | File object | `application/javascript` |
 | `course-data.json`    | File object | anything — the app reads it as text |
 | `embed/block.html`    | pasted into the page template block | — |
+
+The converter is a separate, standalone page — it is not embedded in a template:
+
+| File | Goes into the ZMI as | Content type |
+|---|---|---|
+| `admin.html` | File object | `text/html` |
+| `xlsx.mini.min.js` | File object, **same folder as admin.html** | `application/javascript` |
+
+`admin.html` references the parser as a plain relative `xlsx.mini.min.js`, which is
+safe here because it is served as its own page rather than inside someone else's url.
+Keep the two together. The converter is for staff — don't link it from the public page.
 
 The split exists so the JavaScript never passes through a template parser. A Zope
 Page Template treats its body as markup, and this script contains `<`, `&&` and

@@ -5,17 +5,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Course Data Converter — Semiconductors Certificate</title>
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
-  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"
-          integrity="sha384-EnyY0/GSHQGSxSgMwaIPzSESbqoOLSexfnSMN2AP+39Ckmn92stwABZynq1JyzdT"
-          crossorigin="anonymous"></script>
+  <!--
+    SheetJS 0.20.3, served from this same folder rather than a CDN so the converter
+    works on a server with no outbound internet access. This is the "mini" build:
+    it drops the legacy .xls and .ods readers, which are unreachable here anyway
+    because handleFile() rejects anything that is not .xlsx before the parser sees
+    it. Verified against the full build on the real workbook — byte-identical
+    output and an identical report.
+
+      file   xlsx.mini.min.js   (279,523 bytes)
+      sha384 NG/W3xvO3ynQEcDQYIOcZTXRtwUs83cLv1FIl9PuqWPDuNhsMRF6wutlNLFwlb71
+
+    No integrity attribute: it guards against a CDN serving something else, which
+    is not the threat for a file sitting in the same folder, and it would turn a
+    legitimate version bump into a blank page. Check the hash above instead.
+  -->
+  <script src="xlsx.mini.min.js"></script>
 
   <style>
+    .vis-hidden { position:absolute; width:1px; height:1px; margin:-1px; padding:0;
+      overflow:hidden; clip:rect(0 0 0 0); clip-path:inset(50%); white-space:nowrap; border:0; }
+    .sc-icon { display:inline-block; width:1em; height:1em; fill:currentColor; vertical-align:-.125em; flex-shrink:0; }
+    .sc-sprite { position:absolute; width:0; height:0; overflow:hidden; }
+    /* An inline-level flex container baselines on its first item; a replaced <svg>
+       baselines on its bottom edge, which drops the element in its line box.
+       vertical-align is inert on block boxes, so this only bites where it should —
+       scoped under body so it cannot reach html or body themselves. */
+    body :has(> .sc-icon) { vertical-align: middle; }
+
+    /* The page relied on the user-agent focus ring. That is visible, but the drop
+       zone is a div and deserves a deliberate one — and this matches the builder.
+       Aged gold is 4.67:1 on white, clearing the 3:1 of WCAG 1.4.11; the gold glow
+       alone is 1.31:1 and is never the only indicator. */
+    :root { --focus-ring: 0 0 0 2px var(--pu-aged), 0 0 0 5px rgba(207,185,145,.45); }
+    #drop:focus-visible, .btn:focus-visible, a:focus-visible {
+      outline: none; box-shadow: var(--focus-ring);
+    }
+
     :root {
       --pu-gold:#CFB991; --pu-aged:#8E6F3E; --pu-aged-deep:#7B5E30; --pu-rush:#DAAA00;
       --pu-dust:#EBD99F; --pu-steel:#555960; --pu-railway-gray:#9D9795; --pu-steam:#C4BFC0;
-      --pu-font-sans:'Acumin Pro','Franklin Gothic Medium',Arial,sans-serif;
-      --pu-font-sans-cd:'Acumin Pro Condensed','Franklin Gothic Medium',Arial,sans-serif;
+      --pu-font-sans:acumin-pro,'Acumin Pro','Franklin Gothic Medium',Arial,sans-serif;
+      --pu-font-sans-cd:acumin-pro-condensed,'Acumin Pro Condensed','Franklin Gothic Medium',Arial,sans-serif;
       --pu-font-mono:ui-monospace,SFMono-Regular,'SF Mono',Menlo,monospace;
       --bg-tint:#F4F1EC; --bg-warm:#FAF8F4; --border-rule:#E5E0D8; --border-soft:rgba(142,111,62,.18);
       --text-primary:#1A1A1A; --text-muted:#65686F;
@@ -60,7 +91,10 @@
       padding:44px 24px; text-align:center; cursor:pointer; transition:all .15s ease;
     }
     #drop:hover, #drop.over { border-color:var(--pu-aged); background:var(--pu-dust); }
-    #drop i { font-size:2.2rem; color:var(--pu-aged); display:block; margin-bottom:10px; }
+    /* The old <i> was a block with no width, so it filled the drop zone and the
+       centred text centred the glyph inside it. The svg has an explicit 1em box,
+       so it has to centre itself. */
+    #drop .sc-icon { font-size:2.2rem; color:var(--pu-aged); display:block; margin:0 auto 10px; }
     #drop .big { font-size:1rem; font-weight:600; margin-bottom:4px; }
     #drop .small { font-size:.82rem; color:var(--text-muted); }
     #file { display:none; }
@@ -153,13 +187,33 @@
     .note strong { color:var(--pu-aged-deep); }
     footer {
       margin-top:56px; padding-top:14px; border-top:1px solid var(--border-rule);
-      font-size:.74rem; color:var(--pu-railway-gray);
+      font-size:.74rem; color:var(--text-muted);
       display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
     }
     @media (max-width:640px) { .wrap { padding:0 18px 60px; } h1 { font-size:1.8rem; } }
   </style>
 </head>
 <body>
+
+<!-- Bootstrap Icons 1.11.3, inlined so this page loads nothing from a CDN.
+     Add one as <symbol id="sc-i-NAME" viewBox="0 0 16 16"> and reference it with
+     <svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-NAME"></use></svg>. -->
+<!-- Dropping a file replaces the whole report below, well away from where focus
+     is. One polite region carries the verdict so the change is announced. -->
+<p id="convert-status" class="vis-hidden" role="status" aria-live="polite" aria-atomic="true"></p>
+
+<svg xmlns="http://www.w3.org/2000/svg" class="sc-sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="sc-i-arrow-counterclockwise" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2z"/> <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466"/></symbol>
+    <symbol id="sc-i-check-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/></symbol>
+    <symbol id="sc-i-download" viewBox="0 0 16 16"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/> <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/></symbol>
+    <symbol id="sc-i-exclamation-triangle-fill" viewBox="0 0 16 16"><path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/></symbol>
+    <symbol id="sc-i-file-earmark-spreadsheet" viewBox="0 0 16 16"><path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V9H3V2a1 1 0 0 1 1-1h5.5zM3 12v-2h2v2zm0 1h2v2H4a1 1 0 0 1-1-1zm3 2v-2h3v2zm4 0v-2h3v1a1 1 0 0 1-1 1zm3-3h-3v-2h3zm-7 0v-2h3v2z"/></symbol>
+    <symbol id="sc-i-info-circle-fill" viewBox="0 0 16 16"><path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/></symbol>
+    <symbol id="sc-i-x-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/></symbol>
+  </defs>
+</svg>
+
 <div class="wrap">
 
   <header>
@@ -174,7 +228,7 @@
   <div class="step" id="step-1">
     <div class="step-head"><span class="step-num">01</span><h2 class="step-title">Choose the spreadsheet</h2></div>
     <div id="drop" tabindex="0" role="button" aria-label="Choose or drop the course data spreadsheet">
-      <i class="bi bi-file-earmark-spreadsheet"></i>
+      <svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-file-earmark-spreadsheet"></use></svg>
       <div class="big">Drop the course workbook here</div>
       <div class="small">or click to browse · .xlsx only · reads the <strong>Updated</strong> and <strong>Data</strong> tabs</div>
     </div>
@@ -191,8 +245,8 @@
     <div class="step" id="step-3">
       <div class="step-head"><span class="step-num">03</span><h2 class="step-title">Publish</h2></div>
       <div class="actions">
-        <button class="btn" id="btn-download"><i class="bi bi-download"></i> Download course-data.json</button>
-        <button class="btn btn-ghost" id="btn-restart"><i class="bi bi-arrow-counterclockwise"></i> Start over</button>
+        <button class="btn" id="btn-download"><svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-download"></use></svg> Download course-data.json</button>
+        <button class="btn btn-ghost" id="btn-restart"><svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-arrow-counterclockwise"></use></svg> Start over</button>
       </div>
       <ol class="publish-steps">
         <li>Download the file above. Keep the name <code>course-data.json</code> exactly as-is.</li>
@@ -635,7 +689,7 @@ function findingBlock(kind, f) {
   const icon = kind === 'err' ? 'x-circle-fill' : kind === 'warn' ? 'exclamation-triangle-fill'
              : kind === 'ok' ? 'check-circle-fill' : 'info-circle-fill';
   return `<div class="finding ${kind}">
-      <div class="finding-head"><i class="bi bi-${icon}"></i>${esc(f.title)}</div>
+      <div class="finding-head"><svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-${icon}"></use></svg>${esc(f.title)}</div>
       ${f.body ? `<div class="finding-body">${f.body}</div>` : ''}
     </div>`;
 }
@@ -692,6 +746,13 @@ function render(res) {
   $('btn-download').disabled = blocked;
   $('step-3').classList.toggle('locked', false);
   $('blocked-note').style.display = blocked ? 'block' : 'none';
+  const n = (a, w) => `${a} ${w}${a === 1 ? '' : 's'}`;
+  $('convert-status').textContent = blocked
+    ? `Cannot publish: ${n(errors.length, 'error')}. ` +
+      (errors[0] ? errors[0].title : 'The workbook could not be read.')
+    : `Ready to publish. ${doc.counts.courses} courses, ${doc.counts.skills} skills. ` +
+      `${n(warnings.length, 'warning')}, ${n(notes.length, 'note')}.`;
+
   $('report').classList.add('show');
   $('report').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
