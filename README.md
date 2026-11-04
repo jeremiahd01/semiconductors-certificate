@@ -314,6 +314,18 @@ Fonts come from the host: Purdue's Adobe Fonts kit registers Acumin as `acumin-p
 `acumin-pro-condensed`, not `Acumin Pro`, so the stacks list the Typekit names first.
 Nothing needs adding to the host page.
 
+**The app loads nothing from anywhere else.** Icons are an inline SVG sprite — Bootstrap
+Icons 1.11.3, 16 symbols under `.sc-sprite`, referenced as
+`<svg class="sc-icon"><use href="#sc-i-NAME"></use></svg>`. `.sc-icon` is a 1em box, so
+the `font-size` rules written for the old icon font still size them. Symbol ids are
+namespaced like every other id here.
+
+One thing to know if you add an icon to an inline-level button: an inline-flex element
+takes its baseline from its first child, and a replaced `<svg>` baselines on its bottom
+edge, which drops the button in its line box. `#sc-app :has(> .sc-icon)` sets
+`vertical-align: middle` to keep icons out of that calculation; it is inert on anything
+that is not inline-level.
+
 ### Deploying into the Wrap09 page template block
 
 `index.html` is the source of truth and still runs standalone. `build-embed.py`

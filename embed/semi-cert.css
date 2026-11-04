@@ -5,6 +5,24 @@
        body stays entirely the host's. */
     body.sc-standalone { margin: 0; }
 
+    /* Sized in em so the font-size rules written for the old icon font still apply.
+       The glyph metrics of Bootstrap Icons are reproduced here: a 1em box on the
+       text baseline, shifted down an eighth of an em. */
+    #sc-app .sc-icon {
+      display: inline-block; width: 1em; height: 1em;
+      fill: currentColor; vertical-align: -0.125em; flex-shrink: 0;
+    }
+    #sc-app .sc-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+    /* An inline-level flex container takes its baseline from its first item. That
+       item used to be a text glyph; it is now a replaced <svg>, whose baseline is
+       its bottom edge, which drops the button in its line box and leaves a couple
+       of pixels of descender under every row that has one. Aligning on the middle
+       of the line takes the icon out of that calculation. vertical-align is inert
+       on anything not inline-level, so this is safe to apply broadly — it also
+       covers any icon button added later. */
+    #sc-app :has(> .sc-icon) { vertical-align: middle; }
+
     /* ─── Defensive baseline ──────────────────────────────────────────────
        The app is embedded in a page whose theme styles bare element selectors
        (h1, p, ul, a, table, button…). Those rules reach inside this component
@@ -201,8 +219,8 @@
       transition: color 0.14s ease;
     }
     #sc-app .subtitle-toggle[hidden] { display: none; }
-    #sc-app .subtitle-toggle i { font-size: 0.7rem; transition: transform 0.18s ease; }
-    #sc-app .subtitle-toggle[aria-expanded="true"] i { transform: rotate(180deg); }
+    #sc-app .subtitle-toggle .sc-icon { font-size: 0.7rem; transition: transform 0.18s ease; }
+    #sc-app .subtitle-toggle[aria-expanded="true"] .sc-icon { transform: rotate(180deg); }
     #sc-app .subtitle-toggle:hover { color: var(--pu-black); }
     #sc-app .subtitle-toggle:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: 2px; }
     #sc-app .requirement-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
@@ -307,7 +325,7 @@
       white-space: nowrap;
       transition: color 0.14s ease, border-color 0.14s ease;
     }
-    #sc-app .catalog-link i { font-size: 0.66rem; }
+    #sc-app .catalog-link .sc-icon { font-size: 0.66rem; }
     #sc-app .catalog-link:hover, #sc-app .catalog-link:focus-visible {
       color: var(--pu-aged-deep);
       border-bottom-color: var(--pu-aged);
@@ -369,7 +387,7 @@
       color: #6B5200;
       font-weight: 500;
     }
-    #sc-app .credit-hint i { font-size: 1rem; color: var(--pu-rush); }
+    #sc-app .credit-hint .sc-icon { font-size: 1rem; color: var(--pu-rush); }
     /* ─── Skill chips ────────────────────────────────────────── */
     #sc-app .skill-strip { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 7px; align-items: center; }
     #sc-app .skill-chip {
@@ -423,8 +441,8 @@
       cursor: pointer;
       transition: color 0.14s ease;
     }
-    #sc-app .details-toggle i { font-size: 0.7rem; transition: transform 0.18s ease; }
-    #sc-app .details-toggle[aria-expanded="true"] i { transform: rotate(90deg); }
+    #sc-app .details-toggle .sc-icon { font-size: 0.7rem; transition: transform 0.18s ease; }
+    #sc-app .details-toggle[aria-expanded="true"] .sc-icon { transform: rotate(90deg); }
     #sc-app .details-toggle:hover { color: var(--pu-black); }
     #sc-app .details-toggle:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: 2px; }
     #sc-app .detail-panel {
@@ -578,7 +596,7 @@
     }
     #sc-app .section-notes .target { color: var(--pu-aged-deep); font-weight: 600; }
     #sc-app .filter-search { flex: 1; min-width: 220px; position: relative; }
-    #sc-app .filter-search i {
+    #sc-app .filter-search .sc-icon {
       position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
       color: var(--text-muted); font-size: 0.85rem; pointer-events: none;
     }
@@ -919,7 +937,7 @@
       opacity: 0; transform: scale(0.5);
       transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
     }
-    #sc-app .complete-icon i { font-size: 0.72rem; color: var(--pu-white); }
+    #sc-app .complete-icon .sc-icon { font-size: 0.72rem; color: var(--pu-white); }
     #sc-app .tracker-card.status-green .complete-icon { opacity: 1; transform: scale(1); }
     #sc-app .tracker-courses { margin-top: 9px; display: flex; flex-direction: column; gap: 3px; }
     #sc-app .tracker-course-item {
@@ -1021,7 +1039,7 @@
       line-height: 1.55;
     }
     #sc-app .data-banner[hidden] { display: none; }
-    #sc-app .data-banner i { color: var(--pu-rush); font-size: 1rem; margin-top: 1px; flex-shrink: 0; }
+    #sc-app .data-banner .sc-icon { color: var(--pu-rush); font-size: 1rem; margin-top: 1px; flex-shrink: 0; }
     #sc-app .data-banner strong { color: var(--text-primary); font-weight: 600; }
     /* ─── Responsive ─────────────────────────────────────────── */
     @media (max-width: 1080px) {

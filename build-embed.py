@@ -19,7 +19,6 @@ def build():
     h = io.open(SRC, encoding='utf-8').read()
 
     css = re.search(r'<style[^>]*>(.*?)</style>', h, re.S).group(1)
-    icons = re.search(r'<link href="([^"]*bootstrap-icons[^"]*)"', h).group(1)
     b = h.find('<body>') + len('<body>')
     s = h.find('<script>', b)
     markup = h[b:s].strip()
@@ -37,11 +36,10 @@ def build():
         '     Set data-catalog-url below to the published path of course-data.json,\n'
         '     starting with "/" so it does not depend on this page\'s url.\n'
         '-->\n'
-        '<link rel="stylesheet" href="%s">\n'
         '<link rel="stylesheet" href="@@BASE@@/semi-cert.css">\n\n'
         '%s\n\n'
         '<script src="@@BASE@@/semi-cert.js" defer></script>\n'
-    ) % (BANNER.replace('\n', '\n     '), icons, markup)
+    ) % (BANNER.replace('\n', '\n     '), markup)
 
     return {
         'semi-cert.css': '/* %s */\n%s' % (BANNER.replace('\n', ' '), css),

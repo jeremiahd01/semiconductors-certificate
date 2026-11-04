@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Semiconductors and Microelectronics Certificate — Purdue University</title>
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
   <!--
     FONTS: Acumin Pro, Acumin Pro Condensed, and Source Serif Pro are Purdue-licensed.
     The Wrap09 host page already loads them — Acumin via Purdue's Adobe Fonts kit
@@ -21,6 +20,24 @@
        where body carries the site header, nav and footer — this never applies and
        body stays entirely the host's. */
     body.sc-standalone { margin: 0; }
+
+    /* Sized in em so the font-size rules written for the old icon font still apply.
+       The glyph metrics of Bootstrap Icons are reproduced here: a 1em box on the
+       text baseline, shifted down an eighth of an em. */
+    #sc-app .sc-icon {
+      display: inline-block; width: 1em; height: 1em;
+      fill: currentColor; vertical-align: -0.125em; flex-shrink: 0;
+    }
+    #sc-app .sc-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+    /* An inline-level flex container takes its baseline from its first item. That
+       item used to be a text glyph; it is now a replaced <svg>, whose baseline is
+       its bottom edge, which drops the button in its line box and leaves a couple
+       of pixels of descender under every row that has one. Aligning on the middle
+       of the line takes the icon out of that calculation. vertical-align is inert
+       on anything not inline-level, so this is safe to apply broadly — it also
+       covers any icon button added later. */
+    #sc-app :has(> .sc-icon) { vertical-align: middle; }
 
     /* ─── Defensive baseline ──────────────────────────────────────────────
        The app is embedded in a page whose theme styles bare element selectors
@@ -218,8 +235,8 @@
       transition: color 0.14s ease;
     }
     #sc-app .subtitle-toggle[hidden] { display: none; }
-    #sc-app .subtitle-toggle i { font-size: 0.7rem; transition: transform 0.18s ease; }
-    #sc-app .subtitle-toggle[aria-expanded="true"] i { transform: rotate(180deg); }
+    #sc-app .subtitle-toggle .sc-icon { font-size: 0.7rem; transition: transform 0.18s ease; }
+    #sc-app .subtitle-toggle[aria-expanded="true"] .sc-icon { transform: rotate(180deg); }
     #sc-app .subtitle-toggle:hover { color: var(--pu-black); }
     #sc-app .subtitle-toggle:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: 2px; }
     #sc-app .requirement-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
@@ -324,7 +341,7 @@
       white-space: nowrap;
       transition: color 0.14s ease, border-color 0.14s ease;
     }
-    #sc-app .catalog-link i { font-size: 0.66rem; }
+    #sc-app .catalog-link .sc-icon { font-size: 0.66rem; }
     #sc-app .catalog-link:hover, #sc-app .catalog-link:focus-visible {
       color: var(--pu-aged-deep);
       border-bottom-color: var(--pu-aged);
@@ -386,7 +403,7 @@
       color: #6B5200;
       font-weight: 500;
     }
-    #sc-app .credit-hint i { font-size: 1rem; color: var(--pu-rush); }
+    #sc-app .credit-hint .sc-icon { font-size: 1rem; color: var(--pu-rush); }
     /* ─── Skill chips ────────────────────────────────────────── */
     #sc-app .skill-strip { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 7px; align-items: center; }
     #sc-app .skill-chip {
@@ -440,8 +457,8 @@
       cursor: pointer;
       transition: color 0.14s ease;
     }
-    #sc-app .details-toggle i { font-size: 0.7rem; transition: transform 0.18s ease; }
-    #sc-app .details-toggle[aria-expanded="true"] i { transform: rotate(90deg); }
+    #sc-app .details-toggle .sc-icon { font-size: 0.7rem; transition: transform 0.18s ease; }
+    #sc-app .details-toggle[aria-expanded="true"] .sc-icon { transform: rotate(90deg); }
     #sc-app .details-toggle:hover { color: var(--pu-black); }
     #sc-app .details-toggle:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: 2px; }
     #sc-app .detail-panel {
@@ -595,7 +612,7 @@
     }
     #sc-app .section-notes .target { color: var(--pu-aged-deep); font-weight: 600; }
     #sc-app .filter-search { flex: 1; min-width: 220px; position: relative; }
-    #sc-app .filter-search i {
+    #sc-app .filter-search .sc-icon {
       position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
       color: var(--text-muted); font-size: 0.85rem; pointer-events: none;
     }
@@ -936,7 +953,7 @@
       opacity: 0; transform: scale(0.5);
       transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
     }
-    #sc-app .complete-icon i { font-size: 0.72rem; color: var(--pu-white); }
+    #sc-app .complete-icon .sc-icon { font-size: 0.72rem; color: var(--pu-white); }
     #sc-app .tracker-card.status-green .complete-icon { opacity: 1; transform: scale(1); }
     #sc-app .tracker-courses { margin-top: 9px; display: flex; flex-direction: column; gap: 3px; }
     #sc-app .tracker-course-item {
@@ -1038,7 +1055,7 @@
       line-height: 1.55;
     }
     #sc-app .data-banner[hidden] { display: none; }
-    #sc-app .data-banner i { color: var(--pu-rush); font-size: 1rem; margin-top: 1px; flex-shrink: 0; }
+    #sc-app .data-banner .sc-icon { color: var(--pu-rush); font-size: 1rem; margin-top: 1px; flex-shrink: 0; }
     #sc-app .data-banner strong { color: var(--text-primary); font-weight: 600; }
     /* ─── Responsive ─────────────────────────────────────────── */
     @media (max-width: 1080px) {
@@ -1136,6 +1153,35 @@
      restyle the host page and host rules cannot reach in and restyle the app. -->
 <div id="sc-app">
 
+<!-- Icon sprite. Bootstrap Icons 1.11.3, inlined so the page loads nothing from a
+     CDN. Ids are namespaced like everything else here, so they cannot clash with a
+     sprite the host page defines. To add an icon: drop its <path> from the Bootstrap
+     Icons set into a new <symbol id="sc-i-NAME" viewBox="0 0 16 16">, then reference
+     it as <svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-NAME"></use></svg>.
+     Hidden with clip rather than display:none, which some engines treat as a reason
+     not to resolve <use>. -->
+<svg xmlns="http://www.w3.org/2000/svg" class="sc-sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="sc-i-arrow-counterclockwise" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2z"/> <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466"/></symbol>
+    <symbol id="sc-i-arrow-right-short" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8"/></symbol>
+    <symbol id="sc-i-box-arrow-up-right" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/> <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/></symbol>
+    <symbol id="sc-i-check-lg" viewBox="0 0 16 16"><path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/></symbol>
+    <symbol id="sc-i-check2-square" viewBox="0 0 16 16"><path d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5z"/> <path d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0"/></symbol>
+    <symbol id="sc-i-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/></symbol>
+    <symbol id="sc-i-chevron-right" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/></symbol>
+    <symbol id="sc-i-exclamation-triangle-fill" viewBox="0 0 16 16"><path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/></symbol>
+    <symbol id="sc-i-file-earmark-text" viewBox="0 0 16 16"><path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5"/> <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/></symbol>
+    <symbol id="sc-i-info-circle-fill" viewBox="0 0 16 16"><path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/></symbol>
+    <symbol id="sc-i-lock" viewBox="0 0 16 16"><path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2M5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1"/></symbol>
+    <symbol id="sc-i-plus" viewBox="0 0 16 16"><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/></symbol>
+    <symbol id="sc-i-search" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/></symbol>
+    <symbol id="sc-i-tags" viewBox="0 0 16 16"><path d="M3 2v4.586l7 7L14.586 9l-7-7zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586z"/> <path d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1z"/></symbol>
+    <symbol id="sc-i-x-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/> <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></symbol>
+    <symbol id="sc-i-x-lg" viewBox="0 0 16 16"><path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/></symbol>
+  </defs>
+</svg>
+
+
 
 <!-- ══════════════════════════════════════════════════════════
      PRINT SUMMARY SHEET
@@ -1194,7 +1240,7 @@
 <div class="page-wrapper">
 
   <div class="data-banner" id="sc-data-banner" hidden>
-    <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
+    <svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-info-circle-fill"></use></svg>
     <div>
       <strong>Showing a saved course list.</strong>
       <span id="sc-data-banner-detail"></span>
@@ -1220,7 +1266,7 @@
       of disciplines.
     </p>
     <button class="subtitle-toggle" id="sc-subtitle-toggle" aria-expanded="false" aria-controls="sc-page-subtitle">
-      <span id="sc-subtitle-toggle-text">Read more</span><i class="bi bi-chevron-down" aria-hidden="true"></i>
+      <span id="sc-subtitle-toggle-text">Read more</span><svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-chevron-down"></use></svg>
     </button>
     <div class="requirement-pills">
       <div class="req-pill"><strong>1</strong> required seminar course</div>
@@ -1266,15 +1312,15 @@
     <div class="filter-bar">
       <div class="filter-row">
         <div class="filter-search">
-          <i class="bi bi-search" aria-hidden="true"></i>
+          <svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-search"></use></svg>
           <input type="text" id="sc-search-input" placeholder="Search by course number, title, or skill…" autocomplete="off" />
         </div>
         <button class="btn-filter" id="sc-btn-skill-panel">
-          <i class="bi bi-tags" aria-hidden="true"></i> Filter by skill
+          <svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-tags"></use></svg> Filter by skill
           <span class="cnt" id="sc-skill-filter-count" style="display:none">0</span>
         </button>
         <button class="btn-filter" id="sc-btn-selected-only">
-          <i class="bi bi-check2-square" aria-hidden="true"></i> Selected only
+          <svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-check2-square"></use></svg> Selected only
         </button>
       </div>
 
@@ -1288,7 +1334,7 @@
           <select id="sc-level-filter"><option value="">All levels</option></select>
         </label>
         <button class="btn-filter btn-filter-clear" id="sc-btn-clear-all" disabled>
-          <i class="bi bi-x-circle" aria-hidden="true"></i> Clear filters
+          <svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-x-circle"></use></svg> Clear filters
         </button>
       </div>
 
@@ -1310,7 +1356,7 @@
 
     <div id="sc-area-groups"></div>
     <div class="no-results" id="sc-no-results" style="display:none">
-      <i class="bi bi-search" aria-hidden="true"></i> No courses match your filters.
+      <svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-search"></use></svg> No courses match your filters.
     </div>
   </div>
 
@@ -1361,7 +1407,7 @@
 
     <div class="tracker-cards">
       <div class="tracker-card" id="sc-card-required">
-        <div class="complete-icon"><i class="bi bi-check-lg" aria-hidden="true"></i></div>
+        <div class="complete-icon"><svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-check-lg"></use></svg></div>
         <div class="tracker-card-label">Required Course</div>
         <div class="tracker-tally">
           <span class="tally-current" id="sc-tally-required">0</span>
@@ -1373,7 +1419,7 @@
       </div>
 
       <div class="tracker-card" id="sc-card-technical">
-        <div class="complete-icon"><i class="bi bi-check-lg" aria-hidden="true"></i></div>
+        <div class="complete-icon"><svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-check-lg"></use></svg></div>
         <div class="tracker-card-label">Technical Areas</div>
         <div class="tracker-tally">
           <span class="tally-current" id="sc-tally-technical">0</span>
@@ -1392,7 +1438,7 @@
       </div>
 
       <div class="tracker-card" id="sc-card-experience">
-        <div class="complete-icon"><i class="bi bi-check-lg" aria-hidden="true"></i></div>
+        <div class="complete-icon"><svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-check-lg"></use></svg></div>
         <div class="tracker-card-label">Semiconductor Experience</div>
         <div class="tracker-tally">
           <span class="tally-current" id="sc-tally-experience">0</span>
@@ -1405,7 +1451,7 @@
       </div>
 
       <div class="tracker-card" id="sc-card-total">
-        <div class="complete-icon"><i class="bi bi-check-lg" aria-hidden="true"></i></div>
+        <div class="complete-icon"><svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-check-lg"></use></svg></div>
         <div class="tracker-card-label">Total Credits</div>
         <div class="tracker-tally">
           <span class="tally-current" id="sc-tally-total">0</span>
@@ -1434,9 +1480,9 @@
 <div class="action-block">
   <div class="action-row">
     <button class="btn-generate" id="sc-btn-generate" disabled>
-      <i class="bi bi-file-earmark-text" aria-hidden="true"></i> Generate plan of study
+      <svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-file-earmark-text"></use></svg> Generate plan of study
     </button>
-    <button class="btn-reset" id="sc-btn-reset"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i> Reset</button>
+    <button class="btn-reset" id="sc-btn-reset"><svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-arrow-counterclockwise"></use></svg> Reset</button>
     <span class="save-note" id="sc-save-note"></span>
   </div>
 
@@ -1795,7 +1841,7 @@ function externalLinkHTML(url, label, ariaLabel) {
   if (!url || !isHttpUrl(url)) return '';
   return `<a class="catalog-link" href="${esc(url)}" target="_blank" rel="noopener noreferrer"
              aria-label="${esc(ariaLabel)} (opens in a new tab)"
-          >${esc(label)}<i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a>`;
+          >${esc(label)}<svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-box-arrow-up-right"></use></svg></a>`;
 }
 
 function catalogLinkHTML(c) {
@@ -1815,7 +1861,7 @@ function detailsHTML(c) {
     ? `<div class="detail-part ${cls}"><span class="detail-label">${label}</span><p>${esc(text)}</p></div>` : '';
   return `
     <button class="details-toggle" data-details="${c.i}" aria-expanded="${open}">
-      <i class="bi bi-chevron-right" aria-hidden="true"></i>${open ? 'Hide details' : 'Details'}
+      <svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-chevron-right"></use></svg>${open ? 'Hide details' : 'Details'}
     </button>
     ${open ? `<div class="detail-panel">
       ${part('Description', c.d, 'is-desc')}
@@ -1851,13 +1897,13 @@ function courseRowHTML(c) {
        </select>`;
 
   const creditHint = unset && sel
-    ? `<div class="credit-hint"><i class="bi bi-arrow-right-short" aria-hidden="true"></i>
+    ? `<div class="credit-hint"><svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-arrow-right-short"></use></svg>
          <span>Variable-credit course — set your credit hours to count it.</span></div>` : '';
 
   const conf = conflictsFor(c);
   const flag = c.x
     ? `<div class="xlist-flag${sel && conf.length ? ' visible' : ''}">
-         <i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>
+         <svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-exclamation-triangle-fill"></use></svg>
          <span>Equivalent to ${conf.map(o => esc(o.n)).join(', ') || 'another listed course'} — these likely cannot both count. Confirm with your advisor.</span>
        </div>` : '';
 
@@ -1897,7 +1943,7 @@ function renderAreas() {
     return `
       <div class="area-group${collapsed ? ' collapsed' : ''}${selCount ? ' has-selected' : ''}" data-area="${ai}">
         <button class="area-head" data-toggle-area="${ai}" aria-expanded="${!collapsed}">
-          <i class="bi bi-chevron-down area-caret" aria-hidden="true"></i>
+          <svg class="sc-icon area-caret" aria-hidden="true" focusable="false"><use href="#sc-i-chevron-down"></use></svg>
           <span class="area-head-text">
             <span class="area-name">${esc(a.short)}</span>
             <span class="area-tally">${list.length === total ? total : list.length + ' of ' + total} course${total === 1 ? '' : 's'}${selCount ? ` · <b>${selCr} cr selected</b>` : ''}</span>
@@ -2137,7 +2183,7 @@ function expNoteHTML(t) {
 
 function renderPresets() {
   $('exp-presets').innerHTML = EXPERIENCE_TYPES.map(t =>
-    `<button class="btn-preset" data-exp-add="${esc(t.id)}"><i class="bi bi-plus" aria-hidden="true"></i> ${esc(t.label)}</button>`
+    `<button class="btn-preset" data-exp-add="${esc(t.id)}"><svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-plus"></use></svg> ${esc(t.label)}</button>`
   ).join('');
 }
 
@@ -2162,7 +2208,7 @@ function renderExperience() {
             </select>
           </span>
           <button class="btn-remove-exp" data-exp-remove="${e.id}" aria-label="Remove ${esc(t.label)}">
-            <i class="bi bi-x-lg" aria-hidden="true"></i>
+            <svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-x-lg"></use></svg>
           </button>
         </div>
         <div class="exp-fields">${t.fields.map(fld => expFieldHTML(e.id, f, fld)).join('')}</div>
@@ -2253,10 +2299,10 @@ function updateTracker() {
 
   $('btn-generate').disabled = !allDone;
   $('btn-generate').innerHTML = allDone
-    ? '<i class="bi bi-file-earmark-text" aria-hidden="true"></i> Generate plan of study'
+    ? '<svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-file-earmark-text"></use></svg> Generate plan of study'
     : unsetCr.length
-      ? '<i class="bi bi-lock" aria-hidden="true"></i> Set credit hours to generate'
-      : '<i class="bi bi-lock" aria-hidden="true"></i> Complete all requirements to generate';
+      ? '<svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-lock"></use></svg> Set credit hours to generate'
+      : '<svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-lock"></use></svg> Complete all requirements to generate';
 }
 
 /* Announcements are debounced and de-duplicated: typing in a credit box fires

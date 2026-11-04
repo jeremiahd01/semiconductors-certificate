@@ -346,7 +346,7 @@ function externalLinkHTML(url, label, ariaLabel) {
   if (!url || !isHttpUrl(url)) return '';
   return `<a class="catalog-link" href="${esc(url)}" target="_blank" rel="noopener noreferrer"
              aria-label="${esc(ariaLabel)} (opens in a new tab)"
-          >${esc(label)}<i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a>`;
+          >${esc(label)}<svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-box-arrow-up-right"></use></svg></a>`;
 }
 
 function catalogLinkHTML(c) {
@@ -366,7 +366,7 @@ function detailsHTML(c) {
     ? `<div class="detail-part ${cls}"><span class="detail-label">${label}</span><p>${esc(text)}</p></div>` : '';
   return `
     <button class="details-toggle" data-details="${c.i}" aria-expanded="${open}">
-      <i class="bi bi-chevron-right" aria-hidden="true"></i>${open ? 'Hide details' : 'Details'}
+      <svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-chevron-right"></use></svg>${open ? 'Hide details' : 'Details'}
     </button>
     ${open ? `<div class="detail-panel">
       ${part('Description', c.d, 'is-desc')}
@@ -402,13 +402,13 @@ function courseRowHTML(c) {
        </select>`;
 
   const creditHint = unset && sel
-    ? `<div class="credit-hint"><i class="bi bi-arrow-right-short" aria-hidden="true"></i>
+    ? `<div class="credit-hint"><svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-arrow-right-short"></use></svg>
          <span>Variable-credit course — set your credit hours to count it.</span></div>` : '';
 
   const conf = conflictsFor(c);
   const flag = c.x
     ? `<div class="xlist-flag${sel && conf.length ? ' visible' : ''}">
-         <i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>
+         <svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-exclamation-triangle-fill"></use></svg>
          <span>Equivalent to ${conf.map(o => esc(o.n)).join(', ') || 'another listed course'} — these likely cannot both count. Confirm with your advisor.</span>
        </div>` : '';
 
@@ -448,7 +448,7 @@ function renderAreas() {
     return `
       <div class="area-group${collapsed ? ' collapsed' : ''}${selCount ? ' has-selected' : ''}" data-area="${ai}">
         <button class="area-head" data-toggle-area="${ai}" aria-expanded="${!collapsed}">
-          <i class="bi bi-chevron-down area-caret" aria-hidden="true"></i>
+          <svg class="sc-icon area-caret" aria-hidden="true" focusable="false"><use href="#sc-i-chevron-down"></use></svg>
           <span class="area-head-text">
             <span class="area-name">${esc(a.short)}</span>
             <span class="area-tally">${list.length === total ? total : list.length + ' of ' + total} course${total === 1 ? '' : 's'}${selCount ? ` · <b>${selCr} cr selected</b>` : ''}</span>
@@ -688,7 +688,7 @@ function expNoteHTML(t) {
 
 function renderPresets() {
   $('exp-presets').innerHTML = EXPERIENCE_TYPES.map(t =>
-    `<button class="btn-preset" data-exp-add="${esc(t.id)}"><i class="bi bi-plus" aria-hidden="true"></i> ${esc(t.label)}</button>`
+    `<button class="btn-preset" data-exp-add="${esc(t.id)}"><svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-plus"></use></svg> ${esc(t.label)}</button>`
   ).join('');
 }
 
@@ -713,7 +713,7 @@ function renderExperience() {
             </select>
           </span>
           <button class="btn-remove-exp" data-exp-remove="${e.id}" aria-label="Remove ${esc(t.label)}">
-            <i class="bi bi-x-lg" aria-hidden="true"></i>
+            <svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-x-lg"></use></svg>
           </button>
         </div>
         <div class="exp-fields">${t.fields.map(fld => expFieldHTML(e.id, f, fld)).join('')}</div>
@@ -804,10 +804,10 @@ function updateTracker() {
 
   $('btn-generate').disabled = !allDone;
   $('btn-generate').innerHTML = allDone
-    ? '<i class="bi bi-file-earmark-text" aria-hidden="true"></i> Generate plan of study'
+    ? '<svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-file-earmark-text"></use></svg> Generate plan of study'
     : unsetCr.length
-      ? '<i class="bi bi-lock" aria-hidden="true"></i> Set credit hours to generate'
-      : '<i class="bi bi-lock" aria-hidden="true"></i> Complete all requirements to generate';
+      ? '<svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-lock"></use></svg> Set credit hours to generate'
+      : '<svg class="sc-icon" aria-hidden="true" focusable="false"><use href="#sc-i-lock"></use></svg> Complete all requirements to generate';
 }
 
 /* Announcements are debounced and de-duplicated: typing in a credit box fires
