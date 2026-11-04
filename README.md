@@ -29,34 +29,38 @@ One-time setup.
 python3 build-embed.py
 ```
 
-**2 — Upload to one folder in the ZMI**, for example `/OPP/semi-cert/`
+**2 — Create a folder in the ZMI** named `certificate-tool`, and upload into it:
 
-| Upload | Content type |
-|---|---|
-| `embed/semi-cert.css` | `text/css` |
-| `embed/semi-cert.js` | `application/javascript` |
-| `course-data.json` | anything — the builder reads it as text |
-| `admin.html` | `text/html` |
-| `xlsx.mini.min.js` | `application/javascript` |
+| Upload | Create as | Content type |
+|---|---|---|
+| `embed/semi-cert.css` | File | `text/css` |
+| `embed/semi-cert.js` | File | `application/javascript` |
+| `course-data.json` | File | anything — the builder reads it as text |
+| `admin.html` | File | `text/html` |
+| `xlsx.mini.min.js` | File | `application/javascript` |
 
-**3 — Paste `embed/block.html` into the page template block**, then replace its two
-placeholders with real paths:
+**3 — Add a Page Template** in that same folder with the id **`ptCertificateTool`**, and
+paste in the contents of `embed/ptCertificateTool.html`. Then replace its two placeholders
+with real paths:
 
 | Placeholder | Replace with |
 |---|---|
-| `@@BASE@@` | `/OPP/semi-cert` |
-| `@@CATALOG_URL@@` | `/OPP/semi-cert/course-data.json` |
+| `@@BASE@@` | `/OPP/certificate-tool` |
+| `@@CATALOG_URL@@` | `/OPP/certificate-tool/course-data.json` |
 
-**Both must start with `/`.** A path without one is resolved against the *page's* address
-rather than the block's, which lands somewhere the files are not.
+**Both must start with `/`** and must match wherever you actually put the folder. A path
+without a leading `/` is resolved against the *page's* address rather than the template's,
+which lands somewhere the files are not.
 
-**4 — Check it**
+**4 — Point the Wrap09 "Page Template Embed" block** at `ptCertificateTool`.
+
+**5 — Check it**
 
 Load the page. You should see the course list, and a footer reading *"Course catalog
 updated …"*. Open the browser console and confirm it logs the path you set:
 
 ```
-[certificate] loading catalog from /OPP/semi-cert/course-data.json
+[certificate] loading catalog from /OPP/certificate-tool/course-data.json
 ```
 
 If a banner appears above the course list reading *"Showing a saved course list …
@@ -66,8 +70,9 @@ Check for it.
 
 Don't link `admin.html` from the public page; it is a staff tool.
 
-Only re-run step 1 and re-upload `semi-cert.*` when `index.html` itself changes. Updating
-the course list each semester is just a `course-data.json` swap — see below.
+Only re-run step 1 — and re-upload `semi-cert.*` and re-paste `ptCertificateTool` — when
+`index.html` itself changes. Updating the course list each semester is just a
+`course-data.json` swap; see below.
 
 ## Certificate requirements
 
@@ -112,7 +117,7 @@ Each semester. Nothing here touches the app itself — only `course-data.json` c
 2. Open **`admin.html`** and drop the spreadsheet onto it
 3. Read the report. Warnings are informational; **errors block publishing** until fixed
 4. Click **Download course-data.json**
-5. In the ZMI, open the folder you installed into (`/OPP/semi-cert/`)
+5. In the ZMI, open the `certificate-tool` folder
 6. **Rename** the existing `course-data.json` to e.g. `course-data-2026-fall.json` —
    this is your rollback, don't skip it
 7. Upload the new `course-data.json` into that same folder
@@ -402,6 +407,13 @@ and banners the failure, so the symptom is stale data rather than an obvious bre
 resolved url is logged at startup to make it quick to confirm.
 
 The script tag is `defer`, so the block can sit anywhere on the page.
+
+`ptCertificateTool` is a Page Template, so Zope parses its body. It is therefore kept
+XML-well-formed — void elements self-close, entities are numeric rather than named, and
+boolean attributes carry an explicit value — all of which is equally valid HTML. It also
+has to stay clear of `${...}`, which a template engine reads as its own interpolation
+syntax. That is a second reason the JavaScript lives in its own file: it is full of
+`${...}` and would not survive being parsed.
 
 `admin.html` is not embedded — it is served as its own page, so it can reference
 `xlsx.mini.min.js` as a plain relative path. Keep the two together in one folder.

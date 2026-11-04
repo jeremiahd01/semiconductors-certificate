@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 """Split index.html into the three pieces the Wrap09 page template block needs.
 
+ptCertificateTool.html is uploaded to the ZMI as a Page Template object, which
+parses its body -- so it is kept XML-well-formed: void elements self-close and
+entities are numeric. It must also stay free of ${...}, which a template engine
+would read as its own interpolation syntax; that is why the script lives in its
+own file rather than inline.
+
 index.html stays the source of truth: it is what runs standalone, what the
 converter's instructions point at, and what gets edited. This regenerates
 embed/ from it. Run it after any change to index.html and upload whichever
@@ -31,20 +37,20 @@ def build():
         '<div id="sc-app"\n     data-catalog-url="@@CATALOG_URL@@">', 1)
 
     block = (
-        '<!-- Semiconductors & Microelectronics Certificate builder.\n'
+        '<!-- Semiconductors and Microelectronics Certificate builder.\n'
         '     %s\n\n'
         '     Set data-catalog-url below to the published path of course-data.json,\n'
         '     starting with "/" so it does not depend on this page\'s url.\n'
         '-->\n'
-        '<link rel="stylesheet" href="@@BASE@@/semi-cert.css">\n\n'
+        '<link rel="stylesheet" href="@@BASE@@/semi-cert.css" />\n\n'
         '%s\n\n'
-        '<script src="@@BASE@@/semi-cert.js" defer></script>\n'
+        '<script src="@@BASE@@/semi-cert.js" defer="defer"></script>\n'
     ) % (BANNER.replace('\n', '\n     '), markup)
 
     return {
         'semi-cert.css': '/* %s */\n%s' % (BANNER.replace('\n', ' '), css),
         'semi-cert.js':  '/* %s */\n%s' % (BANNER.replace('\n', ' '), js),
-        'block.html':    block,
+        'ptCertificateTool.html': block,
     }
 
 def main():
