@@ -12,18 +12,18 @@ tracker shows how close they are to meeting every certificate requirement.
 | `admin.html` | Converts the semester spreadsheet into `course-data.json` |
 | `xlsx.mini.min.js` | The spreadsheet parser `admin.html` uses |
 | `course-data.json` | The published course catalog the builder reads |
-| `embed/` | `index.html` split into the pieces the Wrap09 block needs — generated |
-| `build-embed.py` | Generates `embed/` |
+| `certificate-tool/` | `index.html` split into the pieces the Wrap09 block needs — generated |
+| `build-embed.py` | Generates `certificate-tool/` |
 | `semiconductors_course_data_2026_10_30.xlsx` | Source spreadsheet, maintained by the program |
 
 Everything served is a static file: no build step on the server, no server-side code, and
-nothing loaded from a CDN. Only `embed/` is generated, and only from `index.html`.
+nothing loaded from a CDN. Only `certificate-tool/` is generated, and only from `index.html`.
 
 ## Installing
 
 One-time setup.
 
-**1 — Generate the embed files**
+**1 — Generate the files to upload**
 
 ```
 python3 build-embed.py
@@ -33,23 +33,24 @@ python3 build-embed.py
 
 | Upload | Create as | Content type |
 |---|---|---|
-| `embed/semi-cert.css` | File | `text/css` |
-| `embed/semi-cert.js` | File | `application/javascript` |
+| `certificate-tool/semi-cert.css` | File | `text/css` |
+| `certificate-tool/semi-cert.js` | File | `application/javascript` |
 | `course-data.json` | File | anything — the builder reads it as text |
 | `admin.html` | File | `text/html` |
 | `xlsx.mini.min.js` | File | `application/javascript` |
 
 **3 — Add a Page Template** in that same folder with the id **`ptCertificateTool`**, and
-paste in the contents of `embed/ptCertificateTool.html`. Nothing to fill in.
+paste in the contents of `certificate-tool/ptCertificateTool.html`. Nothing to fill in.
 
-It asks for its assets as `embed/semi-cert.css` and `embed/semi-cert.js` — relative, so it
-keeps working if the page and the folder are moved elsewhere together. That holds as long
-as the folder sits **beside the page** the block renders on. If you name the folder
-something other than `embed`, or want to pin it to one place, regenerate with:
+It asks for its assets as `certificate-tool/semi-cert.css` and
+`certificate-tool/semi-cert.js` — relative, so it keeps working if the page and the folder
+are moved elsewhere together. That holds as long as the folder sits **beside the page** the
+block renders on. If you name the folder something else, or want to pin it to one place,
+regenerate with:
 
 ```
-python3 build-embed.py --base certificate-tool      # a differently named sibling
-python3 build-embed.py --base /OPP/certificate-tool # pinned, moves break it
+python3 build-embed.py --base tools/cert-builder     # a differently named sibling
+python3 build-embed.py --base /OPP/certificate-tool  # pinned; moves then break it
 ```
 
 `course-data.json` is never named: the script looks for it beside itself, so it follows
@@ -394,7 +395,7 @@ that is not inline-level.
 *Reference — the install steps are under [Installing](#installing).*
 
 `index.html` is the source of truth and still runs standalone. `build-embed.py` splits it
-into a stylesheet, a script and the block markup; `--check` exits non-zero if `embed/` has
+into a stylesheet, a script and the block markup; `--check` exits non-zero if `certificate-tool/` has
 drifted from `index.html`.
 
 The split exists so the JavaScript never passes through a template parser. A Zope Page
