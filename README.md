@@ -263,6 +263,41 @@ sweep that axe cannot do on its own:
 Re-run the audit after any visual change: contrast and focus are the two things that
 regress silently.
 
+### Embedding in the Wrap09 template
+
+The app ships as one component that shares a document with the site theme, so it is
+scoped in both directions.
+
+- **One root.** Everything lives inside `<div id="sc-app">` and *every* CSS rule is
+  prefixed with `#sc-app`. There are no bare `html`, `body` or `*` rules, so nothing
+  the app declares can reach the host page.
+- **Namespaced ids.** Every id carries an `sc-` prefix. `ID_PREFIX` is applied inside
+  the `$()` lookup helper, so call sites still pass the short name — if you add an id,
+  reach it through `$('my-thing')`, never `document.getElementById('my-thing')`.
+- **Tokens are scoped, not renamed.** The custom properties sit on `#sc-app` rather
+  than `:root`. A host that happens to define its own `--text-muted` keeps it for its
+  own subtree; the app's value wins inside the app, because the nearer ancestor wins.
+- **A defensive baseline** re-asserts the properties a theme typically sets on bare
+  element selectors. The app cannot out-specify a property it never declares, so those
+  are declared. They use `inherit`, not fixed values, to keep the app's own inheritance
+  working.
+- **Printing is gated.** The print stylesheet hides everything but the plan sheet, which
+  would blank the whole host page. It only applies while `body.sc-printing` is set, which
+  the Generate button adds and removes around its own `window.print()`.
+- **Standalone still works.** `body.sc-standalone` is set from JS when `#sc-app` is the
+  document's only content, and zeroes the user-agent body margin. Inside the template it
+  never applies.
+
+Verified by rendering the app inside a deliberately hostile mock host — one that
+redefines every colliding token, sets `* { box-sizing: content-box }` and restyles
+`h1`–`h3`, `p`, `a`, `ul`, `table`, `button`, `input` and `select`, and reuses the app's
+old id names. Computed styles for all 2,186 app elements were identical to standalone,
+and the host's own styling was untouched.
+
+**Not yet verified against the real Wrap09 stylesheet.** The mock covers the patterns a
+legacy theme usually relies on, but if Wrap09 carries `!important` on bare element
+selectors, that beats scoping and would need a rule-by-rule answer.
+
 ### Zope notes
 
 - **Content type** doesn't matter. The builder parses `res.text()` rather than
