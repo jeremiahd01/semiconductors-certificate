@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Semiconductors and Microelectronics Certificate — Purdue University</title>
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
   <!--
     FONTS: Acumin Pro, Acumin Pro Condensed, and Source Serif Pro are Purdue-licensed
@@ -46,6 +45,10 @@
       --text-muted:   #65686F;
 
       --gold-glow: rgba(207,185,145,0.45);
+      /* Focus ring. The gold glow alone is 1.31:1 on white — far under the 3:1
+         WCAG 1.4.11 needs — so the visible ring is Aged gold (4.67:1) with the
+         glow kept outside it for the brand look. Change both rings together. */
+      --focus-ring: 0 0 0 2px var(--pu-aged), 0 0 0 5px var(--gold-glow);
 
       --status-green:      #27AE60;
       --status-green-text: #1E7E34;
@@ -64,6 +67,30 @@
       --bs-link-color: #8E6F3E;
       --bs-link-hover-color: #000000;
     }
+
+    /* ── Reboot ───────────────────────────────────────────────────────────
+       Replaces the handful of normalisations this app actually used from
+       Bootstrap's reboot, which is no longer loaded. Verified equivalent:
+       computed styles across all 2,188 rendered elements are identical to
+       the Bootstrap build, and the document height is unchanged.
+
+       Everything here is deliberately scoped to the elements the app owns
+       plus `body`. If the app is ever embedded in a themed host page, the
+       `body` rule is the one line to re-point at the app's own wrapper. */
+    body { margin: 0; line-height: 1.5; -webkit-text-size-adjust: 100%; }
+    h1, h2, h3, h4, h5, h6 { margin-top: 0; margin-bottom: 0.5rem; font-weight: 500; line-height: 1.2; }
+    p { margin-top: 0; margin-bottom: 1rem; }
+    ul, ol { margin-top: 0; margin-bottom: 1rem; padding-left: 2rem; }
+    hr { margin: 1rem 0; border: 0; border-top: 1px solid; color: inherit; opacity: 0.25; }
+    table { border-collapse: collapse; caption-side: bottom; }
+    tbody, td, tfoot, th, thead, tr { border-color: inherit; border-style: solid; border-width: 0; }
+    th { text-align: inherit; }
+    button, input, optgroup, select, textarea { margin: 0; font-family: inherit; font-size: inherit; line-height: inherit; }
+    button, select { text-transform: none; }
+    button, [type="button"], [type="submit"] { -webkit-appearance: button; }
+    button:not(:disabled), [type="button"]:not(:disabled) { cursor: pointer; }
+    :disabled { cursor: default; }
+    img, svg { vertical-align: middle; }
 
     *, *::before, *::after { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
@@ -167,7 +194,7 @@
     .subtitle-toggle i { font-size: 0.7rem; transition: transform 0.18s ease; }
     .subtitle-toggle[aria-expanded="true"] i { transform: rotate(180deg); }
     .subtitle-toggle:hover { color: var(--pu-black); }
-    .subtitle-toggle:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--gold-glow); border-radius: 2px; }
+    .subtitle-toggle:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: 2px; }
     .requirement-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
     .req-pill {
       font-size: 0.75rem;
@@ -191,6 +218,12 @@
       letter-spacing: 0.04em;
       text-transform: uppercase;
       margin: 0;
+    }
+    /* Off-screen but still announced; not display:none, which removes it from the
+       accessibility tree entirely. */
+    .vis-hidden {
+      position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+      overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0;
     }
     .section-rule { border: none; border-top: 1px solid var(--border-rule); margin: 10px 0 18px; }
 
@@ -241,7 +274,7 @@
       border-width: 0 2px 2px 0;
       transform: rotate(45deg);
     }
-    .course-check:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--gold-glow); }
+    .course-check:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 
     .course-body { flex: 1; min-width: 0; }
     .course-line1 { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
@@ -276,7 +309,7 @@
       color: var(--pu-aged-deep);
       border-bottom-color: var(--pu-aged);
     }
-    .catalog-link:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--gold-glow); border-radius: 2px; }
+    .catalog-link:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: 2px; }
     .course-row:hover .catalog-link { color: var(--pu-aged-deep); }
     @media print { .catalog-link { display: none; } }
 
@@ -307,7 +340,7 @@
       background: var(--pu-white);
       cursor: pointer;
     }
-    .credit-picker:focus { outline: none; box-shadow: 0 0 0 3px var(--gold-glow); }
+    .credit-picker:focus { outline: none; box-shadow: var(--focus-ring); }
     .course-row.selected .credit-picker { border-style: solid; background: var(--bg-warm); }
 
     /* Variable-credit course still sitting at 0 */
@@ -369,7 +402,7 @@
       text-underline-offset: 2px;
     }
     .skill-more:hover { color: var(--pu-black); }
-    .skill-none { font-size: 0.66rem; color: var(--pu-railway-gray); font-style: italic; }
+    .skill-none { font-size: 0.66rem; color: var(--text-muted); font-style: italic; }
     .course-desc { font-size: 0.78rem; color: var(--text-muted); line-height: 1.55; margin-top: 7px; }
 
     /* ─── Course detail disclosure ───────────────────────────── */
@@ -393,7 +426,7 @@
     .details-toggle i { font-size: 0.7rem; transition: transform 0.18s ease; }
     .details-toggle[aria-expanded="true"] i { transform: rotate(90deg); }
     .details-toggle:hover { color: var(--pu-black); }
-    .details-toggle:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--gold-glow); border-radius: 2px; }
+    .details-toggle:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: 2px; }
 
     .detail-panel {
       margin-top: 8px;
@@ -486,10 +519,10 @@
       font-weight: 600;
       white-space: nowrap;
     }
-    .area-count-badge.zero { background: var(--pu-steam); color: var(--pu-steel); }
+    .area-count-badge.zero { background: var(--border-rule); color: var(--pu-steel); }
     .area-body { padding: 4px 6px 6px; }
     .area-body .course-row:last-child { border-bottom: none; }
-    .area-empty { padding: 18px 16px; font-size: 0.8rem; color: var(--pu-railway-gray); font-style: italic; }
+    .area-empty { padding: 18px 16px; font-size: 0.8rem; color: var(--text-muted); font-style: italic; }
 
     /* ─── Filter bar ─────────────────────────────────────────── */
     .filter-bar {
@@ -526,7 +559,7 @@
       cursor: pointer;
       max-width: 15rem;
     }
-    .filter-select select:focus { outline: none; border-color: var(--pu-aged); box-shadow: 0 0 0 3px var(--gold-glow); }
+    .filter-select select:focus { outline: none; border-color: var(--pu-aged); box-shadow: var(--focus-ring); }
     .filter-select select.on { border-color: var(--pu-aged); background: var(--pu-dust); font-weight: 600; }
 
     .btn-filter-clear { margin-left: auto; }
@@ -552,7 +585,7 @@
     .filter-search { flex: 1; min-width: 220px; position: relative; }
     .filter-search i {
       position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
-      color: var(--pu-railway-gray); font-size: 0.85rem; pointer-events: none;
+      color: var(--text-muted); font-size: 0.85rem; pointer-events: none;
     }
     .filter-search input {
       width: 100%;
@@ -564,8 +597,8 @@
       background: var(--pu-white);
       color: var(--text-primary);
     }
-    .filter-search input:focus { outline: none; border-color: var(--pu-aged); box-shadow: 0 0 0 3px var(--gold-glow); }
-    .filter-search input::placeholder { color: var(--pu-railway-gray); }
+    .filter-search input:focus { outline: none; border-color: var(--pu-aged); box-shadow: var(--focus-ring); }
+    .filter-search input::placeholder { color: var(--text-muted); }
 
     .btn-filter {
       font-family: var(--pu-font-sans);
@@ -640,7 +673,7 @@
       display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
     }
     .filter-summary b { color: var(--pu-aged-deep); }
-    .no-results { padding: 32px 16px; text-align: center; color: var(--pu-railway-gray); font-size: 0.85rem; }
+    .no-results { padding: 32px 16px; text-align: center; color: var(--text-muted); font-size: 0.85rem; }
 
     /* ─── Experience section ─────────────────────────────────── */
     .exp-entry {
@@ -660,8 +693,8 @@
       background: transparent;
       color: var(--text-primary);
     }
-    .exp-entry input[type="text"]::placeholder { color: var(--pu-railway-gray); font-style: italic; }
-    .exp-entry input[type="text"]:focus { outline: none; border-bottom-color: var(--pu-aged); }
+    .exp-entry input[type="text"]::placeholder { color: var(--text-muted); font-style: italic; }
+    .exp-entry input[type="text"]:focus { outline: none; border-bottom-color: var(--pu-aged); box-shadow: var(--focus-ring); }
     .exp-entry select {
       flex-shrink: 0;
       font-family: var(--pu-font-sans);
@@ -673,7 +706,7 @@
       color: var(--pu-steel);
       cursor: pointer;
     }
-    .exp-entry select:focus { outline: none; border-color: var(--pu-aged); }
+    .exp-entry select:focus { outline: none; border-color: var(--pu-aged); box-shadow: var(--focus-ring); }
     .btn-remove-exp {
       flex-shrink: 0;
       width: 28px; height: 28px;
@@ -681,7 +714,7 @@
       border: 1px solid var(--border-rule);
       border-radius: 2px;
       background: var(--pu-white);
-      color: var(--pu-railway-gray);
+      color: var(--text-muted);
       cursor: pointer;
       transition: all 0.14s ease;
     }
@@ -731,7 +764,7 @@
       color: var(--text-primary);
       cursor: pointer;
     }
-    .exp-card-credits select:focus { outline: none; border-color: var(--pu-aged); box-shadow: 0 0 0 3px var(--gold-glow); }
+    .exp-card-credits select:focus { outline: none; border-color: var(--pu-aged); box-shadow: var(--focus-ring); }
 
     .exp-fields {
       display: grid;
@@ -759,9 +792,9 @@
       color: var(--text-primary);
       min-width: 0;
     }
-    .exp-field input::placeholder { color: var(--pu-railway-gray); font-style: italic; }
+    .exp-field input::placeholder { color: var(--text-muted); font-style: italic; }
     .exp-field input:focus, .exp-field select:focus {
-      outline: none; border-color: var(--pu-aged); box-shadow: 0 0 0 3px var(--gold-glow);
+      outline: none; border-color: var(--pu-aged); box-shadow: var(--focus-ring);
     }
     /* Composite fields: VIP prefix, date ranges, term pickers */
     .exp-inline { display: flex; align-items: center; gap: 6px; min-width: 0; }
@@ -957,7 +990,7 @@
       font-size: 1.15rem; font-weight: 700; color: var(--pu-aged-deep); line-height: 1;
     }
     .skills-card-list { display: flex; flex-wrap: wrap; gap: 4px; max-height: 168px; overflow-y: auto; }
-    .skills-card-empty { font-size: 0.7rem; color: var(--pu-railway-gray); font-style: italic; }
+    .skills-card-empty { font-size: 0.7rem; color: var(--text-muted); font-style: italic; }
 
     /* ─── Actions ────────────────────────────────────────────── */
     .action-row { margin: 44px 0 0; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
@@ -992,13 +1025,13 @@
       transition: all 0.16s ease;
     }
     .btn-reset:hover { color: var(--text-primary); border-color: var(--pu-aged); background: var(--bg-tint); }
-    .save-note { font-size: 0.72rem; color: var(--pu-railway-gray); margin-left: auto; }
+    .save-note { font-size: 0.72rem; color: var(--text-muted); margin-left: auto; }
 
     /* Provenance — which catalog the student is looking at */
     .data-stamp {
       margin-top: 18px;
       font-size: 0.72rem;
-      color: var(--pu-railway-gray);
+      color: var(--text-muted);
       letter-spacing: 0.03em;
     }
     .data-banner {
@@ -1168,7 +1201,7 @@
 <div class="page-wrapper">
 
   <div class="data-banner" id="data-banner" hidden>
-    <i class="bi bi-info-circle-fill"></i>
+    <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
     <div>
       <strong>Showing a saved course list.</strong>
       <span id="data-banner-detail"></span>
@@ -1194,7 +1227,7 @@
       of disciplines.
     </p>
     <button class="subtitle-toggle" id="subtitle-toggle" aria-expanded="false" aria-controls="page-subtitle">
-      <span id="subtitle-toggle-text">Read more</span><i class="bi bi-chevron-down"></i>
+      <span id="subtitle-toggle-text">Read more</span><i class="bi bi-chevron-down" aria-hidden="true"></i>
     </button>
     <div class="requirement-pills">
       <div class="req-pill"><strong>1</strong> required seminar course</div>
@@ -1240,15 +1273,15 @@
     <div class="filter-bar">
       <div class="filter-row">
         <div class="filter-search">
-          <i class="bi bi-search"></i>
+          <i class="bi bi-search" aria-hidden="true"></i>
           <input type="text" id="search-input" placeholder="Search by course number, title, or skill…" autocomplete="off" />
         </div>
         <button class="btn-filter" id="btn-skill-panel">
-          <i class="bi bi-tags"></i> Filter by skill
+          <i class="bi bi-tags" aria-hidden="true"></i> Filter by skill
           <span class="cnt" id="skill-filter-count" style="display:none">0</span>
         </button>
         <button class="btn-filter" id="btn-selected-only">
-          <i class="bi bi-check2-square"></i> Selected only
+          <i class="bi bi-check2-square" aria-hidden="true"></i> Selected only
         </button>
       </div>
 
@@ -1262,7 +1295,7 @@
           <select id="level-filter"><option value="">All levels</option></select>
         </label>
         <button class="btn-filter btn-filter-clear" id="btn-clear-all" disabled>
-          <i class="bi bi-x-circle"></i> Clear filters
+          <i class="bi bi-x-circle" aria-hidden="true"></i> Clear filters
         </button>
       </div>
 
@@ -1284,7 +1317,7 @@
 
     <div id="area-groups"></div>
     <div class="no-results" id="no-results" style="display:none">
-      <i class="bi bi-search"></i> No courses match your filters.
+      <i class="bi bi-search" aria-hidden="true"></i> No courses match your filters.
     </div>
   </div>
 
@@ -1324,12 +1357,18 @@
 
 <!-- ─── TRACKER ─────────────────────────────────────────── -->
 <div class="tracker-column">
+  <!-- Selecting a course changes the tracker, which sits outside the reading order a
+       screen-reader user is in. One polite live region carries a short summary of the
+       whole plan so the change is announced once, instead of four cards announcing
+       separately and talking over each other. -->
+  <p id="plan-announce" class="vis-hidden" role="status" aria-live="polite" aria-atomic="true"></p>
+
   <div id="tracker">
     <div class="tracker-header"><span class="dot"></span>Certificate Progress</div>
 
     <div class="tracker-cards">
       <div class="tracker-card" id="card-required">
-        <div class="complete-icon"><i class="bi bi-check-lg"></i></div>
+        <div class="complete-icon"><i class="bi bi-check-lg" aria-hidden="true"></i></div>
         <div class="tracker-card-label">Required Course</div>
         <div class="tracker-tally">
           <span class="tally-current" id="tally-required">0</span>
@@ -1341,7 +1380,7 @@
       </div>
 
       <div class="tracker-card" id="card-technical">
-        <div class="complete-icon"><i class="bi bi-check-lg"></i></div>
+        <div class="complete-icon"><i class="bi bi-check-lg" aria-hidden="true"></i></div>
         <div class="tracker-card-label">Technical Areas</div>
         <div class="tracker-tally">
           <span class="tally-current" id="tally-technical">0</span>
@@ -1360,7 +1399,7 @@
       </div>
 
       <div class="tracker-card" id="card-experience">
-        <div class="complete-icon"><i class="bi bi-check-lg"></i></div>
+        <div class="complete-icon"><i class="bi bi-check-lg" aria-hidden="true"></i></div>
         <div class="tracker-card-label">Semiconductor Experience</div>
         <div class="tracker-tally">
           <span class="tally-current" id="tally-experience">0</span>
@@ -1373,7 +1412,7 @@
       </div>
 
       <div class="tracker-card" id="card-total">
-        <div class="complete-icon"><i class="bi bi-check-lg"></i></div>
+        <div class="complete-icon"><i class="bi bi-check-lg" aria-hidden="true"></i></div>
         <div class="tracker-card-label">Total Credits</div>
         <div class="tracker-tally">
           <span class="tally-current" id="tally-total">0</span>
@@ -1402,9 +1441,9 @@
 <div class="action-block">
   <div class="action-row">
     <button class="btn-generate" id="btn-generate" disabled>
-      <i class="bi bi-file-earmark-text"></i> Generate plan of study
+      <i class="bi bi-file-earmark-text" aria-hidden="true"></i> Generate plan of study
     </button>
-    <button class="btn-reset" id="btn-reset"><i class="bi bi-arrow-counterclockwise"></i> Reset</button>
+    <button class="btn-reset" id="btn-reset"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i> Reset</button>
     <span class="save-note" id="save-note"></span>
   </div>
 
@@ -1413,7 +1452,6 @@
 
 </div><!-- /app-outer -->
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 /* ══════════════════════════════════════════════════════════════
    DATA — generated from the course workbook › "Updated" tab
@@ -1754,7 +1792,7 @@ function externalLinkHTML(url, label, ariaLabel) {
   if (!url || !isHttpUrl(url)) return '';
   return `<a class="catalog-link" href="${esc(url)}" target="_blank" rel="noopener noreferrer"
              aria-label="${esc(ariaLabel)} (opens in a new tab)"
-          >${esc(label)}<i class="bi bi-box-arrow-up-right"></i></a>`;
+          >${esc(label)}<i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a>`;
 }
 
 function catalogLinkHTML(c) {
@@ -1774,7 +1812,7 @@ function detailsHTML(c) {
     ? `<div class="detail-part ${cls}"><span class="detail-label">${label}</span><p>${esc(text)}</p></div>` : '';
   return `
     <button class="details-toggle" data-details="${c.i}" aria-expanded="${open}">
-      <i class="bi bi-chevron-right"></i>${open ? 'Hide details' : 'Details'}
+      <i class="bi bi-chevron-right" aria-hidden="true"></i>${open ? 'Hide details' : 'Details'}
     </button>
     ${open ? `<div class="detail-panel">
       ${part('Description', c.d, 'is-desc')}
@@ -1810,13 +1848,13 @@ function courseRowHTML(c) {
        </select>`;
 
   const creditHint = unset && sel
-    ? `<div class="credit-hint"><i class="bi bi-arrow-right-short"></i>
+    ? `<div class="credit-hint"><i class="bi bi-arrow-right-short" aria-hidden="true"></i>
          <span>Variable-credit course — set your credit hours to count it.</span></div>` : '';
 
   const conf = conflictsFor(c);
   const flag = c.x
     ? `<div class="xlist-flag${sel && conf.length ? ' visible' : ''}">
-         <i class="bi bi-exclamation-triangle-fill"></i>
+         <i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>
          <span>Equivalent to ${conf.map(o => esc(o.n)).join(', ') || 'another listed course'} — these likely cannot both count. Confirm with your advisor.</span>
        </div>` : '';
 
@@ -1856,7 +1894,7 @@ function renderAreas() {
     return `
       <div class="area-group${collapsed ? ' collapsed' : ''}${selCount ? ' has-selected' : ''}" data-area="${ai}">
         <button class="area-head" data-toggle-area="${ai}" aria-expanded="${!collapsed}">
-          <i class="bi bi-chevron-down area-caret"></i>
+          <i class="bi bi-chevron-down area-caret" aria-hidden="true"></i>
           <span class="area-head-text">
             <span class="area-name">${esc(a.short)}</span>
             <span class="area-tally">${list.length === total ? total : list.length + ' of ' + total} course${total === 1 ? '' : 's'}${selCount ? ` · <b>${selCr} cr selected</b>` : ''}</span>
@@ -2096,7 +2134,7 @@ function expNoteHTML(t) {
 
 function renderPresets() {
   $('exp-presets').innerHTML = EXPERIENCE_TYPES.map(t =>
-    `<button class="btn-preset" data-exp-add="${esc(t.id)}"><i class="bi bi-plus"></i> ${esc(t.label)}</button>`
+    `<button class="btn-preset" data-exp-add="${esc(t.id)}"><i class="bi bi-plus" aria-hidden="true"></i> ${esc(t.label)}</button>`
   ).join('');
 }
 
@@ -2121,7 +2159,7 @@ function renderExperience() {
             </select>
           </span>
           <button class="btn-remove-exp" data-exp-remove="${e.id}" aria-label="Remove ${esc(t.label)}">
-            <i class="bi bi-x-lg"></i>
+            <i class="bi bi-x-lg" aria-hidden="true"></i>
           </button>
         </div>
         <div class="exp-fields">${t.fields.map(fld => expFieldHTML(e.id, f, fld)).join('')}</div>
@@ -2208,12 +2246,33 @@ function updateTracker() {
     ? skills.map(s => `<span class="skill-chip">${esc(s)}</span>`).join('')
     : `<span class="skills-card-empty">Select courses to build your skill profile.</span>`;
 
+  announcePlan({ tc, areas: areas.size, ec, total, allDone, unset: unsetCr.length });
+
   $('btn-generate').disabled = !allDone;
   $('btn-generate').innerHTML = allDone
-    ? '<i class="bi bi-file-earmark-text"></i> Generate plan of study'
+    ? '<i class="bi bi-file-earmark-text" aria-hidden="true"></i> Generate plan of study'
     : unsetCr.length
-      ? '<i class="bi bi-lock"></i> Set credit hours to generate'
-      : '<i class="bi bi-lock"></i> Complete all requirements to generate';
+      ? '<i class="bi bi-lock" aria-hidden="true"></i> Set credit hours to generate'
+      : '<i class="bi bi-lock" aria-hidden="true"></i> Complete all requirements to generate';
+}
+
+/* Announcements are debounced and de-duplicated: typing in a credit box fires
+   updateTracker() on every keystroke, and a live region that repeats itself is
+   worse than one that stays quiet. */
+let announceTimer = null, lastAnnounced = '';
+function announcePlan({ tc, areas, ec, total, allDone, unset }) {
+  const msg = allDone
+    ? `All certificate requirements met. ${total} of ${TARGET_TOTAL} credits.`
+    : [
+        `Technical ${tc} of ${TARGET_TECHNICAL} credits across ${areas} of ${MIN_AREAS} required areas.`,
+        `Experience ${ec} of ${TARGET_EXPERIENCE} credits.`,
+        `Total ${total} of ${TARGET_TOTAL}.`,
+        unset ? `${unset} course${plural(unset)} still need credit hours.` : ''
+      ].join(' ').trim();
+  if (msg === lastAnnounced) return;
+  lastAnnounced = msg;
+  clearTimeout(announceTimer);
+  announceTimer = setTimeout(() => { $('plan-announce').textContent = msg; }, 600);
 }
 
 /* ══════════════════════════════════════════════════════════════

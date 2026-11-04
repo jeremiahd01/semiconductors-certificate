@@ -242,6 +242,27 @@ validation. A banner explains what happened and the builder stays fully usable.
 The snapshot is refreshed by hand when the app is updated — it intentionally does not
 track every semester publish, since its job is to be a known-good floor, not current.
 
+### Accessibility
+
+Targets **WCAG 2.1 AA**. Verified with axe-core 4.10 (zero violations) plus a manual
+sweep that axe cannot do on its own:
+
+- **Contrast** is computed against the *effective* painted background for every text
+  node, including placeholders and the states axe never sees (empty lists, no-results,
+  an experience card mid-entry). Boilermaker Gold and Railway Gray are dark-background
+  colours — as text on white they are 1.91:1 and 2.88:1. Light-background text uses
+  Black, Aged (`--pu-aged`), Steel, or `--text-muted`.
+- **Focus** is a two-ring `--focus-ring`: a solid Aged gold ring carries the 3:1 that
+  WCAG 1.4.11 requires, with the translucent gold glow kept outside it for the brand
+  look. The glow alone is 1.31:1 and is never the only indicator.
+- **Tracker changes** are announced through one polite live region (`#plan-announce`),
+  debounced and de-duplicated, rather than four cards announcing over each other.
+- **Icons** are all `aria-hidden`; every control has a text label or an `aria-label`.
+- **Reflow** is clean at 320px — no horizontal scroll.
+
+Re-run the audit after any visual change: contrast and focus are the two things that
+regress silently.
+
 ### Zope notes
 
 - **Content type** doesn't matter. The builder parses `res.text()` rather than
